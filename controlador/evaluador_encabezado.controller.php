@@ -1,6 +1,6 @@
 <?php
 
-require_once '../models/evaluador_encabezado.class.php';
+require_once '../modelo/evaluador_encabezado.class.php';
 require_once '../helpers/helper.class.php';
 
 $hm = new headerEvaluator();

@@ -1,6 +1,6 @@
 <?php
 
-require_once '../models/encabezado_reporte.class.php';
+require_once '../modelo/encabezado_reporte.class.php';
 require_once '../helpers/helper.class.php';
 
 $hm = new rHeader();

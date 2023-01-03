@@ -9,12 +9,27 @@
     //header("location:index.php");
   }
 ?>
+<!--CSS-->
+
+<link rel="stylesheet" href="recursos/media/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="recursos/media/font-awesome/css/font-awesome.css">
+<!--Javascript-->
+
+<script src="recursos/media/js/jquery-1.10.2.js"></script>
+<script src="recursos/media/js/bootstrap.js"></script>
+<script type="text/javascript" src="recursos/js/jsmodelo/jsusuario.js"></script>
+
+<link rel="stylesheet" href="recursos/css/select2.css">
+<script  type="text/javascript" src="recursos/js/select2.js"></script>
+
+
+<script src="recursos/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="recursos/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="recursos/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+
+
 <!-- Instanciar clases -->
   <!-- Site wrapper -->
-  <div class="">
-    <!-- Content Wrapper. Contains page content -->
-    <div class="">
-      
       <!-- Main content -->
       <section class="container">
         <div class="row">
@@ -81,10 +96,7 @@
         <!-- /.card -->
       </section>
       <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-  </div>
-  <!-- ./wrapper -->
-
-  <?php require_once './layout/scripts.php'; ?>
-  <script src="./js/ambito.js"></script>
+      <script src="./js/ambito.js"></script>
+      <script src="./dist/js/app.min.js"></script>
+      </body>
+</html>

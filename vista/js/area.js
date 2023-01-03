@@ -6,7 +6,7 @@ const btnEnviar = document.querySelector("#btn_enviar");
 // Variable para almacenar el DataTable
 let tabla_areas = "";
 // Url para realizar petición
-const url = "../controllers/area.controller.php";
+const url = "../controlador/area.controller.php";
 // Evento principal
 document.addEventListener("DOMContentLoaded", async () => {
   await getAreas();

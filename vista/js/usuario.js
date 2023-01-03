@@ -2,7 +2,7 @@
 const formLogin = document.getElementById("form-login");
 const btnEnviar = document.getElementById("btn-login");
 // URL GLOBAL
-const url = "../controllers/usuario.controller.php?accion=login";
+const url = "../controlador/usuario.controller.php?accion=login";
 // Función para validar el formulario de login
 const verifyUser = () => {
     const usuario = formLogin.user.value;

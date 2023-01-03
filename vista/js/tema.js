@@ -18,9 +18,9 @@ const selectPuntaje = document.querySelector("#pts");
 let tabla_temas = "";
 
 // Url para realizar petición
-const url = "../controllers/tema.controller.php";
-const urlPts = "../controllers/puntaje.controller.php";
-const urlAmbito = "../controllers/ambito.controller.php";
+const url = "../controlador/tema.controller.php";
+const urlPts = "../controlador/puntaje.controller.php";
+const urlAmbito = "../controlador/ambito.controller.php";
 
 // Evento principal
 document.addEventListener("DOMContentLoaded", async () => {

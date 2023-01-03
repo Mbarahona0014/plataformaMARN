@@ -1,6 +1,6 @@
 <?php
 
-require_once '../connection/connection.class.php';
+require_once '../conexion/connection.class.php';
 // Instanciamos las clases
 $con = new Connection();
 

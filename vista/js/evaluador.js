@@ -8,7 +8,7 @@ const btnEnviar = document.querySelector("#btn_enviar");
 let tabla_evaluadores = "";
 
 //URL PARA LA PETICION
-const url = "../controllers/evaluador.controller.php";
+const url = "../controlador/evaluador.controller.php";
 
 //EVENTO PRINCIPAL CARGAR EVALUADORES
 document.addEventListener("DOMContentLoaded", async () => {

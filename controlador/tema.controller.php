@@ -1,7 +1,7 @@
 <?php
 // Importamos los archivos de helpers y modelos
-require_once '../models/tema.class.php';
-require_once '../models/puntaje.class.php';
+require_once '../modelo/tema.class.php';
+require_once '../modelo/puntaje.class.php';
 require_once '../helpers/helper.class.php';
 // Instanciamos la clase Topic
 $pm = new Point();

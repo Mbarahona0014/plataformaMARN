@@ -15,11 +15,11 @@ let tabla_encabezado = "";
 let tabla_evaluacion = "";
 let tabla_reporte = "";
 
-const url = "../controllers/encabezado_reporte.controller.php";
-const urlAreas = "../controllers/area.controller.php";
-const urlEvaluadores = "../controllers/evaluador.controller.php";
-const urlEvEn = "../controllers/evaluador_encabezado.controller.php";
-const urlReport = "../controllers/detalle_reporte.controller.php";
+const url = "../controlador/encabezado_reporte.controller.php";
+const urlAreas = "../controlador/area.controller.php";
+const urlEvaluadores = "../controlador/evaluador.controller.php";
+const urlEvEn = "../controlador/evaluador_encabezado.controller.php";
+const urlReport = "../controlador/detalle_reporte.controller.php";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await getHeader();
@@ -291,7 +291,7 @@ async function getReport(id) {
 }
 
 const getScopes = async () => {
-  const url = `../controllers/ambito.controller.php?accion=list`;
+  const url = `../controlador/ambito.controller.php?accion=list`;
   const { data } = await fetch(url).then((res) => res.json());
   let html = "";
 
@@ -308,7 +308,7 @@ const getScopes = async () => {
 
 $("#id_ambito").change(async () => {
   const id_ambito = $("#id_ambito").val();
-  const url = `../controllers/tema.controller.php`;
+  const url = `../controlador/tema.controller.php`;
 
   if (id_ambito.length > 0) {
     const { success, temas } = await fetch(
@@ -339,7 +339,7 @@ $("#id_ambito").change(async () => {
 
 $("#id_tema").change(async () => {
   const id_tema = $("#id_tema").val();
-  const url = `../controllers/tema.controller.php`;
+  const url = `../controlador/tema.controller.php`;
 
   if (id_tema.length > 0) {
     const { success, puntajes } = await fetch(

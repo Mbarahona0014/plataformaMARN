@@ -1,5 +1,5 @@
 <?php
-require_once '../connection/connection.class.php';
+require_once '../conexion/connection.class.php';
 $con = new Connection();
 
 class Evaluator{

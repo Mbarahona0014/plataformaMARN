@@ -1,6 +1,6 @@
 <?php
 // Importamos los archivos de helpers y modelos
-require_once '../models/usuario.class.php';
+require_once '../modelo/usuario.class.php';
 require_once '../helpers/helper.class.php';
 // Instanciamos la clase User
 $um = new User();

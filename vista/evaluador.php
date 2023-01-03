@@ -1,21 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-  <?php require_once './layout/head.php'; ?>
-</head>
-<!-- Instanciar clases -->
+<?php 
+  require_once "header.php"; 
+  //SOLO ADMIN PUEDE VER ESTA VISTA
+  if($_SESSION['idtipousuario']==2 || $_SESSION['idtipousuario']==3 || $_SESSION['idtipousuario']==4 || $_SESSION['idtipousuario']==5)
+  {
+    //session_destroy();
+    echo "<script>window.location.href='vinicio.php'</script>";
+    //header("location:index.php");
+  }
+?>
+<!--CSS-->
 
-<body class="hold-transition layout-fixed">
-  <!-- Site wrapper -->
-  <div class="wrapper">
-    <!-- Navbar -->
-    <?php require_once './layout/nav.php'; ?>
-    <!-- /.navbar -->
-    <!-- Main Sidebar Container -->
-    <?php require_once './layout/aside.php'; ?>
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+<link rel="stylesheet" href="recursos/media/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="recursos/media/font-awesome/css/font-awesome.css">
+<!--Javascript-->
+
+<script src="recursos/media/js/jquery-1.10.2.js"></script>
+<script src="recursos/media/js/bootstrap.js"></script>
+<script type="text/javascript" src="recursos/js/jsmodelo/jsusuario.js"></script>
+
+<link rel="stylesheet" href="recursos/css/select2.css">
+<script  type="text/javascript" src="recursos/js/select2.js"></script>
+
+
+<script src="recursos/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="recursos/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="recursos/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+
+
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <div class="container-fluid">
@@ -124,15 +136,9 @@
 
       </section>
       <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
 
-    <?php require_once './layout/footer.php'; ?>
-  </div>
-  <!-- ./wrapper -->
-
-  <?php require_once './layout/scripts.php'; ?>
   <script src="./js/evaluador.js"></script>
+  <script src="./dist/js/app.min.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 <?php
 
-require_once '../models/detalle_reporte.class.php';
+require_once '../modelo/detalle_reporte.class.php';
 require_once '../helpers/helper.class.php';
 
 $dm = new dReport();

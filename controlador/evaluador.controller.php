@@ -1,8 +1,8 @@
 <?php
 
-require_once '../models/evaluador.class.php';
+require_once '../modelo/evaluador.class.php';
 require_once '../helpers/helper.class.php';
-require_once '../models/evaluador_encabezado.class.php';
+require_once '../modelo/evaluador_encabezado.class.php';
 //deleteheaderEvaluators
 $em = new Evaluator();
 $hem = new headerEvaluator();

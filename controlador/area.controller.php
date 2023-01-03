@@ -1,7 +1,7 @@
 <?php
 // Importamos los archivos de helpers y modelos
-require_once '../models/area.class.php';
-require_once '../models/encabezado_reporte.class.php';
+require_once '../modelo/area.class.php';
+require_once '../modelo/encabezado_reporte.class.php';
 require_once '../helpers/helper.class.php';
 
 
