@@ -6,7 +6,7 @@ class Connection
   private $host = 'localhost';
   private $user = 'root';
   private $password = '';
-  private $db = 'manejo_areas_naturales';
+  private $db = 'mapas';
   private $charset = 'utf8';
   private $port = '3306';
   private $driver = 'mysql';
