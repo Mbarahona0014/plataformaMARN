@@ -12,11 +12,8 @@ require_once "header.php";
 
 ?>
 
-	 <link rel="stylesheet" href="recursos/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css">
-
-
-  <!--CSS-->    
-  
+	<link rel="stylesheet" href="recursos/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css">
+	<!--CSS-->
     <link rel="stylesheet" href="recursos/media/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="recursos/media/font-awesome/css/font-awesome.css">
     <!--Javascript-->    
@@ -24,17 +21,9 @@ require_once "header.php";
     <script src="recursos/media/js/bootstrap.js"></script>
     <script type="text/javascript" src="recursos/js/jsmodelo/jstipousuario.js"></script>
     
-
 	<script src="recursos/plugins/datatables/jquery.dataTables.min.js"></script>
 	<script src="recursos/plugins/datatables/dataTables.bootstrap.min.js"></script>
 	<script src="recursos/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
-
-
-    
-
-
-
-
 
 	
 	<div class="container">

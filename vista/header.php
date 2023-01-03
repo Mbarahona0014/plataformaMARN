@@ -20,13 +20,9 @@ session_start();
 require_once "seguridad.php";
 
 require_once "../modelo/daomenu.php";
-
   $dat = new daomenu();
-
-
   $r2=$dat->consultarlistanoti();
   $impresionnombre= explode(" ", $_SESSION['nombre']);
-
 ?>
 <!DOCTYPE html>
 <!--
@@ -59,7 +55,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- <link rel="stylesheet" href="https://js.arcgis.com/4.20/esri/themes/light/main.css"> -->
     <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
     
-
     <!-- SWEETALERT2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
