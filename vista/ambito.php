@@ -1,4 +1,3 @@
-
 <?php 
   require_once "header.php"; 
   //SOLO ADMIN PUEDE VER ESTA VISTA
@@ -27,17 +26,35 @@
 <script src="recursos/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="recursos/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
 
-
-<!-- Instanciar clases -->
-  <!-- Site wrapper -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Mantenimiento Ámbito</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="./dashboard">Inicio</a></li>
+                <li class="breadcrumb-item active">Ámbito</li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
       <!-- Main content -->
-      <section class="container">
+      <section class="content">
         <div class="row">
           <!-- Default box -->
           <div class="col-md-6">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title"><b>FORMULARIO ÁMBITO</b></h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Minimízar">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
               </div>
               <div class="card-body">
                 <form id="form_ambito" class="row">
@@ -67,6 +84,12 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title"><b>LISTADO ÁMBITOS</b></h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Minimizar">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
               </div>
               <div class="card-body">
                 <table id="tabla_ambitos" class="table table-bordered display nowrap" cellspacing="0" width="100%">
@@ -94,9 +117,11 @@
           </div>
         </div>
         <!-- /.card -->
+
       </section>
       <!-- /.content -->
-      <script src="./js/ambito.js"></script>
-      <script src="./dist/js/app.min.js"></script>
-      </body>
+  <script src="./js/ambito.js"></script>
+  <script src="./dist/js/app.min.js"></script>
+</body>
+
 </html>
