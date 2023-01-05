@@ -56,8 +56,8 @@ const getEvaluators = async () => {
         searchable: false,
         render: function (data) {
           return `
-            <button title="Editar" class="btn btn-primary btn-sm" onclick="getEvaluatorById(${data})"><i class="fas fa-edit"></i></button>
-            <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteEvaluator(${data})"><i class="fas fa-trash-alt"></i></button>
+            <button title="Editar" class="btn btn-primary btn-sm" onclick="getEvaluatorById(${data})"><i class="fa fa-pencil"></i></button>
+            <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteEvaluator(${data})"><i class="fa fa-trash"></i></button>
           `;
         },
       },

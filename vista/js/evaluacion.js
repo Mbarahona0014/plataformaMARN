@@ -137,9 +137,9 @@ async function getHeader() {
         searchable: false,
         render: function (data) {
           return `
-          <button title="Ir a reporte" class="btn btn-dark btn-sm" onclick="goReport(${data})"><i class="fas fa-list"></i></button>
-          <button title="Editar" class="btn btn-primary btn-sm" onclick="getHeaderById(${data})"><i class="fas fa-edit"></i></button>
-          <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteHeader(${data})"><i class="fas fa-trash-alt"></i></button>
+          <button title="Ir a reporte" class="btn bg-navy btn-sm" onclick="goReport(${data})"><i class="fa fa-list-ul"></i></button>
+          <button title="Editar" class="btn btn-primary btn-sm" onclick="getHeaderById(${data})"><i class="fa fa-pencil"></i></button>
+          <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteHeader(${data})"><i class="fa fa-trash"></i></button>
           `;
         },
       },

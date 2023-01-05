@@ -55,8 +55,8 @@ const getAreas = async () => {
         searchable: false,
         render: function (data) {
           return `
-          <button title="Editar" class="btn btn-primary btn-sm" onclick="getAreaById(${data})"><i class="fas fa-edit"></i></button>
-          <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteArea(${data})"><i class="fas fa-trash-alt"></i></button>
+          <button title="Editar" class="btn btn-primary btn-sm" onclick="getAreaById(${data})"><i class="fa fa-pencil"></i></button>
+          <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteArea(${data})"><i class="fa fa-trash"></i></button>
           `;
         },
       },
