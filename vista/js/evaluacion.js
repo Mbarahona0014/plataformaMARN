@@ -33,6 +33,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#div_evidencias").hide();
 });
 
+function alert(encabezado,mensaje,tipo){
+  Swal.fire(
+    encabezado,
+    mensaje,
+    tipo
+  )
+}
+
 btnEnviarEncabezado.addEventListener("click", (e) => {
   e.preventDefault();
   saveHeader();
@@ -257,6 +265,19 @@ async function deleteHeaderEvaluator(id) {
   }
 }
 
+async function getRemainingTopics(idEn){
+  const url = `../controlador/tema.controller.php`;
+    const { success, temas } = await fetch(
+      `${url}?accion=getRemainingTopic&idEn=${idEn}`
+    ).then((res) => res.json());
+    
+    if (success) {
+      $("#temasPendientes").text(temas[0]['pendientes']);
+    } else {
+      $("#temasPendientes").text("0");
+    }
+}
+
 const goReport = async (id) => {
   $("#div_reporte").show(400);
   $("#form_detalle").show(400);
@@ -267,6 +288,7 @@ const goReport = async (id) => {
   $("#span_eva").text(encabezado[0].id);
   $("#span_fecha").text(encabezado[0].fecha_evaluacion);
   $("#spa_area").text(encabezado[0].nombre);
+  getRemainingTopics(encabezado[0].id);
   await getReport(id);
   await getScopes();
 };
@@ -286,8 +308,8 @@ async function getReport(id) {
     columns: [
       { data: "ambito" },
       { data: "tema" },
-      { data: "evidencia" },
       { data: "puntaje" },
+      { data: "evidencia" },
       { data: "observaciones" },
     ],
     fnRowCallback: function (nRow) {
@@ -342,7 +364,7 @@ $("#id_ambito").change(async () => {
         html = `<option value="">No hay temas para mostrar</option>`;
       }
     } else {
-      alert("Todos los temas han sido evaluados", "mensaje", "info");
+      alert("Finalizado", "Todos los temas han sido evaluados", "info");
       $("#div_tema").hide(400);
       $("#id_tema").val("").trigger("change");
     }
@@ -421,6 +443,7 @@ async function saveDetail() {
     $("#evi_deta").val("");
     //$("#id_encabezado_detalle").val("");
     tabla_reporte.ajax.reload();
+    getRemainingTopics($("#id_encabezado_detalle").val());
     return alert("¡Exito!", mensaje, "success");
   } else {
     return alert("¡Error!", mensaje, "error");

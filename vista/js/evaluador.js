@@ -13,6 +13,15 @@ const url = "../controlador/evaluador.controller.php";
 document.addEventListener("DOMContentLoaded", async () => {
   await getEvaluators();
 });
+
+function alert(encabezado,mensaje,tipo){
+  Swal.fire(
+    encabezado,
+    mensaje,
+    tipo
+  )
+}
+
 btnCancelar.addEventListener("click", (e) => {
   e.preventDefault();
   clearForm();

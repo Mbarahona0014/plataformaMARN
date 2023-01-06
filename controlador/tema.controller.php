@@ -113,6 +113,23 @@ if (isset($_POST) || isset($_GET)) {
           }
         }
         break;
+        case 'getRemainingTopic':
+          if ($id_en_get) {
+            // Verificamos que todo esté correcto
+            $topics = $tm->getRemainingTopic($id_en_get);
+            if ($topics) {
+              print_r(json_encode([
+                "success" => true,
+                "temas" => $topics
+              ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+            } else {
+              print_r(json_encode([
+                "success" => false,
+                "temas" => 0
+              ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+            }
+          }
+          break;
       case 'getByTopic':
         if ($id_get) {
           // Verificamos que todo esté correcto

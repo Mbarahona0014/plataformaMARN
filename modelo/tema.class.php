@@ -122,6 +122,34 @@ class Topic
     // Retornamos el resultado de la consulta
     return $topics;
   }
+
+  public function getRemainingTopic($id_en){
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $numTopics = 0;
+    // Consulta
+    $sql = "SELECT COUNT(*) 'pendientes' FROM tema WHERE id NOT IN (SELECT id_tema FROM detalle_reporte WHERE id_encabezado = :n1)";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Asignamos valores a los parámetros
+      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $numTopics = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $numTopics;
+  }
   // Método para obtener temas por ámbito
   public function getTopicByScope($id)
   {

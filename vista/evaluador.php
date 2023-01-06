@@ -20,6 +20,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 
 <link rel="stylesheet" href="recursos/css/select2.css">
 <script type="text/javascript" src="recursos/js/select2.js"></script>
+<script type="text/javascript" src="recursos/plugins/sweetalert2/sweetalert2.js"></script>
 
 
 <script src="recursos/plugins/datatables/jquery.dataTables.min.js"></script>

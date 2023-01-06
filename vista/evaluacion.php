@@ -20,7 +20,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 
 <link rel="stylesheet" href="recursos/css/select2.css">
 <script type="text/javascript" src="recursos/js/select2.js"></script>
-
+<script type="text/javascript" src="recursos/plugins/sweetalert2/sweetalert2.js"></script>
 
 <script src="recursos/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="recursos/plugins/datatables/dataTables.bootstrap.min.js"></script>
@@ -159,12 +159,23 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       </div>
       <!-- /.box -->
     </div>
+
     <div class="col-md-12" id="div_reporte">
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
           <h3 class="card-title"><b>Reporte de monitoreo de áreas naturales protegidas</b></h3>
-
+          <!-- Estado de temas -->
+          <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="info-box">
+              <span class="info-box-icon bg-navy"><i class="fa fa-pencil"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Temas pendientes de evaluar</span>
+                  <span class="info-box-number" name="temasPendientes" id="temasPendientes"></span>
+                </div>
+            </div>
+        </div>
+        
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
               <i class="fa fa-minus"></i></button>
@@ -223,9 +234,9 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <thead>
               <tr>
                 <th style="width: 10%;">Ámbito</th>
-                <th style="width: 45%;">Tema</th>
+                <th style="width: 25%;">Tema</th>
+                <th style="width: 25%;">Calificacion revisada</th>
                 <th style="width: 45%;">Evidencia</th>
-                <th style="width: 20%;">Calificacion revisada</th>
                 <th style="width: 20%;">Observacion y compromisos</th>
               </tr>
             </thead>
@@ -235,9 +246,9 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <tfoot>
               <tr>
                 <th style="width: 10%;">Ámbito</th>
-                <th style="width: 45%;">Tema</th>
+                <th style="width: 25%;">Tema</th>
+                <th style="width: 25%;">Calificacion revisada</th>
                 <th style="width: 45%;">Evidencia</th>
-                <th style="width: 20%;">Calificacion revisada</th>
                 <th style="width: 20%;">Observacion y compromisos</th>
               </tr>
             </tfoot>

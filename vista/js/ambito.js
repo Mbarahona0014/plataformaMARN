@@ -11,6 +11,14 @@ const url = "../controlador/ambito.controller.php";
 document.addEventListener("DOMContentLoaded", async () => {
   await getScopes();
 });
+
+function alert(encabezado,mensaje,tipo){
+  Swal.fire(
+    encabezado,
+    mensaje,
+    tipo
+  )
+}
 // Click para cancelar
 btnCancelar.addEventListener("click", (e) => {
   e.preventDefault();

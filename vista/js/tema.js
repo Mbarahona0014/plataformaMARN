@@ -27,6 +27,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   await getTopics();
   fillAmbito();
 });
+
+function alert(encabezado,mensaje,tipo){
+  Swal.fire(
+    encabezado,
+    mensaje,
+    tipo
+  )
+}
 // Click para cancelar
 btnCancelar.addEventListener("click", (e) => {
   e.preventDefault();
