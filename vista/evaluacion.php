@@ -163,7 +163,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="card-title"><b>Reporte de monitoreo de areas naturales protegidas</b></h3>
+          <h3 class="card-title"><b>Reporte de monitoreo de áreas naturales protegidas</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">

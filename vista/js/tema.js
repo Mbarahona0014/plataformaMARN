@@ -162,8 +162,6 @@ const getTopicById = async (id) => {
     formTema.desc.value = tema[0].descripcion;
     formTema.obser.value = tema[0].observaciones;
     formTema.ambito.value = tema[0].id_ambito;
-
-    //GUARDAR EL ID DEL TEMA EN LA TABLA PUNTAJES Y CARGAR EL SUBTITULO
     formPuntaje.id_tema.value = tema[0].id;
     $("#calloutText").text(tema[0].nombre);
     $("#calloutTema").removeClass("callout-warning");

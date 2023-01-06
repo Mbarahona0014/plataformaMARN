@@ -227,23 +227,30 @@ async function deleteHeader(id) {
 }
 
 async function saveHeaderEvaluator() {
+  const id_encabezado = $("#id_encabezado").val(); 
   const accion = `${urlEvEn}?accion=create`;
   const { success, mensaje } = await fetch(accion, {
     method: "POST",
     body: new FormData(formEvaluador),
   }).then((res) => res.json());
   if (success) {
+    listaEvaluadores.innerHTML = "";
+    fillEnEv(id_encabezado);
     return alert("¡Exito!", mensaje, "success");
   } else {
     return alert("¡Error!", mensaje, "error");
   }
+  
 }
 
 async function deleteHeaderEvaluator(id) {
+  const id_encabezado = $("#id_encabezado").val();
   const { success, mensaje } = await fetch(
     `${urlEvEn}?accion=delete&id=${id}`
   ).then((res) => res.json());
   if (success) {
+    listaEvaluadores.innerHTML = "";
+    fillEnEv(id_encabezado);
     return alert("¡Exito!", mensaje, "success");
   } else {
     return alert("¡Error!", mensaje, "error");
@@ -313,12 +320,13 @@ const getScopes = async () => {
 };
 
 $("#id_ambito").change(async () => {
+  //Modificar selector para que los temas mostrados solo sean los pendientes de evaluar
+  const id_encabezado = $("#id_encabezado_detalle").val(); 
   const id_ambito = $("#id_ambito").val();
   const url = `../controlador/tema.controller.php`;
-
   if (id_ambito.length > 0) {
     const { success, temas } = await fetch(
-      `${url}?accion=getByScope&id=${id_ambito}`
+      `${url}?accion=getRemainingByScope&id=${id_ambito}&idEn=${id_encabezado}`
     ).then((res) => res.json());
     let html = "";
     if (success) {
@@ -334,10 +342,12 @@ $("#id_ambito").change(async () => {
         html = `<option value="">No hay temas para mostrar</option>`;
       }
     } else {
+      alert("Todos los temas han sido evaluados", "mensaje", "info");
       $("#div_tema").hide(400);
       $("#id_tema").val("").trigger("change");
     }
   } else {
+    //Indicar que los temas ya fueron evaluados
     $("#div_tema").hide(400);
     $("#id_tema").val("").trigger("change");
   }
@@ -409,7 +419,7 @@ async function saveDetail() {
     $("#id_ambito").val("").trigger("change");
     $("#obser_deta").val("");
     $("#evi_deta").val("");
-    $("#id_encabezado_detalle").val("");
+    //$("#id_encabezado_detalle").val("");
     tabla_reporte.ajax.reload();
     return alert("¡Exito!", mensaje, "success");
   } else {

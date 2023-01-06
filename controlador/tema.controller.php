@@ -20,6 +20,7 @@ if (isset($_POST) || isset($_GET)) {
 
   $id_post = isset($_POST['id_tema']) ? (int)$hlp->clear($_POST['id_tema']) : false;
   $id_get = isset($_GET['id']) ? (int)$hlp->clear($_GET['id']) : false;
+  $id_en_get = isset($_GET['idEn']) ? (int)$hlp->clear($_GET['idEn']) : false;
   // Switch para validar la acción a realizar
   if ($accion) {
     switch ($accion) {
@@ -82,6 +83,23 @@ if (isset($_POST) || isset($_GET)) {
         if ($id_get) {
           // Verificamos que todo esté correcto
           $topics = $tm->getTopicByScope($id_get);
+          if ($topics) {
+            print_r(json_encode([
+              "success" => true,
+              "temas" => $topics
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          } else {
+            print_r(json_encode([
+              "success" => false,
+              "temas" => []
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          }
+        }
+        break;
+      case 'getRemainingByScope':
+        if ($id_get) {
+          // Verificamos que todo esté correcto
+          $topics = $tm->getRemainingTopicByScope($id_get,$id_en_get);
           if ($topics) {
             print_r(json_encode([
               "success" => true,
