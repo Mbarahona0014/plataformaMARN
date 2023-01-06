@@ -31,3 +31,21 @@ BEGIN
   SELECT 1 AS 'resultado';
 END
 $$
+
+--Añadir nuevo campo a tabla encabezado
+
+ALTER TABLE encabezado_reporte
+ADD COLUMN estado INT
+
+--Reestructurar los procedimientos almacenados
+
+--ENCABEZADO REPORTE
+DELIMITER $$
+DROP PROCEDURE IF EXISTS agregarEncabezadoReporte$$
+CREATE PROCEDURE agregarEncabezadoReporte(IN fec DATE, IN idAr INT, IN est INT)
+BEGIN
+    INSERT INTO encabezado_reporte VALUES(NULL,idAr,fec,0);
+    SELECT 1 AS 'resultado';
+END;
+$$
+

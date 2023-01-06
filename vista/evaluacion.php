@@ -218,11 +218,11 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               </div>
             </div>
             <div class="form-group col-md-6 mb-3" id="div_observaciones">
-              <label for="obser_deta">Observaciones reporte:</label>
+              <label for="obser_deta">Observaciones:</label>
               <textarea class="form-control" name="obser_deta" id="obser_deta" rows="5" placeholder="Ingrese las observaciones"></textarea>
             </div>
             <div class="form-group col-md-6 mb-3" id="div_evidencias">
-              <label for="evi_deta">Evidencia reporte:</label>
+              <label for="evi_deta">Evidencia:</label>
               <textarea class="form-control" name="evi_deta" id="evi_deta" rows="5" placeholder="Ingrese las evidencias"></textarea>
             </div>
             <div class="form-group col-md-12">

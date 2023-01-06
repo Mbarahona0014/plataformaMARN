@@ -270,9 +270,12 @@ async function getRemainingTopics(idEn){
     const { success, temas } = await fetch(
       `${url}?accion=getRemainingTopic&idEn=${idEn}`
     ).then((res) => res.json());
-    
     if (success) {
-      $("#temasPendientes").text(temas[0]['pendientes']);
+      if(temas[0]['pendientes'] == 0){
+        $("#temasPendientes").text('Esta evaluacion ya está finalizada');
+      }else{
+        $("#temasPendientes").text(temas[0]['pendientes']);
+      }
     } else {
       $("#temasPendientes").text("0");
     }
