@@ -62,6 +62,9 @@ const clearFormPts = () => {
   formPuntaje.id_tema.value     = "";
   formPuntaje.pts.value         = "";
   formPuntaje.ptsDesc.value     = "";
+  $("#calloutText").text("No se ha seleccionado tema!");
+  $("#calloutTema").removeClass("callout-info");
+  $("#calloutTema").addClass("callout-warning");
 };
 
 const clearFormPtsDesc= () => {
@@ -162,7 +165,9 @@ const getTopicById = async (id) => {
 
     //GUARDAR EL ID DEL TEMA EN LA TABLA PUNTAJES Y CARGAR EL SUBTITULO
     formPuntaje.id_tema.value = tema[0].id;
-    temaSubs.innerHTML = tema[0].nombre;
+    $("#calloutText").text(tema[0].nombre);
+    $("#calloutTema").removeClass("callout-warning");
+    $("#calloutTema").addClass("callout-info");
   } else {
     return alert("¡Error!", "¡No se pudo obtener el ámbito!", "error");
   }

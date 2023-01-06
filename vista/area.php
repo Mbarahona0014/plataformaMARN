@@ -28,11 +28,11 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 
 <section class="content-header">
   <h1>
-    <h1><b>Mantenimiento Área Natural</b></h1>
+    <h1><b>Mantenimiento Área natural protegida</b></h1>
   </h1>
   <ol class="breadcrumb">
-    <li><span><i class="fa fa-home"></i> Inicio</a></span></li>
-    <li class="active"><span>Áreas Natuales</span></li>
+    <li><span><i class="fa fa-home"></i>Inicio</a></span></li>
+    <li class="active"><span>Áreas naturales protegidas</span></li>
   </ol>
 </section>
 <!-- Main content -->
@@ -42,7 +42,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>FORMULARIO ÁREA NATURAL</b></h3>
+          <h3 class="box-title"><b>Formulario Área natural protegida</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -54,27 +54,27 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <input type="hidden" name="id_area" id="id_area">
 
             <div class="form-group col-md-4 mb-3">
-              <label for="nombre">Nombre área:</label>
+              <label for="nombre">Nombre:</label>
               <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese nombre del área" />
             </div>
 
             <div class="form-group col-md-4 mb-3">
-              <label for="ubicacion">Ubicación área:</label>
+              <label for="ubicacion">Ubicación:</label>
               <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ingrese ubicación del área" />
             </div>
 
             <div class="form-group col-md-4 mb-3">
-              <label for="ext">Extensión de terreno área:</label>
+              <label for="ext">Extensión de terreno:</label>
               <input type="text" class="form-control" id="ext" name="ext" placeholder="Ingrese extensión del área" />
             </div>
 
             <div class="form-group col-md-12 mb-3">
-              <label for="desc">Descripción área:</label>
+              <label for="desc">Descripción:</label>
               <textarea class="form-control" name="desc" id="desc" rows="5" placeholder="Ingrese la descripción del área"></textarea>
             </div>
 
             <div class="form-group col-md-12 mb-3">
-              <label for="obser">Observaciones área:</label>
+              <label for="obser">Observaciones:</label>
               <textarea class="form-control" name="obser" id="obser" rows="5" placeholder="Ingrese las observaciones del área"></textarea>
             </div>
 
@@ -92,7 +92,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>LISTADO ÁREAS NATURALES</b></h3>
+          <h3 class="box-title"><b>Lista de areas naturales protegidas</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">

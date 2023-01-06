@@ -1,5 +1,4 @@
 const formEvaluador = document.querySelector("#form_evaluador");
-
 const id_evaluador = document.querySelector("#id_evaluador");
 
 const btnCancelar = document.querySelector("#btn_cancelar");
@@ -50,6 +49,8 @@ const getEvaluators = async () => {
       { data: "apellidos" },
       { data: "telefono" },
       { data: "correo" },
+      { data: "institucion" },
+      { data: "cargo" },
       {
         data: "id",
         orderable: false,
@@ -106,8 +107,10 @@ const getEvaluatorById = async (id) => {
     formEvaluador.apellidos.value = evaluador[0].apellidos;
     formEvaluador.correo.value = evaluador[0].correo;
     formEvaluador.telefono.value = evaluador[0].telefono;
+    formEvaluador.institucion.value = evaluador[0].institucion;
+    formEvaluador.cargo.value = evaluador[0].cargo;
   } else {
-    return alert("¡Error!", "¡No se pudo obtener el ámbito!", "error");
+    return alert("¡Error!", "¡No se pudo obtener el evaluador!", "error");
   }
 };
 

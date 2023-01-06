@@ -41,7 +41,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>FORMULARIO TEMA</b></h3>
+          <h3 class="box-title"><b>Formulario Tema</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -90,7 +90,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>FORMULARIO PUNTAJE</b></h3>
+          <h3 class="box-title"><b>Puntajes</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -101,6 +101,11 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
           <form id="form_puntaje" class="row">
             <input type="hidden" name="id_tema" id="id_tema">
             <input type="hidden" name="id_puntaje" id="id_puntaje">
+
+            <div class="callout callout-warning" id="calloutTema" name="calloutTema">
+              <p id="calloutText" name="calloutText">No se ha seleccionado el tema!</p>
+            </div>
+
             <div class="form-group col-md-12 mb-3">
               <div class="form-group">
                 <label>Selecciona el puntaje</label>
@@ -132,7 +137,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>LISTADO TEMAS</b></h3>
+          <h3 class="box-title"><b>Lista de temas</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">

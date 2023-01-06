@@ -53,6 +53,9 @@ function clearFormEvaluators() {
   formEvaluador.id_encabezado.value = "";
   formEvaluador.evaluador.value = "";
   listaEvaluadores.innerHTML = "";
+  $("#calloutText").text("No se ha seleccionado evaluacion!");
+  $("#calloutEvaluacion").removeClass("callout-info");
+  $("#calloutEvaluacion").addClass("callout-warning");
 }
 
 //FUNCION PARA LLENAR SELECTOR DE AREAS
@@ -108,7 +111,7 @@ function fillEnEv(idEn) {
             id_select +
             ')">' +
             name_select +
-            '<i class="fas fa-minus-circle"></i></div>'
+            '&nbsp<i class="fa fa-minus-circle"></i></div>'
         );
       });
     },
@@ -187,6 +190,9 @@ async function getHeaderById(id) {
     formEncabezado.area.value = encabezado[0].id_area_natural;
     formEncabezado.fecha.value = encabezado[0].fecha_evaluacion;
     fillEnEv(encabezado[0].id);
+    $("#calloutText").text("Evaluacion numero: "+id);
+    $("#calloutEvaluacion").removeClass("callout-warning");
+    $("#calloutEvaluacion").addClass("callout-info");
   } else {
     return alert("¡Error!", "¡No se pudo obtener la evaluacion!", "error");
   }

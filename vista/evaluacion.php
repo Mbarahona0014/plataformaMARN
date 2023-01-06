@@ -29,7 +29,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    <h1><b>INGRESO DE DATOS EVALUACIÓN</b></h1>
+    <h1><b>Ingreso de datos de evaluación</b></h1>
   </h1>
   <ol class="breadcrumb">
     <li><span><i class="fa fa-home"></i> Inicio</a></span></li>
@@ -43,7 +43,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>FORMULARIO ÁREA NATURAL</b></h3>
+          <h3 class="box-title"><b>Formulario área natural protegida</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -80,16 +80,23 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>FORMULARIO EVALUADORES</b></h3>
+          <h3 class="box-title"><b>Asignar evaluadores</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
               <i class="fa fa-minus"></i></button>
           </div>
         </div>
+
+
         <div class="box-body">
           <form id="form_evaluador" class="row">
             <input type="hidden" name="id_encabezado" id="id_encabezado">
+
+            <div class="callout callout-warning" id="calloutEvaluacion" name="calloutEvaluacion">
+              <p id="calloutText" name="calloutText">No se ha seleccionado evaluacion!</p>
+            </div>
+
             <div class="form-group col-md-12 mb-3">
               <div class="form-group">
                 <label for="listaEvaluadores">Evaluadores</label>
@@ -119,8 +126,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>LISTADO EVALUACIONES</b></h3>
-
+          <h3 class="box-title"><b>Listado de evaluaciones</b></h3>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
               <i class="fa fa-minus"></i></button>
@@ -157,7 +163,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="card-title"><b>REPORTE DE MONITOREO DE AREAS PROTEGIDAS</b></h3>
+          <h3 class="card-title"><b>Reporte de monitoreo de areas naturales protegidas</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">

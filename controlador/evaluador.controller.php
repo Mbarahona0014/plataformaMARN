@@ -18,6 +18,8 @@ if (isset($_POST) || isset($_GET)) {
     $apellidos = isset($_POST['apellidos']) ? $hlp->clear($_POST['apellidos']) : false; 
     $telefono = isset($_POST['telefono']) ? $hlp->clear($_POST['telefono']) : false;
     $correo = isset($_POST['correo']) ? $hlp->clear($_POST['correo']) : false;
+    $institucion = isset($_POST['institucion']) ? $hlp->clear($_POST['institucion']) : false;
+    $cargo = isset($_POST['cargo']) ? $hlp->clear($_POST['cargo']) : false;
 
     if($accion){
         switch($accion){
@@ -35,13 +37,13 @@ if (isset($_POST) || isset($_GET)) {
                 }
                 break;
             case 'create':
-                if(!$nombres || !$apellidos || !$correo || !$telefono){
+                if(!$nombres || !$apellidos || !$correo || !$telefono || !$institucion || !$cargo){
                     print_r(json_encode([
                         "success" => false,
                         "mensaje" => "¡Debe ingresar todos los datos!"
                       ]));
                 }else{
-                    $evaluator= $em->createEvaluator($nombres,$apellidos,$telefono,$correo);
+                    $evaluator= $em->createEvaluator($nombres,$apellidos,$telefono,$correo,$institucion,$cargo);
                     if($evaluator[0]["resultado"] == 1){
                         print_r(json_encode([
                             "success" => true,
@@ -72,13 +74,13 @@ if (isset($_POST) || isset($_GET)) {
                 }
                 break;
             case 'update':
-                if(!$nombres || !$apellidos || !$correo || !$telefono || !$id_post){
+                if(!$nombres || !$apellidos || !$correo || !$telefono || !$institucion || !$cargo || !$id_post){
                     print_r(json_encode([
                         "success" => false,
                         "mensaje" => "¡Debe ingresar todos los datos!"
                     ]));
                 }else{
-                    $evaluator = $em->updateEvaluator($nombres,$apellidos,$telefono,$correo,$id_post);
+                    $evaluator = $em->updateEvaluator($nombres,$apellidos,$telefono,$correo,$institucion,$cargo,$id_post);
                     if($evaluator[0]["resultado"] == 1){
                         print_r(json_encode([
                             "success" => true,

@@ -45,7 +45,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>FORMULARIO AGENCIAS</b></h3>
+          <h3 class="box-title"><b>Formulario Ámbito</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -57,12 +57,12 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <input type="hidden" name="id_ambito" id="id_ambito">
 
             <div class="form-group col-md-12 mb-3">
-              <label for="nombre">Nombre ámbito:</label>
+              <label for="nombre">Nombre:</label>
               <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese nombre del ámbito" />
             </div>
 
             <div class="form-group col-md-12 mb-3">
-              <label for="desc">Descripción ámbito:</label>
+              <label for="desc">Descripción:</label>
               <textarea class="form-control" name="desc" id="desc" rows="5" placeholder="Ingrese la descripción del ámbito"></textarea>
             </div>
 
@@ -80,7 +80,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>LISTADO ÁMBITOS</b></h3>
+          <h3 class="box-title"><b>Listado de ambitos</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">

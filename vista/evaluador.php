@@ -33,7 +33,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
     <h1><b>Mantenimiento Evaluador</b></h1>
   </h1>
   <ol class="breadcrumb">
-    <li><span><i class="fa fa-home"></i> Inicio</a></span></li>
+    <li><span><i class="fa fa-home"></i>Inicio</a></span></li>
     <li class="active"><span>Evaluadores</span></li>
   </ol>
 </section>
@@ -44,7 +44,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>FORMULARIO EVALUADOR</b></h3>
+          <h3 class="box-title"><b>Formulario de evaluador</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -75,6 +75,16 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               <input type="text" class="form-control" name="telefono" id="telefono" placeholder="Ingrese el telefono"></textarea>
             </div>
 
+            <div class="form-group col-md-6 mb-3">
+              <label for="telefono">Institucion:</label>
+              <input type="text" class="form-control" name="institucion" id="institucion" placeholder="Ingrese el telefono"></textarea>
+            </div>
+
+            <div class="form-group col-md-6 mb-3">
+              <label for="telefono">Cargo:</label>
+              <input type="text" class="form-control" name="cargo" id="cargo" placeholder="Ingrese el telefono"></textarea>
+            </div>
+
             <div class="form-group col-md-12">
               <button type="button" id="btn_cancelar" class="btn btn-danger float-right">Cancelar</button>
               <button type="submit" id="btn_enviar" class="btn btn-primary float-right mr-2">Guardar</button>
@@ -89,7 +99,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>LISTADO EVALUADORES</b></h3>
+          <h3 class="box-title"><b>Lista de evaluadores</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -104,6 +114,8 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 <th>Apellidos</th>
                 <th>Correo</th>
                 <th>Telefono</th>
+                <th>Institucion</th>
+                <th>Cargo</th>
                 <th>Acción</th>
               </tr>
             </thead>
@@ -116,6 +128,8 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 <th>Apellidos</th>
                 <th>Correo</th>
                 <th>Telefono</th>
+                <th>Institucion</th>
+                <th>Cargo</th>
                 <th>Acción</th>
               </tr>
             </tfoot>
