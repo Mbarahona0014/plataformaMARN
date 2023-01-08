@@ -1,5 +1,6 @@
 const formEncabezado = document.querySelector("#form_encabezado");
 const formEvaluador = document.querySelector("#form_evaluador");
+const fileInput = document.getElementById("imagenes");
 
 const idEncabezado = document.querySelector("#id_encabezado");
 
@@ -31,14 +32,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#div_puntaje").hide();
   $("#div_observaciones").hide();
   $("#div_evidencias").hide();
+  $("#div_imagen").hide();
 });
 
-function alert(encabezado,mensaje,tipo){
-  Swal.fire(
-    encabezado,
-    mensaje,
-    tipo
-  )
+function alert(encabezado, mensaje, tipo) {
+  Swal.fire(encabezado, mensaje, tipo);
 }
 
 btnEnviarEncabezado.addEventListener("click", (e) => {
@@ -198,7 +196,7 @@ async function getHeaderById(id) {
     formEncabezado.area.value = encabezado[0].id_area_natural;
     formEncabezado.fecha.value = encabezado[0].fecha_evaluacion;
     fillEnEv(encabezado[0].id);
-    $("#calloutText").text("Evaluacion numero: "+id);
+    $("#calloutText").text("Evaluacion numero: " + id);
     $("#calloutEvaluacion").removeClass("callout-warning");
     $("#calloutEvaluacion").addClass("callout-info");
   } else {
@@ -235,7 +233,7 @@ async function deleteHeader(id) {
 }
 
 async function saveHeaderEvaluator() {
-  const id_encabezado = $("#id_encabezado").val(); 
+  const id_encabezado = $("#id_encabezado").val();
   const accion = `${urlEvEn}?accion=create`;
   const { success, mensaje } = await fetch(accion, {
     method: "POST",
@@ -248,7 +246,6 @@ async function saveHeaderEvaluator() {
   } else {
     return alert("¡Error!", mensaje, "error");
   }
-  
 }
 
 async function deleteHeaderEvaluator(id) {
@@ -265,20 +262,20 @@ async function deleteHeaderEvaluator(id) {
   }
 }
 
-async function getRemainingTopics(idEn){
+async function getRemainingTopics(idEn) {
   const url = `../controlador/tema.controller.php`;
-    const { success, temas } = await fetch(
-      `${url}?accion=getRemainingTopic&idEn=${idEn}`
-    ).then((res) => res.json());
-    if (success) {
-      if(temas[0]['pendientes'] == 0){
-        $("#temasPendientes").text('Esta evaluacion ya está finalizada');
-      }else{
-        $("#temasPendientes").text(temas[0]['pendientes']);
-      }
+  const { success, temas } = await fetch(
+    `${url}?accion=getRemainingTopic&idEn=${idEn}`
+  ).then((res) => res.json());
+  if (success) {
+    if (temas[0]["pendientes"] == 0) {
+      $("#temasPendientes").text("Esta evaluacion ya está finalizada");
     } else {
-      $("#temasPendientes").text("0");
+      $("#temasPendientes").text(temas[0]["pendientes"]);
     }
+  } else {
+    $("#temasPendientes").text("0");
+  }
 }
 
 const goReport = async (id) => {
@@ -346,7 +343,7 @@ const getScopes = async () => {
 
 $("#id_ambito").change(async () => {
   //Modificar selector para que los temas mostrados solo sean los pendientes de evaluar
-  const id_encabezado = $("#id_encabezado_detalle").val(); 
+  const id_encabezado = $("#id_encabezado_detalle").val();
   const id_ambito = $("#id_ambito").val();
   const url = `../controlador/tema.controller.php`;
   if (id_ambito.length > 0) {
@@ -402,23 +399,89 @@ $("#id_tema").change(async () => {
     } else {
       $("#div_puntaje").hide(400);
       $("#id_puntaje").val("").trigger("change");
+      $("#imagenes").val("").trigger("change");
     }
   } else {
     $("#div_puntaje").hide(400);
     $("#id_puntaje").val("").trigger("change");
+    $("#imagenes").val("").trigger("change");
   }
 });
 
 $("#id_puntaje").change(async () => {
   const id_puntaje = $("#id_puntaje").val();
+  $("#imagenes").val("").trigger("change");
   if (id_puntaje) {
     $("#div_observaciones").show(200, () => {
-      $("#div_evidencias").show(200);
+      $("#div_evidencias").show(200, () => {
+        $("#div_imagen").show(200);
+      });
     });
   } else {
     $("#div_evidencias").hide(200, () => {
-      $("#div_observaciones").hide(200);
+      $("#div_observaciones").hide(200, () => {
+        $("#div_imagen").hide(200);
+      });
     });
+  }
+});
+
+const dt = new DataTransfer();
+$("#imagenes").change(() => {
+  const valInput = $("#imagenes").val();
+  let ext = "";
+  let fileBloc = "";
+  const allowebExtensions = ["jpg", "jpeg", "png", "gif"];
+  let fileList = fileInput.files;
+  for (file of fileList) {
+    ext = file.name.split(".").pop();
+    if (!allowebExtensions.includes(ext)) {
+      return Swal.fire({
+        title: "¡Error!",
+        text: "¡Se ingresó un archivo de formato inválido!",
+        icon: "error",
+        // showConfirmButton: false,
+        // timer: 1500,
+        allowOutsideClick: false,
+        heightAuto: false,
+      });
+    }
+  }
+
+  if (valInput.length > 0) {
+    for (let i = 0; i < fileList.length; i++) {
+      fileBloc = `
+      <p class="file-block">
+        <span class="file-delete" style="cursor: pointer;">
+          <b class="badge bg-red">x</b>
+          <span class="name">
+            ${fileList.item(i).name}
+          </span>
+        </span>
+      </p>
+      `;
+      $("#filesList > #files-names").append(fileBloc);
+    }
+
+    for (let file of fileList) {
+      dt.items.add(file);
+    }
+
+    fileList = dt.files;
+
+    $("span.file-delete").click(function () {
+      let name = $(this).children("span.name").text().trim();
+      $(this).parent().remove();
+      for (let i = 0; i < dt.items.length; i++) {
+        if (name === dt.items[i].getAsFile().name) {
+          dt.items.remove(i);
+          continue;
+        }
+      }
+      document.getElementById("imagenes").files = dt.files;
+    });
+  } else {
+    $("#filesList > #files-names").empty();
   }
 });
 
@@ -434,7 +497,6 @@ const cancel = () => {
 
 async function saveDetail() {
   const accion = `${urlReport}?accion=create`;
-
   const { success, mensaje } = await fetch(accion, {
     method: "POST",
     body: new FormData($("#form_detalle")[0]),
@@ -444,6 +506,7 @@ async function saveDetail() {
     $("#id_ambito").val("").trigger("change");
     $("#obser_deta").val("");
     $("#evi_deta").val("");
+    $("#imagenes").val("").trigger("change");
     //$("#id_encabezado_detalle").val("");
     tabla_reporte.ajax.reload();
     getRemainingTopics($("#id_encabezado_detalle").val());

@@ -7,6 +7,49 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
   //header("location:index.php");
 }
 ?>
+<style>
+  #files-area {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  #files-names {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .file-block {
+    width: 40%;
+    border-radius: 10px;
+    background-color: rgba(144, 163, 203, 0.2);
+    margin-right: 5px;
+    padding: 5px;
+    color: initial;
+    align-items: center;
+  }
+
+  .file-block span {
+    width: 100%;
+  }
+
+  .file-delete {
+    width: 24px;
+    color: initial;
+    background-color: #6eb4ff00;
+    font-size: large;
+    margin-right: 6px;
+    cursor: pointer;
+
+    /* &:hover {
+      background-color: rgba(144, 163, 203, 0.2);
+      border-radius: 10px;
+    }
+
+    &>span {
+      transform: rotate(45deg);
+    } */
+  }
+</style>
 <link rel="stylesheet" href="recursos/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css">
 <!--CSS-->
 
@@ -169,20 +212,19 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
           <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="info-box">
               <span class="info-box-icon bg-navy"><i class="fa fa-pencil"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Temas pendientes de evaluar</span>
-                  <span class="info-box-number" name="temasPendientes" id="temasPendientes"></span>
-                </div>
+              <div class="info-box-content">
+                <span class="info-box-text">Temas pendientes de evaluar</span>
+                <span class="info-box-number" name="temasPendientes" id="temasPendientes"></span>
+              </div>
             </div>
-        </div>
-        
+          </div>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
               <i class="fa fa-minus"></i></button>
           </div>
         </div>
         <div class="box-body">
-          <form id="form_detalle" class="row">
+          <form id="form_detalle" class="row" enctype="multipart/form-data">
             <input type="hidden" name="id_encabezado_detalle" id="id_encabezado_detalle">
             <div class="col-md-12">
               <h5><b>Evaluación:</b> <span id="span_eva"></span></h5>
@@ -225,6 +267,18 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               <label for="evi_deta">Evidencia:</label>
               <textarea class="form-control" name="evi_deta" id="evi_deta" rows="5" placeholder="Ingrese las evidencias"></textarea>
             </div>
+            <div class="form-group col-md-6" id="div_imagen">
+              <label for="imagenes">
+                <a class="btn btn-primary text-light" role="button" aria-disabled="false" id='btnfiles'>+ Añadir Imágenes</a>
+              </label>
+              <input type="file" name="files[]" accept="image/*" id="imagenes"  style="visibility: hidden;" multiple />
+              <div id="files-area">
+                <div id="filesList">
+                  <div id="files-names">
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="form-group col-md-12">
               <button type="button" id="btn_cancelar_detalle" class="btn btn-danger float-right mr-2" onclick="cancel()">Cancelar</button>
               <button type="submit" id="btn_agregar_detalle" class="btn btn-primary float-right mr-2">Agregar</button>
@@ -238,6 +292,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 <th style="width: 25%;">Calificacion revisada</th>
                 <th style="width: 45%;">Evidencia</th>
                 <th style="width: 20%;">Observacion y compromisos</th>
+                <th style="width: 10%;">Archivos</th>
               </tr>
             </thead>
             <tbody>
@@ -250,6 +305,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 <th style="width: 25%;">Calificacion revisada</th>
                 <th style="width: 45%;">Evidencia</th>
                 <th style="width: 20%;">Observacion y compromisos</th>
+                <th style="width: 10%;">Archivos</th>
               </tr>
             </tfoot>
           </table>

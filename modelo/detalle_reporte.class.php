@@ -51,6 +51,7 @@ class dReport
     a.id,
     a.evidencia,
     a.observaciones,
+    a.id_encabezado,
     (SELECT nombre FROM ambito b WHERE b.id = a.id_ambito) ambito,
     (SELECT nombre FROM tema c WHERE c.id = a.id_tema) tema,
     (SELECT CONCAT_WS('-',d.puntaje,d.descripcion) FROM puntaje d WHERE d.id = a.id_puntaje) puntaje
@@ -96,6 +97,38 @@ class dReport
       $stmt->bindParam(':n4', $idAmbito, PDO::PARAM_INT);
       $stmt->bindParam(':n5', $idPuntaje, PDO::PARAM_INT);
       $stmt->bindParam(':n6', $idEncabezado, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $insert = true;
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $insert;
+  }
+
+  public function saveFile($arch, $id_eva)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $insert = false;
+    // Consulta
+    $sql = "INSERT INTO archivos_evaluacion
+    VALUES
+    (NULL, :n1, :n2);";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Asignamos valores a los parámetros
+      $stmt->bindParam(':n1', $arch, PDO::PARAM_STR);
+      $stmt->bindParam(':n2', $id_eva, PDO::PARAM_INT);
       // Ejecutamos la consulta
       $stmt->execute();
       // Capturamos el resultado de la consulta

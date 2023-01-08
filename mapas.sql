@@ -7,6 +7,12 @@
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
+DROP DATABASE IF EXISTS mapas;
+
+CREATE DATABASE IF NOT EXISTS mapas CHARACTER SET "utf8" COLLATE "utf8_spanish2_ci";
+
+USE mapas;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
