@@ -262,6 +262,34 @@ async function deleteHeaderEvaluator(id) {
   }
 }
 
+async function deleteDetail(id) {
+  const { isConfirmed } = await Swal.fire({
+    title: "¿Seguro desea eliminar el registro?",
+    text: "¡No podrá revertir la eliminación!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Eliminar",
+    cancelButtonText: "Cancelar",
+    allowOutsideClick: false,
+    heightAuto: false,
+  });
+
+  if (isConfirmed) {
+    const { success, mensaje } = await fetch(
+      `${urlReport}?accion=delete&id=${id}`
+    ).then((res) => res.json());
+    if (success) {
+      getRemainingTopics($("#id_encabezado_detalle").val());
+      tabla_reporte.ajax.reload();
+      return alert("¡Exito!", mensaje, "success");
+    } else {
+      return alert("¡Error!", mensaje, "error");
+    }
+  }
+}
+
 async function getRemainingTopics(idEn) {
   const url = `../controlador/tema.controller.php`;
   const { success, temas } = await fetch(
@@ -311,6 +339,16 @@ async function getReport(id) {
       { data: "puntaje" },
       { data: "evidencia" },
       { data: "observaciones" },
+      {
+        data: "id",
+        orderable: false,
+        searchable: false,
+        render: function (data) {
+          return `
+            <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteDetail(${data})"><i class="fa fa-trash"></i></button>
+          `;
+        },
+      },
     ],
     fnRowCallback: function (nRow) {
       $($(nRow).find("td")[3]).css("text-align", "center");

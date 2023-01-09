@@ -292,6 +292,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 <th style="width: 25%;">Calificacion revisada</th>
                 <th style="width: 45%;">Evidencia</th>
                 <th style="width: 20%;">Observacion y compromisos</th>
+                <th style="width: 20%;">Acciones</th>
                 <!-- <th style="width: 10%;">Archivos</th> -->
               </tr>
             </thead>
@@ -305,6 +306,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 <th style="width: 25%;">Calificacion revisada</th>
                 <th style="width: 45%;">Evidencia</th>
                 <th style="width: 20%;">Observacion y compromisos</th>
+                <th style="width: 20%;">Acciones</th>
                 <!-- <th style="width: 10%;">Archivos</th> -->
               </tr>
             </tfoot>

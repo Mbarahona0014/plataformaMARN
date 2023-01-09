@@ -22,6 +22,7 @@ if (isset($_POST) || isset($_GET)) {
 
   if ($accion) {
     switch ($accion) {
+      //deleteDetail
       case 'list':
         $details = $dm->getDetails();
         if ($details) {
@@ -101,6 +102,35 @@ if (isset($_POST) || isset($_GET)) {
           "success" => false,
           "mensaje" => "¡Accion no encontrada!",
         ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        break;
+        case 'list':
+        $details = $dm->getDetails();
+        if ($details) {
+          print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        } else {
+          print_r(json_encode([
+            "sEcho" => 1,
+            "iTotalRecords" => 0,
+            "iTotalDisplayRecords" => 0,
+            "aaData" => []
+          ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        }
+        break;
+        case 'delete':
+          if ($id_get) {
+              $detail = $dm->deleteDetail($id_get);
+              if ($detail) {
+                  print_r(json_encode([
+                      "success" => true,
+                      "mensaje" => "¡Detalle eliminado correctamente!",
+                  ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+              } else {
+                  print_r(json_encode([
+                      "success" => false,
+                      "mensaje" => "¡Hubo un problhma al eiliminar el detalle!",
+                  ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+              }
+          }
         break;
     }
   }

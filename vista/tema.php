@@ -27,11 +27,11 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    <h1><b>Mantenimiento Tema</b></h1>
+    <h1><b>Mantenimiento Indicadores</b></h1>
   </h1>
   <ol class="breadcrumb">
     <li><span><i class="fa fa-home"></i> Inicio</a></span></li>
-    <li class="active"><span>Temas</span></li>
+    <li class="active"><span>Indicadores</span></li>
   </ol>
 </section>
 <!-- Main content -->
@@ -41,7 +41,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>Formulario Tema</b></h3>
+          <h3 class="box-title"><b>Formulario Indicadores</b></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -103,7 +103,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <input type="hidden" name="id_puntaje" id="id_puntaje">
 
             <div class="callout callout-warning" id="calloutTema" name="calloutTema">
-              <p id="calloutText" name="calloutText">No se ha seleccionado el tema!</p>
+              <p id="calloutText" name="calloutText">No se ha seleccionado el indicador!</p>
             </div>
 
             <div class="form-group col-md-12 mb-3">
