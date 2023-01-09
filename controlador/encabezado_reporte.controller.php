@@ -12,8 +12,10 @@ if (isset($_POST) || isset($_GET)) {
     $id_post = isset($_POST['id_encabezado']) ? (int)$hlp->clear($_POST['id_encabezado']) : false;
     $id_get = isset($_GET['id']) ? (int)$hlp->clear($_GET['id']) : false;
 
+
     $fecha = isset($_POST['fecha']) ? $hlp->clear($_POST['fecha']) : false;
     $idArea = isset($_POST['area']) ? $hlp->clear($_POST['area']) : false;
+    $idAC  = isset($_POST['conservacion']) ? $hlp->clear($_POST['conservacion']) : false;
 
     if ($accion) {
         switch ($accion) {
@@ -31,13 +33,13 @@ if (isset($_POST) || isset($_GET)) {
                 }
                 break;
             case 'create':
-                if (!$fecha || !$idArea) {
+                if (!$fecha || !$idArea || !$idAC) {
                     print_r(json_encode([
                         "success" => false,
                         "mensaje" => "¡Debe ingresar todos los datos!"
                     ]));
                 } else {
-                    $header = $hm->createrHeader($fecha, $idArea);
+                    $header = $hm->createrHeader($fecha, $idArea,$idAC);
                     if ($header[0]["resultado"] == 1) {
                         print_r(json_encode([
                             "success" => true,
@@ -68,22 +70,22 @@ if (isset($_POST) || isset($_GET)) {
                 }
                 break;
             case 'update':
-                if (!$fecha || !$idArea || !$id_post) {
+                if (!$fecha || !$idArea || !$idAC ||!$id_post) {
                     print_r(json_encode([
                         "success" => false,
                         "mensaje" => "¡Debe ingresar todos los datos!"
                     ]));
                 } else {
-                    $header = $hm->updaterHeader($fecha, $idArea, $id_post);
+                    $header = $hm->updaterHeader($fecha, $idArea,$idAC,$id_post);
                     if ($header[0]["resultado"] == 1) {
                         print_r(json_encode([
                             "success" => true,
-                            "mensaje" => "¡Evaluador actualizado correctamente!",
+                            "mensaje" => "¡Evaluacion actualizado correctamente!",
                         ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
                     } else {
                         print_r(json_encode([
                             "success" => false,
-                            "mensaje" => "¡El evaluador ya existe!",
+                            "mensaje" => "¡Esa evaluacion ya existe!",
                         ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
                     }
                 }

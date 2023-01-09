@@ -40,6 +40,21 @@ if (isset($_POST) || isset($_GET)) {
           ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
         }
         break;
+        case 'listC':
+          // Validamos si hay data
+          $areas = $am->getAreasC();
+          // Verificamos que todo esté correcto
+          if ($areas) {
+            print_r(json_encode($areas, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          } else {
+            print_r(json_encode([
+              "sEcho" => 1,
+              "iTotalRecords" => 0,
+              "iTotalDisplayRecords" => 0,
+              "aaData" => []
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          }
+          break;
       case 'create':
         // Validamos datos
         if (!$nombre || !$ubicacion || !$ext || !$desc || !$obser) {

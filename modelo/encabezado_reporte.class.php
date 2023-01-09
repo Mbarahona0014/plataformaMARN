@@ -33,20 +33,21 @@ class rHeader
     return $headers;
   }
   // Método para crear un ámbito
-  public function createrHeader($fec, $idArea)
+  public function createrHeader($fec,$idArea,$idACon)
   {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
     $rHeader = [];
     // Consulta
-    $sql = "CALL `agregarEncabezadoReporte`(:n1, :n2);";
+    $sql = "CALL `agregarEncabezadoReporte`(:n1, :n2, :n3);";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
       // Asignamos valores a los parámetros
       $stmt->bindParam(':n1', $fec, PDO::PARAM_STR);
       $stmt->bindParam(':n2', $idArea, PDO::PARAM_INT);
+      $stmt->bindParam(':n3', $idACon, PDO::PARAM_INT);
       // Ejecutamos la consulta
       $stmt->execute();
       // Capturamos el resultado de la consulta
@@ -71,7 +72,7 @@ class rHeader
     // Variable para almacenar el resultado de la consulta
     $rHeader = [];
     // Consulta
-    $sql = "SELECT a.id, a.id_area_natural, b.nombre, a.fecha_evaluacion
+    $sql = "SELECT a.id, a.id_area_natural, a.id_area_conservacion , b.nombre, a.fecha_evaluacion
     FROM encabezado_reporte a
     INNER JOIN area_natural b ON a.id_area_natural = b.id
     WHERE a.id = :n1";
@@ -96,21 +97,22 @@ class rHeader
     return $rHeader;
   }
   // Método para actualizar un ámbito
-  public function updaterHeader($fec, $idArea, $id)
+  public function updaterHeader($fec, $idArea,$idACon,$id)
   {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
     $rHeader = [];
     // Consulta
-    $sql = "CALL `actualizarEncabezadoReporte`(:n1, :n2, :n3);";
+    $sql = "CALL `actualizarEncabezadoReporte`(:n1, :n2, :n3, :n4);";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
       // Asignamos valores a los parámetros
       $stmt->bindParam(':n1', $fec, PDO::PARAM_STR);
       $stmt->bindParam(':n2', $idArea, PDO::PARAM_INT);
-      $stmt->bindParam(':n3', $id, PDO::PARAM_STR);
+      $stmt->bindParam(':n3', $idACon, PDO::PARAM_INT);
+      $stmt->bindParam(':n4', $id, PDO::PARAM_STR);
       // Ejecutamos la consulta
       $stmt->execute();
       // Capturamos el resultado de la consulta

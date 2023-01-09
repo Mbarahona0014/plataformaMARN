@@ -104,7 +104,14 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 </select>
               </div>
             </div>
+            <div class="form-group col-md-12 mb-3">
+              <div class="form-group">
+                <label>Area de conservacion</label>
+                <select name="conservacion" id="conservacion" class="form-control">
 
+                </select>
+              </div>
+            </div>
             <div class="form-group col-md-12 mb-3">
               <label for="fecha">Fecha de evaluacion</label>
               <input type="date" class="form-control" name="fecha" id="fecha" placeholder="Ingrese la descripción del tema"></textarea>

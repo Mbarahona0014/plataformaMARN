@@ -56,3 +56,31 @@ BEGIN
 END;
 $$
 
+--AGREGAR ID DE AREA PROTEGIDA A TABLA EVALUACION
+
+ALTER TABLE encabezado_reporte ADD COLUMN id_area_conservacion INT AFTER `id_area_natural`
+
+--AGREGAR LLAVE FORANEA
+
+ALTER TABLE `encabezado_reporte`
+  ADD CONSTRAINT `encabezado_reporte_ibfk_2` FOREIGN KEY (`id_area_conservacion`) REFERENCES `paisaje` (`id`);
+
+--MODIFICAR LOS PROCEDIMIENTOS ALMACENADOS
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS agregarEncabezadoReporte$$
+CREATE PROCEDURE agregarEncabezadoReporte(IN fec DATE, IN idAr INT,IN idAc INT)
+BEGIN
+    INSERT INTO encabezado_reporte VALUES(NULL,idAr,idAc,fec,0);
+    SELECT 1 AS 'resultado';
+END;
+$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS actualizarEncabezadoReporte$$
+CREATE PROCEDURE actualizarEncabezadoReporte(IN fec DATE, IN idAr INT,IN idAc INT, IN idER INT)
+BEGIN
+    UPDATE encabezado_reporte SET fecha_evaluacion=fec, id_area_natural =idAr, id_area_conservacion = idAc WHERE id=idER;
+    SELECT 1 AS 'resultado';
+END;
+$$

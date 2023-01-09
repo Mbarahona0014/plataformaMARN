@@ -8,6 +8,7 @@ const idEncabezado = document.querySelector("#id_encabezado");
 const btnEnviarEncabezado = document.querySelector("#btn_agregar_encabezado");
 const btnEnviarEvaluador = document.querySelector("#btn_agregar_evaluador");
 
+const selectConservacion = document.querySelector("#conservacion"); 
 const selectArea = document.querySelector("#area");
 const selectEvaluador = document.querySelector("#evaluador");
 const listaEvaluadores = document.querySelector("#listaEvaluadores");
@@ -25,6 +26,7 @@ const urlReport = "../controlador/detalle_reporte.controller.php";
 document.addEventListener("DOMContentLoaded", async () => {
   await getHeader();
   fillArea();
+  fillAreaCon();
   fillEvaluador();
   $("#div_reporte").hide();
   $("#form_detalle").hide();
@@ -82,6 +84,25 @@ function fillArea() {
     },
   });
 }
+//FUNCION PARA LLENAR AREAS DE CONSERVACION
+function fillAreaCon() {
+  $.ajax({
+    method: "GET",
+    url: `${urlAreas}?accion=listC`,
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function (response) {
+      $.each(response["data"], function (id, valor) {
+        var id_select = valor["id"];
+        var name_select = valor["nombre"];
+        $("#conservacion").append(
+          "<option value='" + id_select + "'>" + name_select + "</option>"
+        );
+      });
+    },
+  });
+}
+
 
 //FUNCION PARA LLENAR SELECTOR EVALUADORES
 function fillEvaluador() {
@@ -194,6 +215,7 @@ async function getHeaderById(id) {
     formEncabezado.id_encabezado.value = encabezado[0].id;
     formEvaluador.id_encabezado.value = encabezado[0].id;
     formEncabezado.area.value = encabezado[0].id_area_natural;
+    formEncabezado.conservacion.value = encabezado[0].id_area_conservacion;
     formEncabezado.fecha.value = encabezado[0].fecha_evaluacion;
     fillEnEv(encabezado[0].id);
     $("#calloutText").text("Evaluacion numero: " + id);

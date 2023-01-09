@@ -6,6 +6,31 @@ $con = new Connection();
 
 class Area
 {
+  public function getAreasC(){
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $paisaje = [];
+    // Consulta
+    $sql = "SELECT * FROM paisaje";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $paisaje["data"] = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $paisaje;
+  }
   // Método para obtener áreas
   public function getAreas()
   {
