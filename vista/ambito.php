@@ -116,7 +116,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
   </div>
 </section>
 <!-- /.content -->
-<script src="./js/ambito.js"></script>
+<script src="./recursos/js/jsmodelo/ambito.js"></script>
 <script src="./dist/js/app.min.js"></script>
 </body>
 

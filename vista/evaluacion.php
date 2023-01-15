@@ -325,7 +325,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
     </div>
   </div>
 </section>
-<script src="./js/evaluacion.js"></script>
+<script src="./recursos/js/jsmodelo/evaluacion.js"></script>
 <script src="./dist/js/app.min.js"></script>
 </body>
 

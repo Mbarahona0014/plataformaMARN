@@ -144,7 +144,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 </section>
 <!-- /.content -->
 
-<script src="./js/evaluador.js"></script>
+<script src="./recursos/js/jsmodelo/evaluador.js"></script>
 <script src="./dist/js/app.min.js"></script>
 </body>
 
