@@ -2,6 +2,7 @@
 
 let tabla_encabezado = "";
 let tabla_resumen = "";
+let tabla_calidad = "";
 let peso_total = 0;
 
 const url = "../controlador/encabezado_reporte.controller.php";
@@ -31,7 +32,7 @@ function alert(encabezado, mensaje, tipo) {
 } */
 
 async function getHeader() {
-  getTotalWeight();
+
   tabla_encabezado = await $("#tabla_encabezado").DataTable({
     destroy: true,
     autoWidth: false,
@@ -57,6 +58,39 @@ async function getHeader() {
           `;
         },
       },
+    ],
+    fnRowCallback: function (nRow) {
+      $($(nRow).find("td")[3]).css("text-align", "center");
+    },
+    lengthMenu: [
+      [5, 10, 15, 20, -1],
+      [5, 10, 15, 20, "Todos"],
+    ],
+    language: {
+      url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+    },
+  });
+}
+
+async function goCalc(id) {
+  tabla_resumen = await $("#tabla_resumen").DataTable({
+    destroy: true,
+    autoWidth: false,
+    responsive: true,
+    ajax: {
+      method: "GET",
+      url: `${urlReport}?accion=resumeByHeader&id=${id}`,
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      dataSrc: "data",
+    },
+    columns: [
+      { data: "ambito" },
+      { data: "peso" },
+      { data: "puntajeucg" },
+      { data: "puntajeanp" },
+      { data: "diferencia" },
+      { data: "porcentaje" },
     ],
     fnRowCallback: function (nRow) {
       $($(nRow).find("td")[3]).css("text-align", "center");

@@ -181,15 +181,18 @@ class dReport
     $details = [];
     // Consulta<
     $sql = "SELECT 
-    a.nombre 'ambito',
-    a.peso 'peso',
-    ((a.peso/(SELECT SUM(peso) 'total' FROM ambito))*1000) 'puntajeucg',
-    sum(p.puntaje) 'total_ambito' 
+    a.nombre 'ambito', 
+    a.peso 'peso', 
+    ROUND(((a.peso/(SELECT SUM(peso) FROM ambito))*1000),2) 'puntajeucg', 
+    ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*(ROUND(((a.peso/(SELECT SUM(peso) FROM ambito))*1000),2))),2) 'puntajeanp',
+    (ROUND(((a.peso/(SELECT SUM(peso) FROM ambito))*1000),2))-(ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*(ROUND(((a.peso/(SELECT SUM(peso) FROM ambito))*1000),2))),2)) 'diferencia',
+    ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*100),2) 'porcentaje',
+    (SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id) 'puntaje_posible',
+    sum(p.puntaje) 'puntaje_ganado' 
     FROM detalle_reporte dr 
-    INNER JOIN puntaje p ON dr.id_puntaje = p.id
+    INNER JOIN puntaje p ON dr.id_puntaje = p.id 
     INNER JOIN ambito a ON dr.id_ambito= a.id 
-    WHERE dr.id_encabezado= :n1 
-    GROUP by dr.id_ambito";
+    WHERE dr.id_encabezado= :n1 GROUP by dr.id_ambito";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
@@ -209,4 +212,40 @@ class dReport
     // Retornamos el resultado de la consulta
     return $details;
   }
+
+  /* public function getQuality($id_en)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $details = [];
+    // Consulta<
+    $sql = "SELECT 
+    a.nombre 'ambito', 
+    ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*1000),2) 'porcentaje',
+    (SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id) 'puntaje_posible',
+    sum(p.puntaje) 'puntaje_ganado' 
+    FROM detalle_reporte dr 
+    INNER JOIN puntaje p ON dr.id_puntaje = p.id 
+    INNER JOIN ambito a ON dr.id_ambito= a.id 
+    WHERE dr.id_encabezado= :n1 GROUP by dr.id_ambito";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $details["data"] = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $details;
+  } */
 }

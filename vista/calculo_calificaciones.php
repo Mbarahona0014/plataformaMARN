@@ -121,33 +121,28 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title"><b>Resumen de puntaje por ambito</b></h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool">
-              <i class="fa fa-minus"></i></button>
-          </div>
         </div>
         <div class="box-body">
           <table id="tabla_resumen" class="table table-bordered display nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th style="width: 20%;">Ambito</th>
-                <th style="width: 20%;">Peso</th>
-                <th style="width: 20%;">Puntaje(UCG)</th>
-                <th style="width: 20%;">Diferencia del puntaje</th>
-                <th style="width: 20%;">Porcentaje de avance</th>
+                <th style="width: 10%;">Ambito</th>
+                <th style="width: 10%;">Peso</th>
+                <th style="width: 10%;">Puntaje(UCG)</th>
+                <th style="width: 10%;">Puntaje(ANP)</th>
+                <th style="width: 10%;">Diferencia del puntaje</th>
+                <th style="width: 10%;">Porcentaje de avance</th>
               </tr>
             </thead>
             <tbody>
               
             </tbody>
-            <tfoot>
-              
-            </tfoot>
+            
           </table>
         </div>
         <!-- /.box-body -->
