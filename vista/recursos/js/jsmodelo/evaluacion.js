@@ -84,6 +84,7 @@ function fillArea() {
     },
   });
 }
+
 //FUNCION PARA LLENAR AREAS DE CONSERVACION
 function fillAreaCon() {
   $.ajax({

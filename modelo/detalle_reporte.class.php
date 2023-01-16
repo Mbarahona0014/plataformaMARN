@@ -172,4 +172,41 @@ class dReport
     // Retornamos el resultado de la consulta
     return $detail;
   }
+
+  public function getResume($id_en)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $details = [];
+    // Consulta<
+    $sql = "SELECT 
+    a.nombre 'ambito',
+    a.peso 'peso',
+    ((a.peso/(SELECT SUM(peso) 'total' FROM ambito))*1000) 'puntajeucg',
+    sum(p.puntaje) 'total_ambito' 
+    FROM detalle_reporte dr 
+    INNER JOIN puntaje p ON dr.id_puntaje = p.id
+    INNER JOIN ambito a ON dr.id_ambito= a.id 
+    WHERE dr.id_encabezado= :n1 
+    GROUP by dr.id_ambito";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $details["data"] = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $details;
+  }
 }

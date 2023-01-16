@@ -34,20 +34,21 @@ class Scope
     return $scopes;
   }
   // Método para crear un ámbito
-  public function createScope($nom, $descrip)
+  public function createScope($nom, $pes, $descrip)
   {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
     $scope = [];
     // Consulta
-    $sql = "CALL `agregarAmbito`(:n1, :n2);";
+    $sql = "CALL `agregarAmbito`(:n1, :n2, :n3);";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
       // Asignamos valores a los parámetros
       $stmt->bindParam(':n1', $nom, PDO::PARAM_STR);
-      $stmt->bindParam(':n2', $descrip, PDO::PARAM_STR);
+      $stmt->bindParam(':n2', $pes, PDO::PARAM_STR);
+      $stmt->bindParam(':n3', $descrip, PDO::PARAM_STR);
       // Ejecutamos la consulta
       $stmt->execute();
       // Capturamos el resultado de la consulta
@@ -93,21 +94,22 @@ class Scope
     return $scope;
   }
   // Método para actualizar un ámbito
-  public function updateScope($nom, $descrip, $id)
+  public function updateScope($nom,$pes,$descrip,$id)
   {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
     $scope = [];
     // Consulta
-    $sql = "CALL `actualizarAmbito`(:n1, :n2, :n3);";
+    $sql = "CALL `actualizarAmbito`(:n1, :n2, :n3, :n4);";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
       // Asignamos valores a los parámetros
       $stmt->bindParam(':n1', $nom, PDO::PARAM_STR);
-      $stmt->bindParam(':n2', $descrip, PDO::PARAM_STR);
-      $stmt->bindParam(':n3', $id, PDO::PARAM_INT);
+      $stmt->bindParam(':n2', $pes, PDO::PARAM_STR);
+      $stmt->bindParam(':n3', $descrip, PDO::PARAM_STR);
+      $stmt->bindParam(':n4', $id, PDO::PARAM_INT);
       // Ejecutamos la consulta
       $stmt->execute();
       // Capturamos el resultado de la consulta
@@ -151,5 +153,31 @@ class Scope
     }
     // Retornamos el resultado de la consulta
     return $scope;
+  }
+
+  public function getTotalWeight(){
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $weight = 0;
+    // Consulta
+    $sql = "SELECT SUM(peso) 'total' FROM ambito";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $weight = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $weight;
   }
 }

@@ -33,6 +33,7 @@ btnEnviar.addEventListener("click", (e) => {
 const clearForm = () => {
   formAmbito.id_ambito.value = "";
   formAmbito.nombre.value = "";
+  formAmbito.peso.value = "";
   formAmbito.desc.value = "";
 };
 // Función para cargar la información
@@ -50,6 +51,7 @@ const getScopes = async () => {
     },
     columns: [
       { data: "nombre" },
+      { data: "peso" },
       { data: "descripcion" },
       {
         data: "id",
@@ -103,6 +105,7 @@ const getScopeById = async (id) => {
   if (success) {
     formAmbito.id_ambito.value = ambito[0].id;
     formAmbito.nombre.value = ambito[0].nombre;
+    formAmbito.peso.value = ambito[0].peso;
     formAmbito.desc.value = ambito[0].descripcion;
   } else {
     return alert("¡Error!", "¡No se pudo obtener el ámbito!", "error");

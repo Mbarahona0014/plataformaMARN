@@ -11,6 +11,7 @@ if (isset($_POST) || isset($_GET)) {
   $accion = isset($_GET["accion"]) ? (string)$_GET["accion"] : false;
   // Parametros de peticion ajax
   $nombre = isset($_POST['nombre']) ? $hlp->clear($_POST['nombre']) : false;
+  $pes = isset($_POST['peso']) ? $hlp->clear($_POST['peso']) : false;
   $desc = isset($_POST['desc']) ? $hlp->clear($_POST['desc']) : false;
   $id_post = isset($_POST['id_ambito']) ? (int)$hlp->clear($_POST['id_ambito']) : false;
   $id_get = isset($_GET['id']) ? (int)$hlp->clear($_GET['id']) : false;
@@ -34,13 +35,13 @@ if (isset($_POST) || isset($_GET)) {
         break;
       case 'create':
         // Validamos datos
-        if (!$nombre || !$desc) {
+        if (!$nombre || !$pes || !$desc) {
           print_r(json_encode([
             "success" => false,
             "mensaje" => "¡Debe ingresar todos los datos!"
           ]));
         } else {
-          $scope = $sm->createScope($nombre, $desc);
+          $scope = $sm->createScope($nombre,$pes,$desc);
           // Verificamos que todo esté correcto
           if ($scope[0]["resultado"] == 1) {
             print_r(json_encode([
@@ -74,13 +75,13 @@ if (isset($_POST) || isset($_GET)) {
         break;
       case 'update':
         // Validamos datos
-        if (!$nombre || !$desc || !$id_post) {
+        if (!$nombre || !$pes || !$desc || !$id_post) {
           print_r(json_encode([
             "success" => false,
             "mensaje" => "¡Debe ingresar todos los datos!"
           ]));
         } else {
-          $scope = $sm->updateScope($nombre, $desc, $id_post);
+          $scope = $sm->updateScope($nombre,$pes, $desc, $id_post);
           // Verificamos que todo esté correcto
           if ($scope[0]["resultado"] == 1) {
             print_r(json_encode([
@@ -112,6 +113,20 @@ if (isset($_POST) || isset($_GET)) {
           }
         }
         break;
+        case 'getTotalWeight':
+            $weight = $sm->getTotalWeight();
+            if ($weight) {
+              print_r(json_encode([
+                "success" => true,
+                "peso" => $weight
+              ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+            } else {
+              print_r(json_encode([
+                "success" => false,
+                "peso" => 0
+              ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+            }
+          break;
       default:
         // Si no existe la accion solicitada
         print_r(json_encode([

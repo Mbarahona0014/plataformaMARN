@@ -84,3 +84,39 @@ BEGIN
     SELECT 1 AS 'resultado';
 END;
 $$
+
+--CAMBIAR LA TABLA AMBITOS
+
+ALTER TABLE ambito ADD COLUMN peso DOUBLE AFTER `nombre`
+
+--MODIFICAR LOS PROCEDIMIENTOS ALMACENADOS
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS agregarAmbito$$
+CREATE PROCEDURE agregarAmbito(IN nom VARCHAR(100), IN pes DOUBLE, IN descrip TEXT)
+BEGIN
+  DECLARE count_ambito INT;
+  SELECT COUNT(*) INTO count_ambito FROM ambito WHERE nombre = nom;
+  IF(count_ambito >= 1) THEN
+    SELECT 2 AS 'resultado';
+  ELSE
+    INSERT INTO ambito VALUES(NULL,nom,pes,descrip);
+    SELECT 1 AS 'resultado';
+  END IF;
+END
+$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS actualizarAmbito$$
+CREATE PROCEDURE actualizarAmbito(IN nom VARCHAR(100), IN pes DOUBLE, IN descrip TEXT, IN id_ambito INT)
+BEGIN
+  DECLARE count_ambito INT;
+  SELECT COUNT(*) INTO count_ambito FROM ambito WHERE (nombre = nom) AND id <> id_ambito;
+  IF(count_ambito >= 1) THEN
+    SELECT 2 AS 'resultado';
+  ELSE
+    UPDATE ambito SET nombre = nom, peso= pes, descripcion = descrip WHERE id = id_ambito;
+    SELECT 1 AS 'resultado';
+  END IF;
+END
+$$
