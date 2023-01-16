@@ -276,9 +276,9 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             </div>
             <div class="form-group col-md-6" id="div_imagen">
               <label for="imagenes">
-                <a class="btn btn-primary text-light" role="button" aria-disabled="false" id='btnfiles'>+ Añadir Imágenes</a>
+                <a class="btn btn-primary text-light" role="button" aria-disabled="false" id='btnfiles'>+ Añadir Archivos</a>
               </label>
-              <input type="file" name="files[]" accept="image/*" id="imagenes"  style="visibility: hidden;" multiple />
+              <input type="file" name="files[]" accept="image/*,.doc,.docx,.pdf,.xls,.xlsx" id="imagenes"  style="visibility: hidden;" multiple />
               <div id="files-area">
                 <div id="filesList">
                   <div id="files-names">

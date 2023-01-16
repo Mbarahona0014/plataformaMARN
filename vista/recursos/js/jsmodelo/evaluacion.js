@@ -8,7 +8,7 @@ const idEncabezado = document.querySelector("#id_encabezado");
 const btnEnviarEncabezado = document.querySelector("#btn_agregar_encabezado");
 const btnEnviarEvaluador = document.querySelector("#btn_agregar_evaluador");
 
-const selectConservacion = document.querySelector("#conservacion"); 
+const selectConservacion = document.querySelector("#conservacion");
 const selectArea = document.querySelector("#area");
 const selectEvaluador = document.querySelector("#evaluador");
 const listaEvaluadores = document.querySelector("#listaEvaluadores");
@@ -103,7 +103,6 @@ function fillAreaCon() {
     },
   });
 }
-
 
 //FUNCION PARA LLENAR SELECTOR EVALUADORES
 function fillEvaluador() {
@@ -492,7 +491,7 @@ $("#imagenes").change(() => {
   const valInput = $("#imagenes").val();
   let ext = "";
   let fileBloc = "";
-  const allowebExtensions = ["jpg", "jpeg", "png", "gif"];
+  const allowebExtensions = ["jpg", "jpeg", "png", "gif", "doc", "docx", "pdf", "xlsx", "xls"];
   let fileList = fileInput.files;
   for (file of fileList) {
     ext = file.name.split(".").pop();
