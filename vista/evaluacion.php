@@ -278,7 +278,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               <label for="imagenes">
                 <a class="btn btn-primary text-light" role="button" aria-disabled="false" id='btnfiles'>+ Añadir Archivos</a>
               </label>
-              <input type="file" name="files[]" accept="image/*,.doc,.docx,.pdf,.xls,.xlsx" id="imagenes"  style="visibility: hidden;" multiple />
+              <input type="file" name="files[]" accept="image/*,.doc,.docx,.pdf,.xls,.xlsx" id="imagenes" style="visibility: hidden;" multiple />
               <div id="files-area">
                 <div id="filesList">
                   <div id="files-names">
@@ -322,6 +322,36 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
         <!-- /.box-body -->
       </div>
       <!-- /.box -->
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="modal_archivos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Listado de Archivos
+            </h5>
+          </div>
+          <div class="modal-body text-center">
+            <table id="tabla_archivos" class="table display nowrap dataTable dtr-inline table-bordered table-striped" style="width:100%">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre Archivo</th>
+                  <th>Detalle</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

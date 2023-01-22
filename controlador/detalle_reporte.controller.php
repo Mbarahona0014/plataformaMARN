@@ -22,11 +22,24 @@ if (isset($_POST) || isset($_GET)) {
 
   if ($accion) {
     switch ($accion) {
-      //deleteDetail
+        //deleteDetail
       case 'list':
         $details = $dm->getDetails();
         if ($details) {
           print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        } else {
+          print_r(json_encode([
+            "sEcho" => 1,
+            "iTotalRecords" => 0,
+            "iTotalDisplayRecords" => 0,
+            "aaData" => []
+          ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        }
+        break;
+      case 'listFiles':
+        $files = $dm->getFilesByDetail($id_get);
+        if ($files) {
+          print_r(json_encode($files, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
         } else {
           print_r(json_encode([
             "sEcho" => 1,
@@ -45,7 +58,8 @@ if (isset($_POST) || isset($_GET)) {
         } else {
           $detail = $dm->createDetail($eviDeta, $obserDeta, $idTema, $idAmbito, $idPuntaje, $idEncabezado);
           if ($detail) {
-            $extension = array("jpeg", "jpg", "png", "gif");
+            $extension = array("jpeg", "jpg", "png", "gif", "doc", "docx", "pdf", "xls", "xlsx");
+            $lastId = $dm->getLastId();
             foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
               $insert = false;
               $file_name = $_FILES["files"]["name"][$key];
@@ -53,11 +67,11 @@ if (isset($_POST) || isset($_GET)) {
               $ext = pathinfo($file_name, PATHINFO_EXTENSION);
 
               if (in_array($ext, $extension)) {
-                if (!file_exists("../vista/recursos/images/evaluacion/" . $file_name)) {
-                  $newFileName = $file_name . time() . "." . $ext;
-                  $fileSave = $dm->saveFile($newFileName, $idEncabezado);
+                if (!file_exists("../vista/recursos/documents_evaluaciones/" . $file_name)) {
+                  $newFileName = time() . $file_name;
+                  $fileSave = $dm->saveFile($newFileName, $lastId["id"]);
                   if ($fileSave) {
-                    move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "../vista/recursos/images/evaluacion/" . $newFileName);
+                    move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "../vista/recursos/documents_evaluaciones/" . $newFileName);
                     $insert = true;
                   }
                 }
@@ -103,7 +117,7 @@ if (isset($_POST) || isset($_GET)) {
           "mensaje" => "¡Accion no encontrada!",
         ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
         break;
-        case 'list':
+      case 'list':
         $details = $dm->getDetails();
         if ($details) {
           print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
@@ -116,37 +130,45 @@ if (isset($_POST) || isset($_GET)) {
           ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
         }
         break;
-        case 'delete':
-          if ($id_get) {
-              $detail = $dm->deleteDetail($id_get);
-              if ($detail) {
-                  print_r(json_encode([
-                      "success" => true,
-                      "mensaje" => "¡Detalle eliminado correctamente!",
-                  ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-              } else {
-                  print_r(json_encode([
-                      "success" => false,
-                      "mensaje" => "¡Hubo un problhma al eiliminar el detalle!",
-                  ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+      case 'delete':
+        if ($id_get) {
+          $files = $dm->getFilesByDetail($id_get);
+          if (!empty($files)) {
+            foreach ($files["data"] as $file) {
+              if (file_exists("../vista/recursos/documents_evaluaciones/" . $file["archivo"])) {
+                unlink("../vista/recursos/documents_evaluaciones/" . $file["archivo"]);
               }
-          }
-        break;
-        case 'resumeByHeader':
-          if ($id_get) {
-            $details = $dm->getResume($id_get);
-            if ($details) {
-              print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-            } else {
-              print_r(json_encode([
-                "sEcho" => 1,
-                "iTotalRecords" => 0,
-                "iTotalDisplayRecords" => 0,
-                "aaData" => []
-              ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
             }
           }
-          break;
+          $detail = $dm->deleteDetail($id_get);
+          if ($detail) {
+            print_r(json_encode([
+              "success" => true,
+              "mensaje" => "¡Detalle eliminado correctamente!",
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          } else {
+            print_r(json_encode([
+              "success" => false,
+              "mensaje" => "¡Hubo un problhma al eiliminar el detalle!",
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          }
+        }
+        break;
+      case 'resumeByHeader':
+        if ($id_get) {
+          $details = $dm->getResume($id_get);
+          if ($details) {
+            print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          } else {
+            print_r(json_encode([
+              "sEcho" => 1,
+              "iTotalRecords" => 0,
+              "iTotalDisplayRecords" => 0,
+              "aaData" => []
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          }
+        }
+        break;
     }
   }
 }

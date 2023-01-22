@@ -77,6 +77,33 @@ class dReport
     return $details;
   }
 
+  public function getLastId()
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $lastId = [];
+    // Consulta
+    $sql = "SELECT MAX(a.id) id FROM detalle_reporte a ORDER BY a.id DESC;";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $lastId = $stmt->fetch();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $lastId;
+  }
+
   public function createDetail($evi, $obser, $idTema, $idAmbito, $idPuntaje, $idEncabezado)
   {
     // Obtenemos la conexion
@@ -145,7 +172,37 @@ class dReport
     return $insert;
   }
 
-  public function deleteDetail($id){
+  public function getFilesByDetail($idDetail)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $files = [];
+    // Consulta
+    $sql = "SELECT * FROM archivos_evaluacion a WHERE a.id_detalle = :n1;";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Asignamos valores a los parámetros
+      $stmt->bindParam(':n1', $idDetail, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $files["data"] = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $files;
+  }
+
+  public function deleteDetail($id)
+  {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
