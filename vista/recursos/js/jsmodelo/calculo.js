@@ -72,7 +72,7 @@ async function getHeader() {
   });
 }
 
-async function goCalc(id) {
+async function resumeTable(id){
   tabla_resumen = await $("#tabla_resumen").DataTable({
     destroy: true,
     autoWidth: false,
@@ -92,16 +92,55 @@ async function goCalc(id) {
       { data: "diferencia" },
       { data: "porcentaje" },
     ],
-    fnRowCallback: function (nRow) {
-      $($(nRow).find("td")[3]).css("text-align", "center");
+    language: {
+      url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
     },
-    lengthMenu: [
-      [5, 10, 15, 20, -1],
-      [5, 10, 15, 20, "Todos"],
+  });
+}
+
+async function indicatorsTable(id){
+  tabla_resumen = await $("#tabla_indicadores").DataTable({
+    destroy: true,
+    autoWidth: false,
+    responsive: true,
+    ajax: {
+      method: "GET",
+      url: `${urlReport}?accion=resumeByIndicator&id=${id}`,
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      dataSrc: "data",
+    },
+    columns: [
+      { data: "ambito" },
+      { data: "indicador" },
+      {
+        data: "indicador",
+        orderable: false,
+        searchable: false,
+        render: function (data) {
+          if(data < 200){
+            return 'No aceptable';
+          }else if(data >= 200 && data < 400){
+            return 'Poco aceptable';
+          }else if(data >= 400 && data < 600){
+            return 'Regular';
+          }else if(data >= 600 && data < 800){
+            return 'Aceptable';
+          }else if(data > 800){
+            return 'Satisfactorio';
+          }
+        },
+      },
     ],
     language: {
       url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
     },
   });
+}
+
+
+async function goCalc(id) {
+  await resumeTable(id);
+  await indicatorsTable(id);
 }
 

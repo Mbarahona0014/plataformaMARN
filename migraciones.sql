@@ -120,3 +120,13 @@ BEGIN
   END IF;
 END
 $$
+
+--PROCESO ALMACENADO PARA ACTUALIZAR ENCABEZADO
+DELIMITER $$
+DROP PROCEDURE IF EXISTS actualizarEncabezadoEstado$$
+CREATE PROCEDURE actualizarEncabezadoEstado(IN est INT, IN idEv INT)
+BEGIN
+  UPDATE encabezado_reporte SET estado=est WHERE id=idEv;
+  SELECT 1 AS 'resultado';
+END
+$$

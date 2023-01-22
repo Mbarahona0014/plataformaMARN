@@ -312,6 +312,13 @@ async function deleteDetail(id) {
   }
 }
 
+async function updaterHeaderStatus(est,idEn) {
+  const url = `../controlador/encabezado_reporte.controller.php`;
+  const { success, temas } = await fetch(
+    `${url}?accion=updateStatus&estado=${est}&id=${idEn}`
+  ).then((res) => res.json());
+}
+
 async function getRemainingTopics(idEn) {
   const url = `../controlador/tema.controller.php`;
   const { success, temas } = await fetch(
@@ -319,8 +326,10 @@ async function getRemainingTopics(idEn) {
   ).then((res) => res.json());
   if (success) {
     if (temas[0]["pendientes"] == 0) {
+      updaterHeaderStatus('1',idEn);
       $("#temasPendientes").text("Esta evaluacion ya está finalizada");
     } else {
+      updaterHeaderStatus('0',idEn);
       $("#temasPendientes").text(temas[0]["pendientes"]);
     }
   } else {

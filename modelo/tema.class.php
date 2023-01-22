@@ -123,6 +123,36 @@ class Topic
     return $topics;
   }
 
+  public function updaterHeaderStatus($est,$id)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $rHeader = [];
+    // Consulta
+    $sql = "CALL `actualizarEncabezadoEstado`(:n1, :n2);";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Asignamos valores a los parámetros
+      $stmt->bindParam(':n1', $est, PDO::PARAM_INT);
+      $stmt->bindParam(':n2', $id, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $rHeader = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $rHeader;
+  }
+
   public function getRemainingTopic($id_en){
     // Obtenemos la conexion
     global $con;

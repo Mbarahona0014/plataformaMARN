@@ -147,6 +147,21 @@ if (isset($_POST) || isset($_GET)) {
             }
           }
           break;
+          case 'resumeByIndicator':
+            if ($id_get) {
+              $details = $dm->getQuality($id_get);
+              if ($details) {
+                print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+              } else {
+                print_r(json_encode([
+                  "sEcho" => 1,
+                  "iTotalRecords" => 0,
+                  "iTotalDisplayRecords" => 0,
+                  "aaData" => []
+                ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+              }
+            }
+            break;
     }
   }
 }

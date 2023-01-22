@@ -11,7 +11,7 @@ if (isset($_POST) || isset($_GET)) {
 
     $id_post = isset($_POST['id_encabezado']) ? (int)$hlp->clear($_POST['id_encabezado']) : false;
     $id_get = isset($_GET['id']) ? (int)$hlp->clear($_GET['id']) : false;
-
+    $status = isset($_GET['estado']) ? (int)$hlp->clear($_GET['estado']) : false;
 
     $fecha = isset($_POST['fecha']) ? $hlp->clear($_POST['fecha']) : false;
     $idArea = isset($_POST['area']) ? $hlp->clear($_POST['area']) : false;
@@ -90,6 +90,27 @@ if (isset($_POST) || isset($_GET)) {
                     }
                 }
                 break;
+                case 'updateStatus':
+                    if (!$id_get) {
+                        print_r(json_encode([
+                            "success" => false,
+                            "mensaje" => "¡Debe ingresar todos los datos!"
+                        ]));
+                    } else {
+                        $header = $hm->updaterHeaderStatus($status,$id_get);
+                        if ($header[0]["resultado"] == 1) {
+                            print_r(json_encode([
+                                "success" => true,
+                                "mensaje" => "¡Evaluacion actualizada correctamente!",
+                            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                        } else {
+                            print_r(json_encode([
+                                "success" => false,
+                                "mensaje" => "¡Ha ocurrido un error!",
+                            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                        }
+                    }
+                    break;
             case 'delete':
                 if ($id_get) {
                     $header = $hm->deleterHeader($id_get);

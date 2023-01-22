@@ -213,7 +213,7 @@ class dReport
     return $details;
   }
 
-  /* public function getQuality($id_en)
+  public function getQuality($id_en)
   {
     // Obtenemos la conexion
     global $con;
@@ -222,7 +222,7 @@ class dReport
     // Consulta<
     $sql = "SELECT 
     a.nombre 'ambito', 
-    ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*1000),2) 'porcentaje',
+    ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*1000),2) 'indicador',
     (SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id) 'puntaje_posible',
     sum(p.puntaje) 'puntaje_ganado' 
     FROM detalle_reporte dr 
@@ -247,5 +247,5 @@ class dReport
     }
     // Retornamos el resultado de la consulta
     return $details;
-  } */
+  }
 }
