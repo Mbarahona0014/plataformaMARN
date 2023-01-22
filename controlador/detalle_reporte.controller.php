@@ -58,7 +58,8 @@ if (isset($_POST) || isset($_GET)) {
         } else {
           $detail = $dm->createDetail($eviDeta, $obserDeta, $idTema, $idAmbito, $idPuntaje, $idEncabezado);
           if ($detail) {
-            $extension = array("jpeg", "jpg", "png", "gif");
+            $extension = array("jpeg", "jpg", "png", "gif", "doc", "docx", "pdf", "xls", "xlsx");
+            $lastId = $dm->getLastId();
             foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
               $insert = false;
               $file_name = $_FILES["files"]["name"][$key];

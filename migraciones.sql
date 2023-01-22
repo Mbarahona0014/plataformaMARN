@@ -130,3 +130,17 @@ BEGIN
   SELECT 1 AS 'resultado';
 END
 $$
+
+--CAMBIOS EN LA TABLA ARCHIVOS
+
+-- Volcando estructura para tabla mapas.archivos_evaluacion
+DROP TABLE IF EXISTS `archivos_evaluacion`;
+CREATE TABLE IF NOT EXISTS `archivos_evaluacion` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `archivo` text COLLATE utf8mb4_general_ci,
+  `id_detalle` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_archi_evalu_evaluaciones` (`id_detalle`) USING BTREE,
+  CONSTRAINT `FK_archivos_evaluacion_detalle_reporte` FOREIGN KEY (`id_detalle`) REFERENCES `detalle_reporte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
