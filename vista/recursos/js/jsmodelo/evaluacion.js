@@ -16,12 +16,14 @@ const listaEvaluadores = document.querySelector("#listaEvaluadores");
 let tabla_encabezado = "";
 let tabla_evaluacion = "";
 let tabla_reporte = "";
+let tabla_archivos = "";
 
 const url = "../controlador/encabezado_reporte.controller.php";
 const urlAreas = "../controlador/area.controller.php";
 const urlEvaluadores = "../controlador/evaluador.controller.php";
 const urlEvEn = "../controlador/evaluador_encabezado.controller.php";
 const urlReport = "../controlador/detalle_reporte.controller.php";
+const urlDescargar = "../controlador/descargar.controller.php";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await getHeader();
@@ -377,6 +379,7 @@ async function getReport(id) {
         render: function (data) {
           return `
             <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteDetail(${data})"><i class="fa fa-trash"></i></button>
+            <button title="Ver Archivos" class="btn btn-info btn-sm" onclick="abrirModal(${data})"><i class="fa fa-file"></i></button>
           `;
         },
       },
@@ -393,6 +396,15 @@ async function getReport(id) {
     },
   });
 }
+
+const abrirModal = (id) => {
+  $("#modal_archivos").modal({
+    show: false,
+    backdrop: "static",
+  });
+  $("#modal_archivos").modal("show");
+  listarArchivos(id);
+};
 
 const getScopes = async () => {
   const url = `../controlador/ambito.controller.php?accion=list`;
@@ -500,7 +512,17 @@ $("#imagenes").change(() => {
   const valInput = $("#imagenes").val();
   let ext = "";
   let fileBloc = "";
-  const allowebExtensions = ["jpg", "jpeg", "png", "gif", "doc", "docx", "pdf", "xlsx", "xls"];
+  const allowebExtensions = [
+    "jpg",
+    "jpeg",
+    "png",
+    "gif",
+    "doc",
+    "docx",
+    "pdf",
+    "xlsx",
+    "xls",
+  ];
   let fileList = fileInput.files;
   for (file of fileList) {
     ext = file.name.split(".").pop();
@@ -589,3 +611,52 @@ $("#btn_agregar_detalle").click(async (e) => {
   e.preventDefault();
   await saveDetail();
 });
+
+const listarArchivos = async (id) => {
+  tabla_archivos = await $("#tabla_archivos").DataTable({
+    destroy: true,
+    ordering: false,
+    responsive: true,
+    autoWidth: false,
+    ajax: {
+      method: "GET",
+      url: `${urlReport}?accion=listFiles&id=${id}`,
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      dataSrc: "data",
+    },
+    columns: [
+      { defaultContent: "" },
+      { data: "archivo" },
+      { data: "id_detalle" },
+      {
+        data: "archivo",
+        render: function (data) {
+          return `<a href="${urlDescargar}?file=${data}" class="btn btn-info btn-sm"><i class="fa fa-download"></i></a>`;
+        },
+      },
+    ],
+    fnRowCallback: function (nRow) {
+      $($(nRow).find("td")[0]).css("text-align", "left");
+      $($(nRow).find("td")[1]).css("text-align", "left");
+      $($(nRow).find("td")[2]).css("text-align", "center");
+    },
+    lengthMenu: [
+      [10, 15, 20, -1],
+      [10, 15, 20, "Todos"],
+    ],
+    language: {
+      url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+    },
+  });
+
+  tabla_archivos.on("draw.dt", function () {
+    const PageInfo = $("#tabla_archivos").DataTable().page.info();
+    tabla_archivos
+      .column(0, { page: "current" })
+      .nodes()
+      .each(function (cell, i) {
+        cell.innerHTML = i + 1 + PageInfo.start;
+      });
+  });
+};
