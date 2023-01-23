@@ -230,26 +230,37 @@ class dReport
     return $detail;
   }
 
-  public function getResume($id_en)
+  public function getCalc($id_en)
   {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
     $details = [];
     // Consulta<
-    $sql = "SELECT 
-    a.nombre 'ambito', 
-    a.peso 'peso', 
-    ROUND(((a.peso/(SELECT SUM(peso) FROM ambito))*1000),2) 'puntajeucg', 
-    ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*(ROUND(((a.peso/(SELECT SUM(peso) FROM ambito))*1000),2))),2) 'puntajeanp',
-    (ROUND(((a.peso/(SELECT SUM(peso) FROM ambito))*1000),2))-(ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*(ROUND(((a.peso/(SELECT SUM(peso) FROM ambito))*1000),2))),2)) 'diferencia',
-    ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*100),2) 'porcentaje',
-    (SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id) 'puntaje_posible',
-    sum(p.puntaje) 'puntaje_ganado' 
-    FROM detalle_reporte dr 
-    INNER JOIN puntaje p ON dr.id_puntaje = p.id 
-    INNER JOIN ambito a ON dr.id_ambito= a.id 
-    WHERE dr.id_encabezado= :n1 GROUP by dr.id_ambito";
+    $sql = "SELECT 	
+    evaluacion.nombreAmbito ambito,
+		ROUND(evaluacion.pesoAmbito,2) peso,
+		ROUND(evaluacion.puntajeUCG,2) puntajeucg ,
+    ROUND(SUM(evaluacion.puntajeAnp),2) puntajeanp,
+    ROUND((evaluacion.puntajeUCG-(SUM(evaluacion.puntajeAnp))),2) diferencia,
+    ROUND((SUM(evaluacion.puntajeAnp)/evaluacion.puntajeUCG)*100,2) porcentaje
+    FROM (SELECT 
+    			dr.id_ambito ambito,
+    			(SELECT a.nombre FROM ambito a WHERE a.id=dr.id_ambito) nombreAmbito,
+    			(SELECT a.peso FROM ambito a WHERE a.id=dr.id_ambito) pesoAmbito,                                                          
+    			@sumaPesoFactor := (SELECT SUM(t.peso) FROM tema t WHERE t.id_factor=(SELECT f.id FROM tema t INNER JOIN factor f ON t.id_factor=f.id WHERE t.id=dr.id_tema)) sumaPesoFactor,
+    			@puntaje:= (SELECT p.puntaje FROM puntaje p WHERE p.id=dr.id_puntaje) puntaje,
+    			@pesoFactor:= (SELECT f.peso FROM tema t INNER JOIN factor f ON t.id_factor=f.id WHERE t.id=dr.id_tema) pesoFactor,
+          @puntajeUCG:= (((SELECT a.peso FROM ambito a WHERE a.id=dr.id_ambito)/(SELECT SUM(peso) FROM ambito))*1000) puntajeUCG,
+          @totalPesoFactor:= (SELECT SUM(f.peso) from factor f WHERE f.id IN (SELECT id_factor FROM tema WHERE id_ambito=dr.id_ambito)) totalPesoFactor,
+          @puntajeFactor := ((@pesoFactor*@puntajeUCG)/@totalPesoFactor) puntajeFactor,
+          @pesoIndicador := (SELECT t.peso FROM tema t WHERE t.id=dr.id_tema) pesoIndicador,
+          @puntajeIndicador := (@pesoIndicador*@puntajeFactor)/@sumaPesoFactor puntajeIndicador,
+          @pesoAnp:= ((@puntaje-1)*0.25)*@pesoIndicador pesoAnp,
+          @puntajeAnp:= (@pesoAnp*@puntajeIndicador)/@pesoIndicador puntajeAnp
+          FROM detalle_reporte dr 
+          WHERE dr.id_encabezado=:n1) AS evaluacion 
+    GROUP BY evaluacion.ambito";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
@@ -258,7 +269,6 @@ class dReport
       $stmt->execute();
       // Capturamos el resultado de la consulta
       $details["data"] = $stmt->fetchAll();
-      // Cerrar la conexion
       $con->disconnect();
     } catch (PDOException $e) {
       // Cerrar la conexion
@@ -270,22 +280,33 @@ class dReport
     return $details;
   }
 
-  public function getQuality($id_en)
+  public function getScale($id_en)
   {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
     $details = [];
     // Consulta<
-    $sql = "SELECT 
-    a.nombre 'ambito', 
-    ROUND((((sum(p.puntaje))/(SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id))*1000),2) 'indicador',
-    (SELECT COUNT(*)*5 FROM tema WHERE id_ambito=a.id) 'puntaje_posible',
-    sum(p.puntaje) 'puntaje_ganado' 
-    FROM detalle_reporte dr 
-    INNER JOIN puntaje p ON dr.id_puntaje = p.id 
-    INNER JOIN ambito a ON dr.id_ambito= a.id 
-    WHERE dr.id_encabezado= :n1 GROUP by dr.id_ambito";
+    $sql = "SELECT 	
+    evaluacion.nombreAmbito ambito,
+    ROUND((SUM(evaluacion.puntajeAnp)/evaluacion.puntajeUCG)*1000,2) indicador
+    FROM (SELECT 
+    			dr.id_ambito ambito,
+    			(SELECT a.nombre FROM ambito a WHERE a.id=dr.id_ambito) nombreAmbito,
+    			(SELECT a.peso FROM ambito a WHERE a.id=dr.id_ambito) pesoAmbito,                                                          
+    			@sumaPesoFactor := (SELECT SUM(t.peso) FROM tema t WHERE t.id_factor=(SELECT f.id FROM tema t INNER JOIN factor f ON t.id_factor=f.id WHERE t.id=dr.id_tema)) sumaPesoFactor,
+    			@puntaje:= (SELECT p.puntaje FROM puntaje p WHERE p.id=dr.id_puntaje) puntaje,
+    			@pesoFactor:= (SELECT f.peso FROM tema t INNER JOIN factor f ON t.id_factor=f.id WHERE t.id=dr.id_tema) pesoFactor,
+          @puntajeUCG:= (((SELECT a.peso FROM ambito a WHERE a.id=dr.id_ambito)/(SELECT SUM(peso) FROM ambito))*1000) puntajeUCG,
+          @totalPesoFactor:= (SELECT SUM(f.peso) from factor f WHERE f.id IN (SELECT id_factor FROM tema WHERE id_ambito=dr.id_ambito)) totalPesoFactor,
+          @puntajeFactor := ((@pesoFactor*@puntajeUCG)/@totalPesoFactor) puntajeFactor,
+          @pesoIndicador := (SELECT t.peso FROM tema t WHERE t.id=dr.id_tema) pesoIndicador,
+          @puntajeIndicador := (@pesoIndicador*@puntajeFactor)/@sumaPesoFactor puntajeIndicador,
+          @pesoAnp:= ((@puntaje-1)*0.25)*@pesoIndicador pesoAnp,
+          @puntajeAnp:= (@pesoAnp*@puntajeIndicador)/@pesoIndicador puntajeAnp
+          FROM detalle_reporte dr 
+          WHERE dr.id_encabezado=:n1) AS evaluacion 
+    GROUP BY evaluacion.ambito";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
@@ -294,7 +315,6 @@ class dReport
       $stmt->execute();
       // Capturamos el resultado de la consulta
       $details["data"] = $stmt->fetchAll();
-      // Cerrar la conexion
       $con->disconnect();
     } catch (PDOException $e) {
       // Cerrar la conexion
@@ -305,4 +325,5 @@ class dReport
     // Retornamos el resultado de la consulta
     return $details;
   }
+
 }
