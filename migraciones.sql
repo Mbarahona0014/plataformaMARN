@@ -144,3 +144,42 @@ CREATE TABLE IF NOT EXISTS `archivos_evaluacion` (
   CONSTRAINT `FK_archivos_evaluacion_detalle_reporte` FOREIGN KEY (`id_detalle`) REFERENCES `detalle_reporte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--CREAR TABLA FACTOR
+
+CREATE TABLE `factor` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `nombre` varchar(100) DEFAULT NULL,
+  `peso` double(6,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--CREAR PROCESOS ALMACENADOS PARA FACTOR
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS agregarFactor$$
+CREATE PROCEDURE agregarFactor(IN nom VARCHAR(100), IN pes DOUBLE)
+BEGIN
+  DECLARE count_factor INT;
+  SELECT COUNT(*) INTO count_factor FROM factor WHERE nombre = nom;
+  IF(count_factor >= 1) THEN
+    SELECT 2 AS 'resultado';
+  ELSE
+    INSERT INTO factor VALUES(NULL,nom,pes);
+    SELECT 1 AS 'resultado';
+  END IF;
+END
+$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS actualizarFactor$$
+CREATE PROCEDURE actualizarFactor(IN nom VARCHAR(100), IN pes DOUBLE, IN id_factor INT)
+BEGIN
+  DECLARE count_factor INT;
+  SELECT COUNT(*) INTO count_factor FROM factor WHERE (nombre = nom) AND id <> id_factor;
+  IF(count_factor >= 1) THEN
+    SELECT 2 AS 'resultado';
+  ELSE
+    UPDATE factor SET nombre = nom, peso= pes WHERE id = id_factor;
+    SELECT 1 AS 'resultado';
+  END IF;
+END
+$$
