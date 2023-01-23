@@ -14,7 +14,15 @@ class Topic
     // Variable para almacenar el resultado de la consulta
     $topics = [];
     // Consulta
-    $sql = "SELECT * FROM tema";
+    $sql = "SELECT
+    t.id,
+    t.nombre,
+    t.descripcion,
+    t.observaciones,
+    t.peso,
+    (SELECT nombre FROM ambito a WHERE a.id=t.id_ambito) ambito,
+    (SELECT nombre FROM factor f WHERE f.id=t.id_factor) factor
+    FROM tema t";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
@@ -34,14 +42,14 @@ class Topic
     return $topics;
   }
   // Método para crear un tema
-  public function createTopic($nom, $descrip, $obser, $id_am)
+  public function createTopic($nom, $descrip, $obser,$pes,$id_am,$id_fa)
   {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
     $topic = [];
     // Consulta
-    $sql = "CALL `agregarTema`(:n1, :n2, :n3 , :n4);";
+    $sql = "CALL `agregarTema`(:n1, :n2, :n3 , :n4, :n5, :n6);";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
@@ -49,7 +57,9 @@ class Topic
       $stmt->bindParam(':n1', $nom, PDO::PARAM_STR);
       $stmt->bindParam(':n2', $descrip, PDO::PARAM_STR);
       $stmt->bindParam(':n3', $obser, PDO::PARAM_STR);
-      $stmt->bindParam(':n4', $id_am, PDO::PARAM_INT);
+      $stmt->bindParam(':n4', $pes, PDO::PARAM_STR);
+      $stmt->bindParam(':n5', $id_am, PDO::PARAM_INT);
+      $stmt->bindParam(':n6', $id_fa, PDO::PARAM_INT);
       // Ejecutamos la consulta
       $stmt->execute();
       // Capturamos el resultado de la consulta
@@ -94,6 +104,7 @@ class Topic
     // Retornamos el resultado de la consulta
     return $topic;
   }
+
   public function getRemainingTopicByScope($id_am,$id_en){
     // Obtenemos la conexion
     global $con;
@@ -180,6 +191,7 @@ class Topic
     // Retornamos el resultado de la consulta
     return $numTopics;
   }
+
   // Método para obtener temas por ámbito
   public function getTopicByScope($id)
   {
@@ -238,15 +250,16 @@ class Topic
     // Retornamos el resultado de la consulta
     return $scores;
   }
+
   // Método para actualizar un tema
-  public function updateTopic($nom, $descrip, $obser, $id_am, $id)
+  public function updateTopic($nom, $descrip, $obser,$pes, $id_am,$id_fa, $id)
   {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
     $topic = [];
     // Consulta
-    $sql = "CALL `actualizarTema`(:n1, :n2, :n3, :n4, :n5);";
+    $sql = "CALL `actualizarTema`(:n1, :n2, :n3, :n4, :n5, :n6, :n7);";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
@@ -254,8 +267,10 @@ class Topic
       $stmt->bindParam(':n1', $nom, PDO::PARAM_STR);
       $stmt->bindParam(':n2', $descrip, PDO::PARAM_STR);
       $stmt->bindParam(':n3', $obser, PDO::PARAM_STR);
-      $stmt->bindParam(':n4', $id_am, PDO::PARAM_INT);
-      $stmt->bindParam(':n5', $id, PDO::PARAM_INT);
+      $stmt->bindParam(':n4', $pes, PDO::PARAM_STR);
+      $stmt->bindParam(':n5', $id_am, PDO::PARAM_INT);
+      $stmt->bindParam(':n6', $id_fa, PDO::PARAM_INT);
+      $stmt->bindParam(':n7', $id, PDO::PARAM_INT);
       // Ejecutamos la consulta
       $stmt->execute();
       // Capturamos el resultado de la consulta

@@ -186,10 +186,11 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
           <table id="tabla_encabezado" class="table table-bordered display nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th style="width: 20%;">Numero</th>
-                <th style="width: 35%;">Area natural</th>
-                <th style="width: 35%;">Fecha de evaluacion</th>
-                <th style="width: 10%;">Acción</th>
+                <th style="width: 10%;">Numero</th>
+                <th style="width: 25%;">Area natural</th>
+                <th style="width: 25%;">Area de conservacion</th>
+                <th style="width: 20%;">Fecha de evaluacion</th>
+                <th style="width: 20%;">Acción</th>
               </tr>
             </thead>
             <tbody>
@@ -197,10 +198,11 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             </tbody>
             <tfoot>
               <tr>
-                <th style="width: 20%;">Numero</th>
-                <th style="width: 35%;">Area natural</th>
-                <th style="width: 35%;">Fecha de evaluacion</th>
-                <th style="width: 10%;">Acción</th>
+              <th style="width: 10%;">Numero</th>
+                <th style="width: 25%;">Area natural</th>
+                <th style="width: 25%;">Area de conservacion</th>
+                <th style="width: 20%;">Fecha de evaluacion</th>
+                <th style="width: 20%;">Acción</th>
               </tr>
             </tfoot>
           </table>

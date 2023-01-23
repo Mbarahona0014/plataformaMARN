@@ -13,7 +13,12 @@ class rHeader
     // Variable para almacenar el resultado de la consulta
     $headers = [];
     // Consulta
-    $sql = "SELECT * FROM encabezado_reporte";
+    $sql = "SELECT
+    er.id,
+    (SELECT nombre FROM area_natural an WHERE an.id=er.id_area_natural) area,
+    (SELECT nombre FROM paisaje p WHERE p.id=er.id_area_conservacion) paisaje,
+    er.fecha_evaluacion
+    FROM encabezado_reporte er";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);

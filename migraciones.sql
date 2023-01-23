@@ -183,3 +183,40 @@ BEGIN
   END IF;
 END
 $$
+
+--ACTUALIZAR TABLA TEMA/INDICADOR
+
+ALTER TABLE tema ADD COLUMN peso DOUBLE AFTER `observaciones`
+ALTER TABLE tema ADD COLUMN id_factor INT AFTER `id_ambito`
+
+ALTER TABLE `tema` ADD CONSTRAINT `factor_ibfk_1` FOREIGN KEY (`id_factor`) REFERENCES `factor`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--ACTUALIZAR PROCEDIMIENTOS PARA TEMA/INDICADOR
+DELIMITER $$
+DROP PROCEDURE IF EXISTS agregarTema$$
+CREATE PROCEDURE `agregarTema`(IN `nom` VARCHAR(100), IN `descrip` TEXT, IN `obser` TEXT,IN pes DOUBLE, IN `id_am` INT,IN id_fa INT)
+BEGIN
+  DECLARE count_tema INT;
+  SELECT COUNT(*) INTO count_tema FROM tema WHERE nombre = nom;
+  IF(count_tema >= 1) THEN
+    SELECT 2 AS 'resultado';
+  ELSE
+    INSERT INTO tema VALUES(NULL, nom, descrip, obser,pes,id_am,id_fa);
+    SELECT 1 AS 'resultado';
+  END IF;
+END$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS actualizarTema$$
+CREATE PROCEDURE actualizarTema(IN nom VARCHAR(100), IN descrip TEXT, IN obser TEXT, IN pes DOUBLE, IN id_am INT,IN id_fa INT, IN id_tema INT)
+BEGIN
+  DECLARE count_tema INT;
+  SELECT COUNT(*) INTO count_tema FROM tema WHERE (nombre = nom) AND id <> id_tema;
+  IF(count_tema >= 1) THEN
+    SELECT 2 AS 'resultado';
+  ELSE
+    UPDATE tema SET nombre = nom, descripcion = descrip, observaciones = obser, peso = pes, id_ambito = id_am, id_factor = id_fa WHERE id = id_tema;
+    SELECT 1 AS 'resultado';
+  END IF;
+END
+$$

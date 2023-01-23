@@ -21,11 +21,13 @@ let tabla_temas = "";
 const url = "../controlador/tema.controller.php";
 const urlPts = "../controlador/puntaje.controller.php";
 const urlAmbito = "../controlador/ambito.controller.php";
+const urlFactor = "../controlador/factor.controller.php";
 
 // Evento principal
 document.addEventListener("DOMContentLoaded", async () => {
   await getTopics();
   fillAmbito();
+  fillFactor();
 });
 
 function alert(encabezado,mensaje,tipo){
@@ -62,7 +64,9 @@ const clearForm = () => {
   formTema.nombre.value = "";
   formTema.desc.value = "";
   formTema.obser.value = "";
+  formTema.peso.value = "";
   formTema.ambito.value = "";
+  formTema.factor.value = "";
 };
 
 const clearFormPts = () => {
@@ -97,6 +101,9 @@ const getTopics = async () => {
       { data: "nombre" },
       { data: "descripcion" },
       { data: "observaciones" },
+      { data: "peso" },
+      { data: "ambito" },
+      { data: "factor" },
       {
         data: "id",
         orderable: false,
@@ -138,6 +145,22 @@ function fillAmbito() {
   });
 }
 
+function fillFactor() {
+  $.ajax({
+    method: "GET",
+    url: `${urlFactor}?accion=list`,
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function (response) {
+      $.each(response["data"], function(id,valor){
+        var id_select = valor['id'];
+        var name_select = valor['nombre'];
+        $("#factor").append("<option value='" + id_select + "'>" + name_select + "</option>");
+      })
+    }
+  });
+}
+
 // Función para guardar y actualizar un tema
 const saveTopic = async () => {
   const accion = !idTema.value
@@ -163,13 +186,14 @@ const getTopicById = async (id) => {
   const { success, tema } = await fetch(`${url}?accion=get&id=${id}`).then(
     (res) => res.json()
   );
-
   if (success) {
     formTema.id_tema.value = tema[0].id;
     formTema.nombre.value = tema[0].nombre;
     formTema.desc.value = tema[0].descripcion;
     formTema.obser.value = tema[0].observaciones;
+    formTema.peso.value = tema[0].peso;
     formTema.ambito.value = tema[0].id_ambito;
+    formTema.factor.value = tema[0].id_factor;
     formPuntaje.id_tema.value = tema[0].id;
     $("#calloutText").text(tema[0].nombre);
     $("#calloutTema").removeClass("callout-warning");

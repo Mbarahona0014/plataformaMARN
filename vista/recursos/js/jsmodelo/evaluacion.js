@@ -161,7 +161,8 @@ async function getHeader() {
     },
     columns: [
       { data: "id" },
-      { data: "id_area_natural" },
+      { data: "area" },
+      { data: "paisaje" },
       { data: "fecha_evaluacion" },
       {
         data: "id",

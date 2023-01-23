@@ -16,7 +16,9 @@ if (isset($_POST) || isset($_GET)) {
   $nombre = isset($_POST['nombre']) ? $hlp->clear($_POST['nombre']) : false;
   $desc = isset($_POST['desc']) ? $hlp->clear($_POST['desc']) : false;
   $obser = isset($_POST['obser']) ? $hlp->clear($_POST['obser']) : false;
+  $peso = isset($_POST['peso']) ? $hlp->clear($_POST['peso']) : false;
   $id_ambito = isset($_POST['ambito']) ? $hlp->clear($_POST['ambito']) : false;
+  $id_factor = isset($_POST['factor']) ? $hlp->clear($_POST['factor']) : false;
 
   $id_post = isset($_POST['id_tema']) ? (int)$hlp->clear($_POST['id_tema']) : false;
   $id_get = isset($_GET['id']) ? (int)$hlp->clear($_GET['id']) : false;
@@ -41,13 +43,13 @@ if (isset($_POST) || isset($_GET)) {
         break;
       case 'create':
         // Validamos datos
-        if (!$nombre || !$desc || !$obser || !$id_ambito) {
+        if (!$nombre || !$desc || !$obser || !$peso || !$id_ambito || !$id_factor) {
           print_r(json_encode([
             "success" => false,
             "mensaje" => "¡Debe ingresar todos los datos!"
           ]));
         } else {
-          $topic = $tm->createTopic($nombre, $desc, $obser, $id_ambito);
+          $topic = $tm->createTopic($nombre, $desc, $obser, $peso, $id_ambito, $id_factor);
           // Verificamos que todo esté correcto
           if ($topic[0]["resultado"] == 1) {
             print_r(json_encode([
@@ -149,13 +151,13 @@ if (isset($_POST) || isset($_GET)) {
         break;
       case 'update':
         // Validamos datos
-        if (!$nombre || !$desc || !$obser || !$id_ambito || !$id_post) {
+        if (!$nombre || !$desc || !$obser || !$peso || !$id_ambito || !$id_factor || !$id_post ) {
           print_r(json_encode([
             "success" => false,
             "mensaje" => "¡Debe ingresar todos los datos!"
           ]));
         } else {
-          $topic = $tm->updateTopic($nombre, $desc, $obser, $id_ambito, $id_post);
+          $topic = $tm->updateTopic($nombre, $desc, $obser,$peso, $id_ambito,$id_factor,$id_post);
           // Verificamos que todo esté correcto
           if ($topic[0]["resultado"] == 1) {
             print_r(json_encode([

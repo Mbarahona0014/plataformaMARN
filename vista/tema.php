@@ -68,6 +68,11 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             </div>
 
             <div class="form-group col-md-12 mb-3">
+              <label for="peso">Peso:</label>
+              <input type="number" step="0.01" class="form-control" id="peso" name="peso" placeholder="Ingrese el peso del ambito" />
+            </div>
+
+            <div class="form-group col-md-12 mb-3">
               <div class="form-group">
                 <label>Selecciona el ambito relacionado</label>
                 <select name="ambito" id="ambito" class="form-control">
@@ -75,6 +80,16 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 </select>
               </div>
             </div>
+
+            <div class="form-group col-md-12 mb-3">
+              <div class="form-group">
+                <label>Selecciona el factor relacionado</label>
+                <select name="factor" id="factor" class="form-control">
+
+                </select>
+              </div>
+            </div>
+
             <div class="form-group col-md-12">
               <button type="button" id="btn_cancelar" class="btn btn-danger float-right">Cancelar</button>
               <button type="submit" id="btn_enviar" class="btn btn-primary float-right mr-2">Guardar</button>
@@ -148,21 +163,27 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
           <table id="tabla_temas" class="table table-bordered display nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th style="width: 20%;">Nombre</th>
-                <th style="width: 35%;">Descripción</th>
-                <th style="width: 35%;">Observaciones</th>
+                <th style="width: 10%;">Nombre</th>
+                <th style="width: 20%;">Descripción</th>
+                <th style="width: 20%;">Observaciones</th>
+                <th style="width: 10%;">Peso</th>
+                <th style="width: 15%;">Ambito</th>
+                <th style="width: 15%;">Factor</th>
                 <th style="width: 10%;">Acción</th>
               </tr>
             </thead>
             <tbody>
-
+              
             </tbody>
             <tfoot>
               <tr>
-                <th style="width: 20%;"></th>
-                <th style="width: 35%;"></th>
-                <th style="width: 35%;"></th>
-                <th style="width: 10%;"></th>
+              <th style="width: 10%;">Nombre</th>
+                <th style="width: 20%;">Descripción</th>
+                <th style="width: 20%;">Observaciones</th>
+                <th style="width: 10%;">Peso</th>
+                <th style="width: 15%;">Ambito</th>
+                <th style="width: 15%;">Factor</th>
+                <th style="width: 10%;">Acción</th>
               </tr>
             </tfoot>
           </table>
