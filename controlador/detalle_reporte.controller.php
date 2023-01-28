@@ -58,28 +58,23 @@ if (isset($_POST) || isset($_GET)) {
         } else {
           $detail = $dm->createDetail($eviDeta, $obserDeta, $idTema, $idAmbito, $idPuntaje, $idEncabezado);
           if ($detail) {
-            if($_FILES["files"]["name"] == ""){
-              $extension = array("jpeg", "jpg", "png", "gif", "doc", "docx", "pdf", "xls", "xlsx");
-              $lastId = $dm->getLastId();
-              foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
-                $insert = false;
-                $file_name = $_FILES["files"]["name"][$key];
-                $file_tmp = $_FILES["files"]["tmp_name"][$key];
-                $ext = pathinfo($file_name, PATHINFO_EXTENSION);
-                if (in_array($ext, $extension)) {
-                  if (!file_exists("../vista/recursos/documents_evaluaciones/" . $file_name)) {
-                    $newFileName = time() . $file_name;
-                    $fileSave = $dm->saveFile($newFileName, $lastId["id"]);
-                    if ($fileSave) {
-                      move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "../vista/recursos/documents_evaluaciones/" . $newFileName);
-                      $insert = true;
-                    }
+            $extension = array("jpeg", "jpg", "png", "gif", "doc", "docx", "pdf", "xls", "xlsx");
+            $lastId = $dm->getLastId();
+            foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
+              $insert = false;
+              $file_name = $_FILES["files"]["name"][$key];
+              $file_tmp = $_FILES["files"]["tmp_name"][$key];
+              $ext = pathinfo($file_name, PATHINFO_EXTENSION);
+              if (in_array($ext, $extension)) {
+                if (!file_exists("../vista/recursos/documents_evaluaciones/" . $file_name)) {
+                  $newFileName = time() . $file_name;
+                  $fileSave = $dm->saveFile($newFileName, $lastId["id"]);
+                  if ($fileSave) {
+                    move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "../vista/recursos/documents_evaluaciones/" . $newFileName);
+                    $insert = true;
                   }
                 }
               }
-            }else{
-              //Sin archivos adjuntos
-              $insert = true;
             }
             if ($insert) {
               print_r(json_encode([
