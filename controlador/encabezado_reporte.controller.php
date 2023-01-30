@@ -32,6 +32,19 @@ if (isset($_POST) || isset($_GET)) {
                     ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
                 }
                 break;
+            case 'listByArea':
+                $headers = $hm->getHeadersByArea($id_get);
+                if ($headers) {
+                    print_r(json_encode($headers, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                } else {
+                    print_r(json_encode([
+                        "sEcho" => 1,
+                        "iTotalRecords" => 0,
+                        "iTotalDisplayRecords" => 0,
+                        "aaData" => []
+                    ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                }
+                break;
             case 'create':
                 if (!$fecha || !$idArea || !$idAC) {
                     print_r(json_encode([
@@ -39,7 +52,7 @@ if (isset($_POST) || isset($_GET)) {
                         "mensaje" => "¡Debe ingresar todos los datos!"
                     ]));
                 } else {
-                    $header = $hm->createrHeader($fecha, $idArea,$idAC);
+                    $header = $hm->createrHeader($fecha, $idArea, $idAC);
                     if ($header[0]["resultado"] == 1) {
                         print_r(json_encode([
                             "success" => true,
@@ -70,13 +83,13 @@ if (isset($_POST) || isset($_GET)) {
                 }
                 break;
             case 'update':
-                if (!$fecha || !$idArea || !$idAC ||!$id_post) {
+                if (!$fecha || !$idArea || !$idAC || !$id_post) {
                     print_r(json_encode([
                         "success" => false,
                         "mensaje" => "¡Debe ingresar todos los datos!"
                     ]));
                 } else {
-                    $header = $hm->updaterHeader($fecha, $idArea,$idAC,$id_post);
+                    $header = $hm->updaterHeader($fecha, $idArea, $idAC, $id_post);
                     if ($header[0]["resultado"] == 1) {
                         print_r(json_encode([
                             "success" => true,
@@ -90,27 +103,27 @@ if (isset($_POST) || isset($_GET)) {
                     }
                 }
                 break;
-                case 'updateStatus':
-                    if (!$id_get) {
+            case 'updateStatus':
+                if (!$id_get) {
+                    print_r(json_encode([
+                        "success" => false,
+                        "mensaje" => "¡Debe ingresar todos los datos!"
+                    ]));
+                } else {
+                    $header = $hm->updaterHeaderStatus($status, $id_get);
+                    if ($header[0]["resultado"] == 1) {
+                        print_r(json_encode([
+                            "success" => true,
+                            "mensaje" => "¡Evaluacion actualizada correctamente!",
+                        ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                    } else {
                         print_r(json_encode([
                             "success" => false,
-                            "mensaje" => "¡Debe ingresar todos los datos!"
-                        ]));
-                    } else {
-                        $header = $hm->updaterHeaderStatus($status,$id_get);
-                        if ($header[0]["resultado"] == 1) {
-                            print_r(json_encode([
-                                "success" => true,
-                                "mensaje" => "¡Evaluacion actualizada correctamente!",
-                            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-                        } else {
-                            print_r(json_encode([
-                                "success" => false,
-                                "mensaje" => "¡Ha ocurrido un error!",
-                            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-                        }
+                            "mensaje" => "¡Ha ocurrido un error!",
+                        ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
                     }
-                    break;
+                }
+                break;
             case 'delete':
                 if ($id_get) {
                     $header = $hm->deleterHeader($id_get);

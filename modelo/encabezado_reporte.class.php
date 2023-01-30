@@ -37,8 +37,43 @@ class rHeader
     // Retornamos el resultado de la consulta
     return $headers;
   }
+
+  public function getHeadersByArea($idArea)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $headers = [];
+    // Consulta
+    $sql = "SELECT
+    er.id,
+    (SELECT nombre FROM area_natural an WHERE an.id=er.id_area_natural) AREA,
+    (SELECT nombre FROM paisaje p WHERE p.id=er.id_area_conservacion) paisaje,
+    er.fecha_evaluacion
+    FROM encabezado_reporte er
+    WHERE er.id_area_natural = :n1 AND er.estado = 1;";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Asignamos valores a los parámetros
+      $stmt->bindParam(':n1', $idArea, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $headers["data"] = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $headers;
+  }
   // Método para crear un ámbito
-  public function createrHeader($fec,$idArea,$idACon)
+  public function createrHeader($fec, $idArea, $idACon)
   {
     // Obtenemos la conexion
     global $con;
@@ -102,7 +137,7 @@ class rHeader
     return $rHeader;
   }
   // Método para actualizar un ámbito
-  public function updaterHeader($fec, $idArea,$idACon,$id)
+  public function updaterHeader($fec, $idArea, $idACon, $id)
   {
     // Obtenemos la conexion
     global $con;
@@ -134,7 +169,7 @@ class rHeader
     return $rHeader;
   }
 
-  public function updaterHeaderStatus($est,$id)
+  public function updaterHeaderStatus($est, $id)
   {
     // Obtenemos la conexion
     global $con;
@@ -163,7 +198,7 @@ class rHeader
     // Retornamos el resultado de la consulta
     return $rHeader;
   }
-  
+
   // Método para eliminar un ámbito
   public function deleterHeader($id)
   {

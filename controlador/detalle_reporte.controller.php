@@ -19,6 +19,7 @@ if (isset($_POST) || isset($_GET)) {
   $obserDeta = isset($_POST['obser_deta']) ? $hlp->clear($_POST['obser_deta']) : false;
   $eviDeta = isset($_POST['evi_deta']) ? $hlp->clear($_POST['evi_deta']) : false;
   /* $imgs = isset($_FILES['files']) ? $_FILES['files'] : false; */
+  $idAp = isset($_GET['id_ap']) ? $hlp->clear($_GET['id_ap']) : false;
 
   if ($accion) {
     switch ($accion) {
@@ -57,25 +58,28 @@ if (isset($_POST) || isset($_GET)) {
           ]));
         } else {
           $detail = $dm->createDetail($eviDeta, $obserDeta, $idTema, $idAmbito, $idPuntaje, $idEncabezado);
+          $insert = false;
           if ($detail) {
             $extension = array("jpeg", "jpg", "png", "gif", "doc", "docx", "pdf", "xls", "xlsx");
             $lastId = $dm->getLastId();
-            foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
-              $insert = false;
-              $file_name = $_FILES["files"]["name"][$key];
-              $file_tmp = $_FILES["files"]["tmp_name"][$key];
-              $ext = pathinfo($file_name, PATHINFO_EXTENSION);
-              if (in_array($ext, $extension)) {
-                if (!file_exists("../vista/recursos/documents_evaluaciones/" . $file_name)) {
-                  $newFileName = time() . $file_name;
-                  $fileSave = $dm->saveFile($newFileName, $lastId["id"]);
-                  if ($fileSave) {
-                    move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "../vista/recursos/documents_evaluaciones/" . $newFileName);
-                    $insert = true;
+            if (!empty($_FILES["files"])) {
+              foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
+                $file_name = $_FILES["files"]["name"][$key];
+                $file_tmp = $_FILES["files"]["tmp_name"][$key];
+                $ext = pathinfo($file_name, PATHINFO_EXTENSION);
+                if (in_array($ext, $extension)) {
+                  if (!file_exists("../vista/recursos/documents_evaluaciones/" . $file_name)) {
+                    $newFileName = time() . $file_name;
+                    $fileSave = $dm->saveFile($newFileName, $lastId["id"]);
+                    if ($fileSave) {
+                      move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "../vista/recursos/documents_evaluaciones/" . $newFileName);
+                      $insert = true;
+                    }
                   }
                 }
               }
             }
+            $insert = true;
             if ($insert) {
               print_r(json_encode([
                 "success" => true,
@@ -153,36 +157,110 @@ if (isset($_POST) || isset($_GET)) {
           }
         }
         break;
-        case 'resumeByHeader':
-          if ($id_get) {
-            $details = $dm->getCalc($id_get);
-            if ($details) {
-              print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-            } else {
-              print_r(json_encode([
-                "sEcho" => 1,
-                "iTotalRecords" => 0,
-                "iTotalDisplayRecords" => 0,
-                "aaData" => []
-              ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-            }
+      case 'resumeByHeader':
+        $details = $dm->getCalc($id_get);
+        if ($details) {
+          print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        } else {
+          print_r(json_encode([
+            "sEcho" => 1,
+            "iTotalRecords" => 0,
+            "iTotalDisplayRecords" => 0,
+            "aaData" => []
+          ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        }
+        break;
+      case 'resumeByIndicator':
+        $details = $dm->getScale($id_get);
+        if ($details) {
+          print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        } else {
+          print_r(json_encode([
+            "sEcho" => 1,
+            "iTotalRecords" => 0,
+            "iTotalDisplayRecords" => 0,
+            "aaData" => []
+          ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        }
+        break;
+      case 'comparetionByHeaders':
+        $idAnte = $dm->getAnterior($id_get, $idAp);
+        $detailsAnte = $dm->getCalc($idAnte);
+        $detailsActu = $dm->getCalc($id_get);
+
+        $det = [];
+        $arrAux = [];
+
+        if (sizeof($detailsAnte["data"]) == 0) {
+          foreach ($detailsActu["data"] as $key => $value) {
+            $ucg = $value["puntajeucg"];
+            $cg = ($value["puntajeanp"] / $ucg) - (0 / $ucg);
+            $arrAux = [
+              'ambito' => $value["ambito"],
+              'ucg' => $value["puntajeucg"],
+              'gas1' => 0,
+              'gas2' => $value["puntajeanp"],
+              'cg' => round($cg, 2),
+            ];
+            array_push($det, $arrAux);
           }
-          break;
-          case 'resumeByIndicator':
-            if ($id_get) {
-              $details = $dm->getScale($id_get);
-              if ($details) {
-                print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-              } else {
-                print_r(json_encode([
-                  "sEcho" => 1,
-                  "iTotalRecords" => 0,
-                  "iTotalDisplayRecords" => 0,
-                  "aaData" => []
-                ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-              }
-            }
-            break;
+          return print_r(json_encode([
+            'data' => $det,
+          ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        }
+
+        foreach ($detailsActu["data"] as $key => $value) {
+          $ucg = $detailsAnte["data"][$key]["puntajeucg"];
+          $cg = ($value["puntajeanp"] / $ucg) - ($detailsAnte["data"][$key]["puntajeanp"] / $ucg);
+          $arrAux = [
+            'ambito' => $detailsAnte["data"][$key]["ambito"],
+            'ucg' => $detailsAnte["data"][$key]["puntajeucg"],
+            'gas1' => $detailsAnte["data"][$key]["puntajeanp"],
+            'gas2' => $value["puntajeanp"],
+            'cg' => round($cg, 2),
+          ];
+          array_push($det, $arrAux);
+        }
+
+        return print_r(json_encode([
+          'data' => $det,
+        ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        break;
+
+      case 'comparetionByHeaders2':
+        $idEn = $id_get ? $id_get : 0;
+        $anio = $id_get ? $dm->getYear($idEn) : 0;
+        $ids = $dm->getAnteriores($idAp, $anio);
+        $detailsAnte1 = !empty($ids[0]["id"]) ? $dm->getCalc($ids[0]["id"]) : ["data" => []];
+        $detailsAnte2 = !empty($ids[1]["id"]) ? $dm->getCalc($ids[1]["id"]) : ["data" => []];
+        $detailsAnte3 = !empty($ids[2]["id"]) ? $dm->getCalc($ids[2]["id"]) : ["data" => []];
+        $detailsAnte4 = !empty($ids[3]["id"]) ? $dm->getCalc($ids[3]["id"]) : ["data" => []];
+        $detailsAnte5 = !empty($ids[4]["id"]) ? $dm->getCalc($ids[4]["id"]) : ["data" => []];
+        $detailsActu = $dm->getCalc($id_get);
+
+        $det = [];
+        $arrAux = [];
+
+        if (sizeof($detailsActu["data"]) > 0) {
+          foreach ($detailsActu["data"] as $key => $value) {
+            $arrAux = [
+              'ambito' => $value["ambito"],
+              'ucg' => $value["puntajeucg"],
+              'ga1' => (sizeof($detailsAnte1["data"])) > 0 ? ($detailsAnte1["data"][$key]["puntajeanp"] ? $detailsAnte1["data"][$key]["puntajeanp"] : 0) : 0,
+              'ga2' => (sizeof($detailsAnte2["data"])) > 0 ? ($detailsAnte2["data"][$key]["puntajeanp"] ? $detailsAnte2["data"][$key]["puntajeanp"] : 0) : 0,
+              'ga3' => (sizeof($detailsAnte3["data"])) > 0 ? ($detailsAnte3["data"][$key]["puntajeanp"] ? $detailsAnte3["data"][$key]["puntajeanp"] : 0) : 0,
+              'ga4' => (sizeof($detailsAnte4["data"])) > 0 ? ($detailsAnte4["data"][$key]["puntajeanp"] ? $detailsAnte4["data"][$key]["puntajeanp"] : 0) : 0,
+              'ga5' => (sizeof($detailsAnte5["data"])) > 0 ? ($detailsAnte5["data"][$key]["puntajeanp"] ? $detailsAnte5["data"][$key]["puntajeanp"] : 0) : 0,
+              'ga6' => $value["puntajeanp"]
+            ];
+            array_push($det, $arrAux);
+          }
+        }
+
+        return print_r(json_encode([
+          'data' => $det,
+        ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        break;
     }
   }
 }

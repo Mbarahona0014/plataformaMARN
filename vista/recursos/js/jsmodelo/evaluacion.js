@@ -315,7 +315,7 @@ async function deleteDetail(id) {
   }
 }
 
-async function updaterHeaderStatus(est,idEn) {
+async function updaterHeaderStatus(est, idEn) {
   const url = `../controlador/encabezado_reporte.controller.php`;
   const { success, temas } = await fetch(
     `${url}?accion=updateStatus&estado=${est}&id=${idEn}`
@@ -329,10 +329,10 @@ async function getRemainingTopics(idEn) {
   ).then((res) => res.json());
   if (success) {
     if (temas[0]["pendientes"] == 0) {
-      updaterHeaderStatus('1',idEn);
+      updaterHeaderStatus("1", idEn);
       $("#temasPendientes").text("Esta evaluacion ya está finalizada");
     } else {
-      updaterHeaderStatus('0',idEn);
+      updaterHeaderStatus("0", idEn);
       $("#temasPendientes").text(temas[0]["pendientes"]);
     }
   } else {
@@ -511,6 +511,7 @@ $("#id_puntaje").change(async () => {
 const dt = new DataTransfer();
 $("#imagenes").change(() => {
   const valInput = $("#imagenes").val();
+  // console.log(valInput);
   let ext = "";
   let fileBloc = "";
   const allowebExtensions = [
@@ -525,7 +526,7 @@ $("#imagenes").change(() => {
     "xls",
   ];
   let fileList = fileInput.files;
-  for (file of fileList) {
+  for (let file of fileList) {
     ext = file.name.split(".").pop();
     if (!allowebExtensions.includes(ext)) {
       return Swal.fire({

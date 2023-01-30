@@ -81,15 +81,15 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 </section>
 <!-- Main content -->
 <section class="content">
-  <div class="row">
+<div class="row">
     <div class="col-md-12">
       <!-- Default box -->
       <div class="form-group col-md-12 mb-3">
-        <div class="form-group">
-          <label>Area natural</label>
-          <select name="area" id="area" class="form-control">
-          </select>
-        </div>
+          <div class="form-group">
+            <label>Area natural</label>
+            <select name="area" id="area" class="form-control">
+            </select>
+          </div>
       </div>
     </div>
   </div>
@@ -131,7 +131,8 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       </div>
       <!-- /.box -->
     </div>
-
+  
+  <div class="row">
     <div class="col-md-12">
       <!-- Default box -->
       <div class="box">
@@ -151,16 +152,17 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               </tr>
             </thead>
             <tbody>
-
+              
             </tbody>
-
+            
           </table>
         </div>
         <!-- /.box-body -->
       </div>
       <!-- /.box -->
     </div>
-
+  </div>
+  <div class="row">
     <div class="col-md-12">
       <!-- Default box -->
       <div class="box">
@@ -177,104 +179,17 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               </tr>
             </thead>
             <tbody>
-
+              
             </tbody>
-
+            
           </table>
         </div>
         <!-- /.box-body -->
       </div>
       <!-- /.box -->
     </div>
-
-    <div class="col-md-12">
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"><b>Gráfico Estadístico Escala de Satisfacción</b></h3>
-        </div>
-        <div class="box-body">
-          <canvas height="120" id="chartBar"></canvas>
-        </div>
-        <!-- /.box-body -->
-      </div>
-      <!-- /.box -->
-    </div>
-
-    <div class="col-md-12">
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"><b>Comparacion Sobre la Calidad de Gestión de Manejo Año Anterior y Actual</b></h3>
-        </div>
-        <div class="box-body">
-          <table id="tabla_comparacion" class="table table-bordered display nowrap" cellspacing="0" width="100%">
-            <thead>
-              <tr>
-                <th style="width: 10%;">Ambito</th>
-                <th style="width: 10%;">UCG</th>
-                <th style="width: 10%;">GAS1</th>
-                <th style="width: 10%;">GAS2</th>
-                <th style="width: 10%;">%CG</th>
-              </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-
-          </table>
-        </div>
-        <!-- /.box-body -->
-      </div>
-      <!-- /.box -->
-    </div>
-
-    <div class="col-md-12">
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"><b>Comparacion temporal sobre la Calidad de Gestión de Manejo Período Cinco Años</b></h3>
-        </div>
-        <div class="box-body">
-          <table id="tabla_comparacion2" class="table table-bordered display nowrap" cellspacing="0" width="100%">
-            <thead>
-              <tr>
-                <th style="width: 10%;">Ambito</th>
-                <th style="width: 10%;">UCG</th>
-                <th style="width: 10%;">GA1</th>
-                <th style="width: 10%;">GA2</th>
-                <th style="width: 10%;">GA3</th>
-                <th style="width: 10%;">GA4</th>
-                <th style="width: 10%;">GA5</th>
-                <th style="width: 10%;">GA6</th>
-              </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-          </table>
-        </div>
-        <!-- /.box-body -->
-      </div>
-      <!-- /.box -->
-    </div>
-
-    <div class="col-md-12">
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"><b>Gráfico Estadístico Comparacion Temporal</b></h3>
-        </div>
-        <div class="box-body">
-          <canvas height="120" id="chartLine"></canvas>
-        </div>
-        <!-- /.box-body -->
-      </div>
-      <!-- /.box -->
-    </div>
+  </div>
 </section>
-<!-- Chart.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
 <script src="./recursos/js/jsmodelo/calculo.js"></script>
 <script src="./dist/js/app.min.js"></script>
 </body>
