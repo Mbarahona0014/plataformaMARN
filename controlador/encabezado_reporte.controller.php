@@ -140,6 +140,22 @@ if (isset($_POST) || isset($_GET)) {
                     }
                 }
                 break;
+                case 'delete':
+                if ($id_get) {
+                    $header = $hm->deleterHeader($id_get);
+                    if ($header) {
+                        print_r(json_encode([
+                            "success" => true,
+                            "mensaje" => "¡Evaluador eliminado correctamente!",
+                        ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                    } else {
+                        print_r(json_encode([
+                            "success" => false,
+                            "mensaje" => "¡Hubo un problhma al eiliminar el evaluador!",
+                        ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                    }
+                }
+                break;
             default:
                 print_r(json_encode([
                     "success" => false,
