@@ -80,7 +80,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
   </ol>
 </section>
 <!-- Main content -->
-<section class="content">
+<section id="content" class="content">
   <div class="row">
     <div class="col-md-12">
       <!-- Default box -->
@@ -131,7 +131,17 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       </div>
       <!-- /.box -->
     </div>
+    <div class="col-md-12" id="box_encabezado">
+      <!-- Default box -->
+      <button onclick="Export2Doc();">Export as .doc</button>
+      <div class="box" >
+        <div class="box-header with-border" id="box_encabezado_header">
 
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
     <div class="col-md-12">
       <!-- Default box -->
       <div class="box">
@@ -196,6 +206,9 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
         <div class="box-body">
           <canvas height="120" id="chartBar"></canvas>
         </div>
+        <div style="background:white; display:none;">
+          <img width="625" height="315" style="display:none;" id="imgChartBar" src="">
+        </div>
         <!-- /.box-body -->
       </div>
       <!-- /.box -->
@@ -213,8 +226,8 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               <tr>
                 <th style="width: 10%;">Ambito</th>
                 <th style="width: 10%;">UCG</th>
-                <th style="width: 10%;">GAS1</th>
-                <th style="width: 10%;">GAS2</th>
+                <th style="width: 10%;">ANTERIOR</th>
+                <th style="width: 10%;">ACTUAL</th>
                 <th style="width: 10%;">%CG</th>
               </tr>
             </thead>
@@ -241,12 +254,12 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               <tr>
                 <th style="width: 10%;">Ambito</th>
                 <th style="width: 10%;">UCG</th>
-                <th style="width: 10%;">GA1</th>
-                <th style="width: 10%;">GA2</th>
-                <th style="width: 10%;">GA3</th>
-                <th style="width: 10%;">GA4</th>
-                <th style="width: 10%;">GA5</th>
-                <th style="width: 10%;">GA6</th>
+                <th style="width: 10%;">EV1</th>
+                <th style="width: 10%;">EV2</th>
+                <th style="width: 10%;">EV3</th>
+                <th style="width: 10%;">EV4</th>
+                <th style="width: 10%;">EV5</th>
+                <th style="width: 10%;">ACTUAL</th>
               </tr>
             </thead>
             <tbody>
@@ -267,6 +280,9 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
         </div>
         <div class="box-body">
           <canvas height="120" id="chartLine"></canvas>
+        </div>
+        <div style="background:white; display:none;">
+          <img width="625" height="315" id="imgChartLine" src="">
         </div>
         <!-- /.box-body -->
       </div>

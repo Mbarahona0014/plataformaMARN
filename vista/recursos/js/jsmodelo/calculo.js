@@ -26,7 +26,56 @@ document.addEventListener("DOMContentLoaded", async () => {
   await reportComp(0);
   await reportComp2(0);
   await graficarChartLine(0);
+  $("#box_encabezado").hide();
 });
+
+function Export2Doc(filename = ''){
+  var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+  var style ='<style></style>'
+  var postHtml = "</body></html>";
+  var html = preHtml;
+  var gra1 = document.getElementById("imgChartBar");
+  var gra2 = document.getElementById("imgChartLine");
+  gra1.setAttribute('src', document.querySelector("#chartBar").toDataURL());
+  gra2.setAttribute('src', document.querySelector("#chartLine").toDataURL());
+  html += document.getElementById("box_encabezado_header").outerHTML;
+  html += '<div class="banner"><h3>RESUMEN DE PUNTAJE POR AMBITO</h3></div>';
+  html += document.getElementById("tabla_resumen").outerHTML;
+  html += '<div class="banner"><h3>ESCALA DE SATISFACCION</h3></div>';
+  html += document.getElementById("tabla_indicadores").outerHTML;
+  html += '<div class="banner"><h3>GRAFICO DE ESCALA DE SATISFACCION</h3></div>';
+  html += gra1.outerHTML; 
+  html += '<div class="banner"><h3>COMPARACION SOBRE LA CALIDAD DE GESTION DE MANEJO AÑO ANTERIOR x AÑO ACTUAL</h3></div>';
+  html += document.getElementById("tabla_comparacion").outerHTML;
+  html += '<div class="banner"><h3>COMPARACION TEMPORAL SOBRE LA CALIDAD DE GESTION DE MANEJO PERIODO 5 AÑOS</h3></div>';
+  html += document.getElementById("tabla_comparacion2").outerHTML;
+  html += '<div class="banner"><h3>GRAFICO ESTADISTICO COMPARACION TEMPORAL</h3></div>';
+  html += gra2.outerHTML;
+  html += postHtml;
+  /* var html = preHtml+document.getElementById(element).innerHTML+postHtml; */
+  var blob = new Blob(['ufeff', html], {
+      type: 'application/msword'
+  }); 
+  // Specify link url
+  var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+  // Specify file name
+  filename = filename?filename+'.doc':'document.doc';
+  // Create download link element
+  var downloadLink = document.createElement("a");
+  document.body.appendChild(downloadLink);
+  if(navigator.msSaveOrOpenBlob ){
+      navigator.msSaveOrOpenBlob(blob, filename);
+  }else{
+      // Create a link to the file
+      downloadLink.href = url;
+      // Setting the file name
+      downloadLink.download = filename;
+      //triggering the function
+      downloadLink.click();
+  }
+  document.body.removeChild(downloadLink);
+}
+
 
 const getAreas = async () => {
   const { data } = await fetch(`${urlAreas}?accion=list`).then((res) =>
@@ -113,6 +162,36 @@ $("#area").change(async () => {
     await graficarChartLine(0);
   }
 });
+
+async function fillHead(id){
+  $("#box_encabezado").show(200);
+  const { success, encabezado } = await fetch(
+    `${url}?accion=get&id=${id}`
+  ).then((res) => res.json());
+  if(success){
+    $("#box_encabezado_header").html('<h3><b>Area natural protegida: </b>'+encabezado[0].nombre+'</h3><h4><b>Fecha de evaluacion: </b>'+encabezado[0].fecha_evaluacion+'</h4>');
+  }
+}
+
+async function getHeaderById(id) {
+  const { success, encabezado } = await fetch(
+    `${url}?accion=get&id=${id}`
+  ).then((res) => res.json());
+  if (success) {
+    clearFormEvaluators();
+    formEncabezado.id_encabezado.value = encabezado[0].id;
+    formEvaluador.id_encabezado.value = encabezado[0].id;
+    formEncabezado.area.value = encabezado[0].id_area_natural;
+    formEncabezado.conservacion.value = encabezado[0].id_area_conservacion;
+    formEncabezado.fecha.value = encabezado[0].fecha_evaluacion;
+    fillEnEv(encabezado[0].id);
+    $("#calloutText").text("Evaluacion numero: " + id);
+    $("#calloutEvaluacion").removeClass("callout-warning");
+    $("#calloutEvaluacion").addClass("callout-info");
+  } else {
+    return alert("¡Error!", "¡No se pudo obtener la evaluacion!", "error");
+  }
+}
 
 async function resumeTable(id) {
   tabla_resumen = await $("#tabla_resumen").DataTable({
@@ -298,12 +377,12 @@ const graficarChartLine = async (id) => {
     data.forEach((item) => {
       const { ga1, ga2, ga3, ga4, ga5, ga6 } = item;
       nuevoArray.push([
-        { label: "GA1", data: ga1, producto: item.ambito },
-        { label: "GA2", data: ga2, producto: item.ambito },
-        { label: "GA3", data: ga3, producto: item.ambito },
-        { label: "GA4", data: ga4, producto: item.ambito },
-        { label: "GA5", data: ga5, producto: item.ambito },
-        { label: "GA6", data: ga6, producto: item.ambito },
+        { label: "EV1", data: ga1, producto: item.ambito },
+        { label: "EV2", data: ga2, producto: item.ambito },
+        { label: "EV3", data: ga3, producto: item.ambito },
+        { label: "EV4", data: ga4, producto: item.ambito },
+        { label: "EV5", data: ga5, producto: item.ambito },
+        { label: "ACTUAL", data: ga6, producto: item.ambito },
       ]);
     });
 
@@ -403,7 +482,10 @@ const graficarChartLine = async (id) => {
   });
 };
 
+
+
 async function goCalc(id) {
+  await fillHead(id);
   await resumeTable(id);
   await indicatorsTable(id);
   await graficarChartBar(id);
