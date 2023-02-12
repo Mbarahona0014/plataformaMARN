@@ -1,0 +1,21 @@
+#tabla_resumen table {
+  width          : 100%;
+  border         : 1px solid #000;
+  border-collapse: collapse;
+}
+
+#tabla_resumen th,
+#tabla_resumen td {
+  vertical-align : top;
+  text-align     : center;
+  border         : 1px solid #000;
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#imgChartBar {
+  background-color: white;
+}

@@ -133,7 +133,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
     </div>
     <div class="col-md-12" id="box_encabezado">
       <!-- Default box -->
-      <button onclick="Export2Doc();">Export as .doc</button>
+      <button class="btn btn-primary m-2" onclick="Export2Doc();">Exportar a Word</button><br><br>
       <div class="box" >
         <div class="box-header with-border" id="box_encabezado_header">
 

@@ -29,53 +29,100 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#box_encabezado").hide();
 });
 
-function Export2Doc(filename = ''){
-  var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
-  var style ='<style></style>'
-  var postHtml = "</body></html>";
+function Export2Doc(filename = "") {
+  var preHtml =
+    `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title>
+    <style>
+    #box_encabezado_header {
+      font-family: Arial;
+    }
+
+    .banner {
+      font-family: Arial;
+    }
+
+    #tabla_resumen {
+      font-family: Arial;
+    }
+
+    #tabla_indicadores {
+      font-family: Arial;
+    }
+
+    table {
+      font-family    : Arial;
+      width          : 100%;
+      border         : 1px solid #000;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      vertical-align : top;
+      text-align     : center;
+      border         : 1px solid #000;
+      border-collapse: collapse;
+      padding        : 0.5px;
+    }
+
+    #chartBar {
+      background-color: white;
+    }
+
+    #chartLine {
+      background-color: white;
+    }
+    </style>
+    </head><body>`;
+  var style = ``;
+  var postHtml = "</body>" + style + "</html>";
   var html = preHtml;
   var gra1 = document.getElementById("imgChartBar");
   var gra2 = document.getElementById("imgChartLine");
-  gra1.setAttribute('src', document.querySelector("#chartBar").toDataURL());
-  gra2.setAttribute('src', document.querySelector("#chartLine").toDataURL());
+  gra1.setAttribute("src", document.querySelector("#chartBar").toDataURL());
+  gra2.setAttribute("src", document.querySelector("#chartLine").toDataURL());
   html += document.getElementById("box_encabezado_header").outerHTML;
   html += '<div class="banner"><h3>RESUMEN DE PUNTAJE POR AMBITO</h3></div>';
   html += document.getElementById("tabla_resumen").outerHTML;
   html += '<div class="banner"><h3>ESCALA DE SATISFACCION</h3></div>';
   html += document.getElementById("tabla_indicadores").outerHTML;
-  html += '<div class="banner"><h3>GRAFICO DE ESCALA DE SATISFACCION</h3></div>';
-  html += gra1.outerHTML; 
-  html += '<div class="banner"><h3>COMPARACION SOBRE LA CALIDAD DE GESTION DE MANEJO AÑO ANTERIOR x AÑO ACTUAL</h3></div>';
+  html +=
+    '<div class="banner"><h3>GRAFICO DE ESCALA DE SATISFACCION</h3></div>';
+  html += gra1.outerHTML;
+  html +=
+    '<div class="banner"><h3>COMPARACION SOBRE LA CALIDAD DE GESTION DE MANEJO AÑO ANTERIOR x AÑO ACTUAL</h3></div>';
   html += document.getElementById("tabla_comparacion").outerHTML;
-  html += '<div class="banner"><h3>COMPARACION TEMPORAL SOBRE LA CALIDAD DE GESTION DE MANEJO PERIODO 5 AÑOS</h3></div>';
+  html +=
+    '<div class="banner"><h3>COMPARACION TEMPORAL SOBRE LA CALIDAD DE GESTION DE MANEJO PERIODO 5 AÑOS</h3></div>';
   html += document.getElementById("tabla_comparacion2").outerHTML;
-  html += '<div class="banner"><h3>GRAFICO ESTADISTICO COMPARACION TEMPORAL</h3></div>';
+  html +=
+    '<div class="banner"><h3>GRAFICO ESTADISTICO COMPARACION TEMPORAL</h3></div>';
   html += gra2.outerHTML;
   html += postHtml;
   /* var html = preHtml+document.getElementById(element).innerHTML+postHtml; */
-  var blob = new Blob(['ufeff', html], {
-      type: 'application/msword'
-  }); 
+  var blob = new Blob(["ufeff", html], {
+    type: "application/msword",
+  });
   // Specify link url
-  var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+  var url =
+    "data:application/vnd.ms-word;charset=utf-8," + encodeURIComponent(html);
   // Specify file name
-  filename = filename?filename+'.doc':'document.doc';
+  filename = filename ? filename + ".doc" : "document.doc";
   // Create download link element
   var downloadLink = document.createElement("a");
   document.body.appendChild(downloadLink);
-  if(navigator.msSaveOrOpenBlob ){
-      navigator.msSaveOrOpenBlob(blob, filename);
-  }else{
-      // Create a link to the file
-      downloadLink.href = url;
-      // Setting the file name
-      downloadLink.download = filename;
-      //triggering the function
-      downloadLink.click();
+  if (navigator.msSaveOrOpenBlob) {
+    navigator.msSaveOrOpenBlob(blob, filename);
+  } else {
+    // Create a link to the file
+    downloadLink.href = url;
+    // Setting the file name
+    downloadLink.download = filename;
+    //triggering the function
+    downloadLink.click();
   }
   document.body.removeChild(downloadLink);
 }
-
 
 const getAreas = async () => {
   const { data } = await fetch(`${urlAreas}?accion=list`).then((res) =>
@@ -163,13 +210,19 @@ $("#area").change(async () => {
   }
 });
 
-async function fillHead(id){
+async function fillHead(id) {
   $("#box_encabezado").show(200);
   const { success, encabezado } = await fetch(
     `${url}?accion=get&id=${id}`
   ).then((res) => res.json());
-  if(success){
-    $("#box_encabezado_header").html('<h3><b>Area natural protegida: </b>'+encabezado[0].nombre+'</h3><h4><b>Fecha de evaluacion: </b>'+encabezado[0].fecha_evaluacion+'</h4>');
+  if (success) {
+    $("#box_encabezado_header").html(
+      "<h3><b>Area natural protegida: </b>" +
+        encabezado[0].nombre +
+        "</h3><h4><b>Fecha de evaluacion: </b>" +
+        encabezado[0].fecha_evaluacion +
+        "</h4>"
+    );
   }
 }
 
@@ -481,8 +534,6 @@ const graficarChartLine = async (id) => {
     },
   });
 };
-
-
 
 async function goCalc(id) {
   await fillHead(id);
