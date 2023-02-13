@@ -36,26 +36,21 @@ function Export2Doc(filename = "") {
     #box_encabezado_header {
       font-family: Arial;
     }
-
     .banner {
       font-family: Arial;
     }
-
     #tabla_resumen {
       font-family: Arial;
     }
-
     #tabla_indicadores {
       font-family: Arial;
     }
-
     table {
       font-family    : Arial;
       width          : 100%;
       border         : 1px solid #000;
       border-collapse: collapse;
     }
-
     th,
     td {
       vertical-align : top;
@@ -64,23 +59,17 @@ function Export2Doc(filename = "") {
       border-collapse: collapse;
       padding        : 0.5px;
     }
-
-    #chartBar {
-      background-color: white;
-    }
-
-    #chartLine {
-      background-color: white;
-    }
     </style>
     </head><body>`;
   var style = ``;
   var postHtml = "</body>" + style + "</html>";
   var html = preHtml;
+  
   var gra1 = document.getElementById("imgChartBar");
   var gra2 = document.getElementById("imgChartLine");
   gra1.setAttribute("src", document.querySelector("#chartBar").toDataURL());
   gra2.setAttribute("src", document.querySelector("#chartLine").toDataURL());
+  
   html += document.getElementById("box_encabezado_header").outerHTML;
   html += '<div class="banner"><h3>RESUMEN DE PUNTAJE POR AMBITO</h3></div>';
   html += document.getElementById("tabla_resumen").outerHTML;

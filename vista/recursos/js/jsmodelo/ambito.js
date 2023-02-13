@@ -103,6 +103,7 @@ const getScopeById = async (id) => {
   );
 
   if (success) {
+    formAmbito.scrollIntoView({block: "end", behavior: "smooth"});
     formAmbito.id_ambito.value = ambito[0].id;
     formAmbito.nombre.value = ambito[0].nombre;
     formAmbito.peso.value = ambito[0].peso;

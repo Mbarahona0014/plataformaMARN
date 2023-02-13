@@ -1,10 +1,11 @@
 const formEncabezado = document.querySelector("#form_encabezado");
 const formEvaluador = document.querySelector("#form_evaluador");
+const formDetalle = document.querySelector("#form_detalle");
 const fileInput = document.getElementById("imagenes");
 
 const idEncabezado = document.querySelector("#id_encabezado");
 
-/* const btnCancelar = document.querySelector("#btn_cancelar"); */
+const btnCancelar = document.querySelector("#btn_cancelar");
 const btnEnviarEncabezado = document.querySelector("#btn_agregar_encabezado");
 const btnEnviarEvaluador = document.querySelector("#btn_agregar_evaluador");
 
@@ -215,6 +216,7 @@ async function getHeaderById(id) {
   ).then((res) => res.json());
   if (success) {
     clearFormEvaluators();
+    formEncabezado.scrollIntoView({block: "end", behavior: "smooth"});
     formEncabezado.id_encabezado.value = encabezado[0].id;
     formEvaluador.id_encabezado.value = encabezado[0].id;
     formEncabezado.area.value = encabezado[0].id_area_natural;
@@ -353,6 +355,7 @@ const goReport = async (id) => {
   getRemainingTopics(encabezado[0].id);
   await getReport(id);
   await getScopes();
+  formDetalle.scrollIntoView({block: "end", behavior: "smooth"});
 };
 
 async function getReport(id) {

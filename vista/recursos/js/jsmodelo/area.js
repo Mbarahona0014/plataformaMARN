@@ -106,6 +106,7 @@ const getAreaById = async (id) => {
   );
 
   if (success) {
+    formArea.scrollIntoView({block: "end", behavior: "smooth"});
     formArea.id_area.value = area[0].id;
     formArea.nombre.value = area[0].nombre;
     formArea.ubicacion.value = area[0].ubicacion;

@@ -40,6 +40,7 @@ function alert(encabezado,mensaje,tipo){
 // Click para cancelar
 btnCancelar.addEventListener("click", (e) => {
   e.preventDefault();
+  clearFormPtsDesc();
   clearForm();
 });
 // Click para enviar datos
@@ -82,6 +83,9 @@ const clearFormPts = () => {
 const clearFormPtsDesc= () => {
   formPuntaje.id_puntaje.value  = "";
   formPuntaje.ptsDesc.value     = "";
+  $("#calloutText").text("No se ha seleccionado tema!");
+  $("#calloutTema").removeClass("callout-info");
+  $("#calloutTema").addClass("callout-warning");
 }
 
 // Función para cargar la información
@@ -187,6 +191,7 @@ const getTopicById = async (id) => {
     (res) => res.json()
   );
   if (success) {
+    formTema.scrollIntoView({block: "end", behavior: "smooth"});
     formTema.id_tema.value = tema[0].id;
     formTema.nombre.value = tema[0].nombre;
     formTema.desc.value = tema[0].descripcion;

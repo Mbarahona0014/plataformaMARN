@@ -118,6 +118,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             </div>
             <div class="form-group col-md-12">
               <button type="submit" id="btn_agregar_encabezado" class="btn btn-primary float-right mr-2">Guardar</button>
+              <button type="submit" id="btn_cancelar" class="btn btn-danger float-right mr-2">Cancelar</button>
             </div>
           </form>
         </div>

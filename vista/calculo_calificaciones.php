@@ -206,9 +206,6 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
         <div class="box-body">
           <canvas height="120" id="chartBar"></canvas>
         </div>
-        <div style="background:white; display:none;">
-          <img width="625" height="315" style="display:none;" id="imgChartBar" src="">
-        </div>
         <!-- /.box-body -->
       </div>
       <!-- /.box -->
@@ -281,12 +278,16 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
         <div class="box-body">
           <canvas height="120" id="chartLine"></canvas>
         </div>
-        <div style="background:white; display:none;">
-          <img width="625" height="315" id="imgChartLine" src="">
-        </div>
         <!-- /.box-body -->
       </div>
       <!-- /.box -->
+    </div>
+
+    <div>
+      <img style="background-color:white; display:none;" id="imgChartLine" width="625" height="315" src="">
+    </div>
+    <div>
+      <img style="background-color:white; display:none;" id="imgChartBar" width="625" height="315" src="">
     </div>
 </section>
 <!-- Chart.js -->

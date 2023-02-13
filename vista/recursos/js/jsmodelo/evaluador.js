@@ -111,6 +111,7 @@ const getEvaluatorById = async (id) => {
     (res) => res.json()
   );
   if (success) {
+    formEvaluador.scrollIntoView({block: "end", behavior: "smooth"});
     formEvaluador.id_evaluador.value = evaluador[0].id;
     formEvaluador.nombres.value = evaluador[0].nombres;
     formEvaluador.apellidos.value = evaluador[0].apellidos;

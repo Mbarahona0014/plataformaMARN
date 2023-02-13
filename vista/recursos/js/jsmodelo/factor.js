@@ -97,6 +97,7 @@ const getFactorById = async (id) => {
   );
 
   if (success) {
+    formFactor.scrollIntoView({block: "end", behavior: "smooth"});
     formFactor.id_factor.value = factor[0].id;
     formFactor.nombre.value = factor[0].nombre;
     formFactor.peso.value = factor[0].peso;
