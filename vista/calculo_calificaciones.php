@@ -133,31 +133,32 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
     </div>
     <div class="col-md-12" id="box_encabezado">
       <!-- Default box -->
-      <button class="btn btn-primary m-2" onclick="Export2Doc();">Exportar a Word</button><br><br>
+      <!-- <button class="btn btn-primary m-2" onclick="Export2Doc();">Exportar a Word</button><br><br> -->
       <div class="box" >
+        <button class="btn bg-maroon" onclick="Export2PDF('reporteANP.pdf');"><i class="fa fa-file-pdf-o"></i></button>
         <div class="box-header with-border" id="box_encabezado_header">
-
-        </div>
-        <!-- /.box-body -->
       </div>
+        <!-- /.box-body -->
+    </div>
       <!-- /.box -->
     </div>
     <div class="col-md-12">
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
+          <button class="btn btn-success" onclick="exportTable('#tabla_resumen');"><i class="fa fa-file-excel-o"></i></button>
           <h3 class="box-title"><b>Resumen de puntaje por ambito</b></h3>
         </div>
         <div class="box-body">
           <table id="tabla_resumen" class="table table-bordered display nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th style="width: 10%;">Ambito</th>
-                <th style="width: 10%;">Peso</th>
-                <th style="width: 10%;">Puntaje(UCG)</th>
-                <th style="width: 10%;">Puntaje(ANP)</th>
-                <th style="width: 10%;">Diferencia del puntaje</th>
-                <th style="width: 10%;">Porcentaje de avance</th>
+                <th style="width: 10%;">AMBITO</th>
+                <th style="width: 10%;">PESO</th>
+                <th style="width: 10%;">UCG</th>
+                <th style="width: 10%;">PUNTAJE</th>
+                <th style="width: 20%;">DIFERENCIA</th>
+                <th style="width: 20%;">PORCENTAJE</th>
               </tr>
             </thead>
             <tbody>
@@ -175,15 +176,16 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
+          <button class="btn btn-success" onclick="exportTable('#tabla_indicadores');"><i class="fa fa-file-excel-o"></i></button>
           <h3 class="box-title"><b>Escala de satisfaccion</b></h3>
         </div>
         <div class="box-body">
           <table id="tabla_indicadores" class="table table-bordered display nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th style="width: 10%;">Ambito</th>
-                <th style="width: 10%;">Indicador</th>
-                <th style="width: 10%;">Escala</th>
+                <th style="width: 40%;">AMBITO</th>
+                <th style="width: 30%;">INDICADOR</th>
+                <th style="width: 30%;">ESCALA</th>
               </tr>
             </thead>
             <tbody>
@@ -215,17 +217,18 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
+          <button class="btn btn-success" onclick="exportTable('#tabla_comparacion');"><i class="fa fa-file-excel-o"></i></button>
           <h3 class="box-title"><b>Comparacion Sobre la Calidad de Gestión de Manejo Año Anterior y Actual</b></h3>
         </div>
         <div class="box-body">
           <table id="tabla_comparacion" class="table table-bordered display nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th style="width: 10%;">Ambito</th>
-                <th style="width: 10%;">UCG</th>
-                <th style="width: 10%;">ANTERIOR</th>
-                <th style="width: 10%;">ACTUAL</th>
-                <th style="width: 10%;">%CG</th>
+                <th style="width: 20%;">AMBITO</th>
+                <th style="width: 20%;">UCG</th>
+                <th style="width: 20%;">ANTERIOR</th>
+                <th style="width: 20%;">ACTUAL</th>
+                <th style="width: 20%;">%CG</th>
               </tr>
             </thead>
             <tbody>
@@ -238,18 +241,18 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       </div>
       <!-- /.box -->
     </div>
-
     <div class="col-md-12">
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
+          <button class="btn btn-success" onclick="exportTable('#tabla_comparacion2');"><i class="fa fa-file-excel-o"></i></button>
           <h3 class="box-title"><b>Comparacion temporal sobre la Calidad de Gestión de Manejo Período Cinco Años</b></h3>
         </div>
         <div class="box-body">
           <table id="tabla_comparacion2" class="table table-bordered display nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th style="width: 10%;">Ambito</th>
+                <th style="width: 30%;">AMBITO</th>
                 <th style="width: 10%;">UCG</th>
                 <th style="width: 10%;">EV1</th>
                 <th style="width: 10%;">EV2</th>
@@ -282,17 +285,20 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       </div>
       <!-- /.box -->
     </div>
-
+    <img style="display:none;" id="imgLogo" width="200" height="55" src="recursos/images/logomarn.png">
     <div>
-      <img style="background-color:white; display:none;" id="imgChartLine" width="625" height="315" src="">
+      <img style="background-color:white; display:none;" id="imgChartLine" width="525" height="250" src="">
     </div>
     <div>
-      <img style="background-color:white; display:none;" id="imgChartBar" width="625" height="315" src="">
+      <img style="background-color:white; display:none;" id="imgChartBar" width="525" height="250" src="">
     </div>
 </section>
 <!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+<!-- JSPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
 <script src="./recursos/js/jsmodelo/calculo.js"></script>
+<script src="./recursos/js/table2CSV.js"></script>
 <script src="./dist/js/app.min.js"></script>
 </body>
 

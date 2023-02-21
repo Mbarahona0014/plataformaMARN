@@ -29,7 +29,105 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#box_encabezado").hide();
 });
 
-function Export2Doc(filename = "") {
+function Export2PDF(filename = "test.pdf") {
+  var preHtml =
+    `<html><head><meta charset='utf-8'><title>Export HTML To PDF</title>
+    <style>
+    *{
+      padding: 0;
+      margin: 0;
+      border: 0;
+    }
+    .banner {
+      margin-top:20px;
+      font-size:14px;
+      font-family: Verdana, sans-serif;
+    }
+    .box-tittle{
+      font-family: Verdana, sans-serif;
+      display: inline;
+      float: left;
+      text-align: right;
+      white-space: nowrap;
+      font-size:18px;
+    }
+    #box_encabezado_header {
+      font-family: Verdana, sans-serif;
+      font-size:16px;
+    }
+    table {
+      font-size:12px;
+      font-family    : Tahoma, sans-serif;
+      border         : 1px solid #000;
+      border-collapse: collapse;
+      width:100%;
+    }
+    
+    </style>
+    </head><body>`;
+  var style = ``;
+  var postHtml = "</body>" + style + "</html>";
+  var html = preHtml;
+  
+  var gra1 = document.getElementById("imgChartBar");
+  var gra2 = document.getElementById("imgChartLine");
+  var logo = document.getElementById("imgLogo");
+  gra1.setAttribute("src", document.querySelector("#chartBar").toDataURL());
+  gra2.setAttribute("src", document.querySelector("#chartLine").toDataURL());
+  html += '<div class="box-tittle">'+logo.outerHTML;
+  html += '<p>REPORTE DE EVALUACION DE EFECTIVIDAD DE MANEJO</p>';
+  html += '</br></br></br></div>';
+  html += document.getElementById("box_encabezado_header").outerHTML;
+  html += '<div class="banner">Resumen de puntaje por ambito</div></br></br></br>';
+  html += document.getElementById("tabla_resumen").outerHTML;
+  html += '<div class="banner">Escala de satisfaccion</div></br>';
+  html += document.getElementById("tabla_indicadores").outerHTML;
+  html +=
+    '<div class="banner">Grafico de escala de satisfaccion</div></br>';
+  html += gra1.outerHTML;
+  html +=
+    '<div class="banner">Comparacion sobre la calidad de gestion respecto año anterior</div></br>';
+  html += document.getElementById("tabla_comparacion").outerHTML;
+  html +=
+    '<div class="banner">Comparacion temporal de calidad de gestion 5 años</div></br>';
+  html += document.getElementById("tabla_comparacion2").outerHTML;
+  html +=
+    '<div class="banner">Grafico estadistico temporal</h3></div></br>';
+  html += gra2.outerHTML;
+  html += postHtml;
+  var pdf = new jsPDF('p', 'pt', 'letter');
+  margins = {
+      top: 20,
+      bottom: 20,
+      left: 20,
+      width: 625
+  };
+  // all coords and widths are in jsPDF instance's declared units
+  // 'inches' in this case
+  pdf.fromHTML(
+      html, // HTML string or DOM elem ref.
+      margins.left, // x coord
+      margins.top, { // y coord
+          'width': margins.width, // max width of content on PDF
+      },
+      function (dispose) {
+          // dispose: object with X, Y of the last line add to the PDF 
+          //          this allow the insertion of new lines after html
+          pdf.save(filename);
+      }, margins
+  );
+}
+
+function exportTable(table){
+  $(table).each(function () {
+    var $table_v = $(this);
+    var csv = $table_v.table2CSV({
+      delivery: 'value'
+    });
+    window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
+  });
+}
+/* function Export2Doc(filename = "") {
   var preHtml =
     `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title>
     <style>
@@ -88,7 +186,7 @@ function Export2Doc(filename = "") {
     '<div class="banner"><h3>GRAFICO ESTADISTICO COMPARACION TEMPORAL</h3></div>';
   html += gra2.outerHTML;
   html += postHtml;
-  /* var html = preHtml+document.getElementById(element).innerHTML+postHtml; */
+  //var html = preHtml+document.getElementById(element).innerHTML+postHtml;
   var blob = new Blob(["ufeff", html], {
     type: "application/msword",
   });
@@ -111,7 +209,7 @@ function Export2Doc(filename = "") {
     downloadLink.click();
   }
   document.body.removeChild(downloadLink);
-}
+} */
 
 const getAreas = async () => {
   const { data } = await fetch(`${urlAreas}?accion=list`).then((res) =>
