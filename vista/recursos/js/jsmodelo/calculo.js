@@ -18,6 +18,7 @@ const urlEvEn = "../controlador/evaluador_encabezado.controller.php";
 const urlReport = "../controlador/detalle_reporte.controller.php";
 
 document.addEventListener("DOMContentLoaded", async () => {
+
   await getAreas();
   await getHeader(0);
   await resumeTable(0);
@@ -487,11 +488,11 @@ async function reportComp2(id) {
     columns: [
       { data: "ambito" },
       { data: "ucg" },
-      { data: "ga1" },
-      { data: "ga2" },
-      { data: "ga3" },
-      { data: "ga4" },
       { data: "ga5" },
+      { data: "ga4" },
+      { data: "ga3" },
+      { data: "ga2" },
+      { data: "ga1" },
       { data: "ga6" },
     ],
     language: {
@@ -515,23 +516,35 @@ const graficarChartLine = async (id) => {
 
   if (data.length > 0) {
     data.forEach((item) => {
-      const { ga1, ga2, ga3, ga4, ga5, ga6 } = item;
+      const { ucg, ga1, ga2, ga3, ga4, ga5, ga6 } = item;
       nuevoArray.push([
-        { label: "EV1", data: ga1, producto: item.ambito },
-        { label: "EV2", data: ga2, producto: item.ambito },
-        { label: "EV3", data: ga3, producto: item.ambito },
-        { label: "EV4", data: ga4, producto: item.ambito },
-        { label: "EV5", data: ga5, producto: item.ambito },
+        { label: "UCG", data: ucg, producto: item.ambito },
+        { label: "-1 EV", data: ga1, producto: item.ambito },
+        { label: "-2 EV", data: ga2, producto: item.ambito },
+        { label: "-3 EV", data: ga3, producto: item.ambito },
+        { label: "-4 EV", data: ga4, producto: item.ambito },
+        { label: "-5 EV", data: ga5, producto: item.ambito },
         { label: "ACTUAL", data: ga6, producto: item.ambito },
       ]);
     });
 
-    const g1Array = nuevoArray.map((item) => item[0]);
-    const g2Array = nuevoArray.map((item) => item[1]);
-    const g3Array = nuevoArray.map((item) => item[2]);
-    const g4Array = nuevoArray.map((item) => item[3]);
-    const g5Array = nuevoArray.map((item) => item[4]);
-    const g6Array = nuevoArray.map((item) => item[5]);
+    const ucgArray = nuevoArray.map((item) => item[0]);
+    const g1Array = nuevoArray.map((item) => item[1]);
+    const g2Array = nuevoArray.map((item) => item[2]);
+    const g3Array = nuevoArray.map((item) => item[3]);
+    const g4Array = nuevoArray.map((item) => item[4]);
+    const g5Array = nuevoArray.map((item) => item[5]);
+    const g6Array = nuevoArray.map((item) => item[6]);
+
+    const ucgDataset = {
+      label: ucgArray[0].label,
+      data: ucgArray.map((item) => Number(item.data)),
+      backgroundColor: "rgba(102, 0, 204, 0.2)",
+      borderColor: "rgb(102, 0, 204)",
+      tension: 0.1,
+      fill: false,
+      hidden: true,
+    };
 
     const g1Dataset = {
       label: g1Array[0].label,
@@ -593,11 +606,12 @@ const graficarChartLine = async (id) => {
       hidden: true,
     };
 
-    datasets.push(g1Dataset);
-    datasets.push(g2Dataset);
-    datasets.push(g3Dataset);
-    datasets.push(g4Dataset);
+    datasets.push(ucgDataset);
     datasets.push(g5Dataset);
+    datasets.push(g4Dataset);
+    datasets.push(g3Dataset);
+    datasets.push(g2Dataset);
+    datasets.push(g1Dataset);
     datasets.push(g6Dataset);
   }
 

@@ -34,10 +34,6 @@ foreach($r as $c){
 <!-- agregando referencias de mapa -->
 <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/dark/main.css">
 
-
-
-
-
 <style>
       html,
       body,
@@ -57,7 +53,6 @@ foreach($r as $c){
             visibility: hidden;
         }
     }
-      
 </style>
 
   <body>
@@ -102,7 +97,7 @@ foreach($r as $c){
 
     </div>
 
-    <div class="col-md-3 " id="panel" >
+    <div class="col-md-3 " id="panel">
       <div>
       <div id="accordion" >
         <div class="card">
@@ -203,9 +198,9 @@ foreach($r as $c){
       </div>
     </div> -->
   </div>
-      </div>  
-    </div>
-  </div>
+</div>  
+</div>
+</div>
 
 
 

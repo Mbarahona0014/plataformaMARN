@@ -60,7 +60,8 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 <script src="recursos/media/js/jquery-1.10.2.js"></script>
 <script src="recursos/media/js/bootstrap.js"></script>
 <script type="text/javascript" src="recursos/js/jsmodelo/jsusuario.js"></script>
-
+<!-- agregando referencias de mapa -->
+<link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/dark/main.css">
 <link rel="stylesheet" href="recursos/css/select2.css">
 <script type="text/javascript" src="recursos/js/select2.js"></script>
 <script type="text/javascript" src="recursos/plugins/sweetalert2/sweetalert2.js"></script>
@@ -71,6 +72,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
+  
   <h1>
     <h1><b>Ingreso de datos de evaluación</b></h1>
   </h1>
@@ -93,6 +95,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       </div>
     </div>
   </div>
+  
   <div class="row">
     <div class="col-md-12">
       <!-- Default box -->
@@ -254,11 +257,11 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               <tr>
                 <th style="width: 30%;">AMBITO</th>
                 <th style="width: 10%;">UCG</th>
-                <th style="width: 10%;">EV1</th>
-                <th style="width: 10%;">EV2</th>
-                <th style="width: 10%;">EV3</th>
-                <th style="width: 10%;">EV4</th>
-                <th style="width: 10%;">EV5</th>
+                <th style="width: 10%;">-5 EV</th>
+                <th style="width: 10%;">-4 EV</th>
+                <th style="width: 10%;">-3 EV</th>
+                <th style="width: 10%;">-2 EV</th>
+                <th style="width: 10%;">-1 EV</th>
                 <th style="width: 10%;">ACTUAL</th>
               </tr>
             </thead>
@@ -297,6 +300,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
 <!-- JSPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+<script src="https://js.arcgis.com/4.23/"></script>
 <script src="./recursos/js/jsmodelo/calculo.js"></script>
 <script src="./recursos/js/table2CSV.js"></script>
 <script src="./dist/js/app.min.js"></script>
