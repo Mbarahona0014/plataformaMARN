@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#div_observaciones").hide();
   $("#div_evidencias").hide();
   $("#div_imagen").hide();
+  $("#btnValidar").hide();
 });
 
 function alert(encabezado, mensaje, tipo) {
@@ -216,7 +217,7 @@ async function getHeaderById(id) {
   ).then((res) => res.json());
   if (success) {
     clearFormEvaluators();
-    formEncabezado.scrollIntoView({block: "end", behavior: "smooth"});
+    formEncabezado.scrollIntoView({ block: "end", behavior: "smooth" });
     formEncabezado.id_encabezado.value = encabezado[0].id;
     formEvaluador.id_encabezado.value = encabezado[0].id;
     formEncabezado.area.value = encabezado[0].id_area_natural;
@@ -331,9 +332,11 @@ async function getRemainingTopics(idEn) {
   ).then((res) => res.json());
   if (success) {
     if (temas[0]["pendientes"] == 0) {
+      $("#btnValidar").show(400);
       updaterHeaderStatus("1", idEn);
       $("#temasPendientes").text("Esta evaluacion ya está finalizada");
     } else {
+      $("#btnValidar").hide(400);
       updaterHeaderStatus("0", idEn);
       $("#temasPendientes").text(temas[0]["pendientes"]);
     }
@@ -355,7 +358,7 @@ const goReport = async (id) => {
   getRemainingTopics(encabezado[0].id);
   await getReport(id);
   await getScopes();
-  formDetalle.scrollIntoView({block: "end", behavior: "smooth"});
+  formDetalle.scrollIntoView({ block: "end", behavior: "smooth" });
 };
 
 async function getReport(id) {
@@ -665,3 +668,8 @@ const listarArchivos = async (id) => {
       });
   });
 };
+
+$("#btnValidar").click(function (e) {
+  e.preventDefault();
+  console.log("Voy a Validar");
+});

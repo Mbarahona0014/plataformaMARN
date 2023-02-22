@@ -220,3 +220,41 @@ BEGIN
   END IF;
 END
 $$
+
+-- Histórico - ANP
+CREATE TABLE IF NOT EXISTS `historico_anp` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_encabezado` int DEFAULT NULL,
+  `id_ambito` int DEFAULT NULL,
+  `nombre_ambito` varchar(100) DEFAULT NULL,
+  `peso_ambito` decimal(6,2) DEFAULT 0,
+  `puntaje` decimal(6,2) DEFAULT 0,
+  `suma_peso_factor` decimal(6,2) DEFAULT 0,
+  `puntaje_ucg` decimal(6,2) DEFAULT 0,
+  `peso_factor` decimal(6,2) DEFAULT 0,
+  `puntaje_factor` decimal(6,2) DEFAULT 0,
+  `total_peso_factor` decimal(6,2) DEFAULT 0,
+  `peso_indicador` decimal(6,2) DEFAULT 0,
+  `puntaje_indicador` decimal(6,2) DEFAULT 0,
+  `peso_anp` decimal(6,2) DEFAULT 0,
+  `puntaje_anp` decimal(6,2) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_histo_enca` FOREIGN KEY (`id_encabezado`) REFERENCES `encabezado_reporte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_histo_ambi` FOREIGN KEY (`id_ambito`) REFERENCES `ambito` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
+
+-- Procedimiento para insertar información al histórico.
+DELIMITER $$
+DROP PROCEDURE IF EXISTS insertarHistorico$$
+CREATE PROCEDURE insertarHistorico(
+  IN id_enca INT, IN id_ambi INT, IN nombre_ambi VARCHAR(100), IN peso_ambi DECIMAL(6,2), IN puntaje DECIMAL(6,2),
+  IN suma_peso_fact DECIMAL(6,2), IN punta_ucg DECIMAL(6,2), IN peso_fact DECIMAL(6,2), IN punta_fact DECIMAL(6,2),
+  IN tot_peso_fact DECIMAL(6,2), IN peso_indica DECIMAL(6,2), IN punta_indica DECIMAL(6,2), IN peso_anp DECIMAL(6,2),
+  IN punta_anp DECIMAL(6,2)
+)
+BEGIN
+  INSERT INTO historico_anp
+  VALUES
+  (NULL, id_enca, id_ambi, nombre_ambi, peso_ambi, puntaje, suma_peso_fact, punta_ucg, peso_fact, punta_fact, tot_peso_fact, peso_indica, punta_indica, peso_anp, punta_anp);
+END
+$$

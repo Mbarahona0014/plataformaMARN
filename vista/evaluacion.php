@@ -225,6 +225,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               <div class="info-box-content">
                 <span class="info-box-text">Temas pendientes de evaluar</span>
                 <span class="info-box-number" name="temasPendientes" id="temasPendientes"></span>
+                <button id="btnValidar" class="btn btn-warning">Validar</button>
               </div>
             </div>
           </div>
