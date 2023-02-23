@@ -18,6 +18,8 @@ let tabla_encabezado = "";
 let tabla_evaluacion = "";
 let tabla_reporte = "";
 let tabla_archivos = "";
+let idTema = "";
+let idPunta = "";
 
 const url = "../controlador/encabezado_reporte.controller.php";
 const urlAreas = "../controlador/area.controller.php";
@@ -31,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   fillArea();
   fillAreaCon();
   fillEvaluador();
-  $('.select2').select2();
+  $(".select2").select2();
   $("#div_reporte").hide();
   $("#form_detalle").hide();
   $("#div_tema").hide();
@@ -40,7 +42,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#div_evidencias").hide();
   $("#div_imagen").hide();
   $("#btnValidar").hide();
-
 });
 
 function alert(encabezado, mensaje, tipo) {
@@ -387,6 +388,7 @@ async function getReport(id) {
         searchable: false,
         render: function (data) {
           return `
+            <button title="Editar" class="btn btn-primary btn-sm" onclick="getEvaluation(${data})"><i class="fa fa-pencil"></i></button>
             <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteDetail(${data})"><i class="fa fa-trash"></i></button>
             <button title="Ver Archivos" class="btn btn-info btn-sm" onclick="abrirModal(${data})"><i class="fa fa-file"></i></button>
           `;
@@ -674,4 +676,126 @@ const listarArchivos = async (id) => {
 $("#btnValidar").click(function (e) {
   e.preventDefault();
   console.log("Voy a Validar");
+});
+
+const getEvaluation = async (idEvaluacion) => {
+  const url = `../controlador/ambito.controller.php?accion=list`;
+  const { data } = await fetch(url).then((res) => res.json());
+  let html = "";
+
+  html += '<option value="">Seleccione un ámbito</option>';
+  data.forEach((scope) => {
+    html += `<option value="${scope.id}">${scope.nombre}</option>`;
+  });
+  if (data.length > 0) {
+    $("#id_ambito_edi").html(html);
+  } else {
+    html = `<option value="">No hay ámbitos para mostrar</option>`;
+  }
+  // Formulario
+  $("#id_detalle_edi").val(idEvaluacion);
+  $("#modal_edi_eva").modal({ backdrop: "static", keyboard: false });
+  $("#modal_edi_eva").modal("show");
+  // Data
+  const { detalle, success } = await fetch(
+    `${urlReport}?accion=getDetailsById&id=${idEvaluacion}`
+  ).then((res) => res.json());
+  if (success) {
+    $("#id_ambito_edi").val(detalle.id_ambito).trigger("change");
+    idTema = detalle.id_tema;
+    idPunta = detalle.id_puntaje;
+    $("#obser_deta_edi").val(detalle.observaciones);
+    $("#evi_deta_edi").val(detalle.evidencia);
+  } else {
+    $("#id_ambito_edi").val("").trigger("change");
+    idTema = "";
+    idPunta = "";
+  }
+};
+
+$("#id_ambito_edi").change(async () => {
+  //Modificar selector para que los temas mostrados solo sean los pendientes de evaluar
+  const id_ambito = $("#id_ambito_edi").val();
+  const url = `../controlador/tema.controller.php`;
+  if (id_ambito.length > 0) {
+    const { success, temas } = await fetch(
+      `${url}?accion=getRemainingByScope2&id=${id_ambito}`
+    ).then((res) => res.json());
+    let html = "";
+    if (success) {
+      html += '<option value="">Seleccione un tema</option>';
+      temas.forEach((tema) => {
+        html += `<option value="${tema.id}">${tema.nombre}</option>`;
+      });
+      if (temas.length > 0) {
+        $("#id_tema_edi").html(html);
+        $("#id_tema_edi").trigger("change");
+        if (idTema != "") {
+          $("#id_tema_edi").val(idTema).trigger("change");
+        } else {
+          $("#id_tema_edi").val("").trigger("change");
+        }
+      } else {
+        html = `<option value="">No hay temas para mostrar</option>`;
+      }
+    } else {
+      alert("Finalizado", "Todos los temas han sido evaluados", "info");
+      $("#id_tema_edi").val("").trigger("change");
+    }
+  } else {
+    //Indicar que los temas ya fueron evaluados
+    $("#id_tema_edi").val("").trigger("change");
+  }
+});
+
+$("#id_tema_edi").change(async () => {
+  const id_tema = $("#id_tema_edi").val();
+  const url = `../controlador/tema.controller.php`;
+
+  if (id_tema.length > 0) {
+    const { success, puntajes } = await fetch(
+      `${url}?accion=getByTopic&id=${id_tema}`
+    ).then((res) => res.json());
+    let html = "";
+    if (success) {
+      html += '<option value="">Seleccione un puntaje</option>';
+      puntajes.forEach((puntaje) => {
+        html += `<option value="${puntaje.id}">${puntaje.puntaje}</option>`;
+      });
+      if (puntajes.length > 0) {
+        $("#id_puntaje_edi").html(html);
+        $("#id_puntaje_edi").trigger("change");
+        if (idPunta != "") {
+          $("#id_puntaje_edi").val(idPunta).trigger("change");
+        } else {
+          $("#id_puntaje_edi").val("").trigger("change");
+        }
+      } else {
+        html = `<option value="">No hay puntajes para mostrar</option>`;
+      }
+    } else {
+      $("#id_puntaje_edi").val("").trigger("change");
+    }
+  } else {
+    $("#id_puntaje_edi").val("").trigger("change");
+  }
+});
+
+$("#btn_editar_detalle").click(async (e) => {
+  e.preventDefault();
+  const idDetalle = $("#id_detalle_edi").val();
+  const accion = `${urlReport}?accion=update&id=${idDetalle}`;
+
+  const { success, mensaje } = await fetch(accion, {
+    method: "POST",
+    body: new FormData($("#form_edi_eva")[0]),
+  }).then((res) => res.json());
+
+  if (success) {
+    $("#modal_edi_eva").modal("hide");
+    tabla_reporte.ajax.reload();
+    return alert("¡Exito!", mensaje, "success");
+  } else {
+    return alert("¡Error!", mensaje, "error");
+  }
 });

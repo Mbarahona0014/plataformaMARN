@@ -99,6 +99,27 @@ if (isset($_POST) || isset($_GET)) {
           }
         }
         break;
+      case 'update':
+        if (!$idAmbito || !$idTema || !$idPuntaje || !$obserDeta || !$eviDeta) {
+          print_r(json_encode([
+            "success" => false,
+            "mensaje" => "¡Debe ingresar todos los datos!"
+          ]));
+        } else {
+          $detail = $dm->updateDetail($eviDeta, $obserDeta, $idTema, $idAmbito, $idPuntaje, $id_get);
+          if ($detail) {
+            print_r(json_encode([
+              "success" => true,
+              "mensaje" => "¡Detalle actualizado correctamente!",
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          } else {
+            print_r(json_encode([
+              "success" => false,
+              "mensaje" => "¡Ocurrio un error!",
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          }
+        }
+        break;
       case 'getByHeader':
         if ($id_get) {
           $details = $dm->getDetailsByHeader($id_get);
@@ -110,6 +131,22 @@ if (isset($_POST) || isset($_GET)) {
               "iTotalRecords" => 0,
               "iTotalDisplayRecords" => 0,
               "aaData" => []
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          }
+        }
+        break;
+      case 'getDetailsById':
+        if ($id_get) {
+          $details = $dm->getDetailsById($id_get);
+          if ($details) {
+            print_r(json_encode([
+              "success" => true,
+              "detalle" => $details
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          } else {
+            print_r(json_encode([
+              "success" => false,
+              "detalle" => []
             ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
           }
         }

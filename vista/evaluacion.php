@@ -138,7 +138,6 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
           </div>
         </div>
 
-
         <div class="box-body">
           <form id="form_evaluador" class="row">
             <input type="hidden" name="id_encabezado" id="id_encabezado">
@@ -198,7 +197,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             </tbody>
             <tfoot>
               <tr>
-              <th style="width: 10%;">Numero</th>
+                <th style="width: 10%;">Numero</th>
                 <th style="width: 25%;">Area natural</th>
                 <th style="width: 25%;">Area de conservacion</th>
                 <th style="width: 20%;">Fecha de evaluacion</th>
@@ -352,6 +351,64 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Cerrar
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="modal_edi_eva" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Formulario Editar Evaluación
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <form id="form_edi_eva" class="row">
+              <input type="hidden" name="id_detalle_edi" id="id_detalle_edi">
+              <div class="form-group col-md-6 mb-3">
+                <div class="form-group">
+                  <label>Selecciona el ámbito</label>
+                  <select name="id_ambito" id="id_ambito_edi" class="form-control">
+
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-md-6 mb-3" id="div_tema_edi">
+                <div class="form-group">
+                  <label>Selecciona el tema</label>
+                  <select name="id_tema" id="id_tema_edi" class="form-control">
+
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-md-12 mb-3" id="div_puntaje_edi">
+                <div class="form-group">
+                  <label>Selecciona el puntaje</label>
+                  <select name="id_puntaje" id="id_puntaje_edi" class="form-control">
+
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-md-6 mb-3" id="div_observaciones_edi">
+                <label for="obser_deta_edi">Observaciones:</label>
+                <textarea class="form-control" name="obser_deta" id="obser_deta_edi" rows="5" placeholder="Ingrese las observaciones"></textarea>
+              </div>
+              <div class="form-group col-md-6 mb-3" id="div_evidencias_edi">
+                <label for="evi_deta_edi">Evidencia:</label>
+                <textarea class="form-control" name="evi_deta" id="evi_deta_edi" rows="5" placeholder="Ingrese las evidencias"></textarea>
+              </div>
+              <div class="form-group col-md-12">
+                <button type="submit" id="btn_editar_detalle" class="btn btn-primary">Editar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                  Cerrar
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

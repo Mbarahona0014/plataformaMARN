@@ -114,6 +114,22 @@ if (isset($_POST) || isset($_GET)) {
             ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
           }
         }
+        case 'getRemainingByScope2':
+          if ($id_get) {
+            // Verificamos que todo esté correcto
+            $topics = $tm->getRemainingTopicByScope2($id_get);
+            if ($topics) {
+              print_r(json_encode([
+                "success" => true,
+                "temas" => $topics
+              ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+            } else {
+              print_r(json_encode([
+                "success" => false,
+                "temas" => []
+              ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+            }
+          }
         break;
         case 'getRemainingTopic':
           if ($id_en_get) {

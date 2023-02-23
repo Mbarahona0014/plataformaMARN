@@ -42,7 +42,7 @@ class Topic
     return $topics;
   }
   // Método para crear un tema
-  public function createTopic($nom, $descrip, $obser,$pes,$id_am,$id_fa)
+  public function createTopic($nom, $descrip, $obser, $pes, $id_am, $id_fa)
   {
     // Obtenemos la conexion
     global $con;
@@ -105,7 +105,8 @@ class Topic
     return $topic;
   }
 
-  public function getRemainingTopicByScope($id_am,$id_en){
+  public function getRemainingTopicByScope($id_am, $id_en)
+  {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
@@ -134,7 +135,36 @@ class Topic
     return $topics;
   }
 
-  public function updaterHeaderStatus($est,$id)
+  public function getRemainingTopicByScope2($id_am)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $topics = [];
+    // Consulta
+    $sql = "SELECT * FROM tema WHERE id_ambito = :n1";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Asignamos valores a los parámetros
+      $stmt->bindParam(':n1', $id_am, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $topics = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $topics;
+  }
+
+  public function updaterHeaderStatus($est, $id)
   {
     // Obtenemos la conexion
     global $con;
@@ -164,7 +194,8 @@ class Topic
     return $rHeader;
   }
 
-  public function getRemainingTopic($id_en){
+  public function getRemainingTopic($id_en)
+  {
     // Obtenemos la conexion
     global $con;
     // Variable para almacenar el resultado de la consulta
@@ -252,7 +283,7 @@ class Topic
   }
 
   // Método para actualizar un tema
-  public function updateTopic($nom, $descrip, $obser,$pes, $id_am,$id_fa, $id)
+  public function updateTopic($nom, $descrip, $obser, $pes, $id_am, $id_fa, $id)
   {
     // Obtenemos la conexion
     global $con;

@@ -77,6 +77,35 @@ class dReport
     return $details;
   }
 
+  public function getDetailsById($id)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $details = [];
+    // Consulta
+    $sql = "SELECT * FROM detalle_reporte a WHERE a.id = :n1;";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Asignamos valores a los parámetros
+      $stmt->bindParam(':n1', $id, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $details = $stmt->fetch();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $details;
+  }
+
   public function getLastId()
   {
     // Obtenemos la conexion
@@ -138,6 +167,40 @@ class dReport
     }
     // Retornamos el resultado de la consulta
     return $insert;
+  }
+
+  public function updateDetail($evi, $obser, $idTema, $idAmbito, $idPuntaje, $id)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $update = false;
+    // Consulta
+    $sql = "UPDATE detalle_reporte SET evidencia = :n1, observaciones = :n2, id_tema = :n3, id_ambito = :n4, id_puntaje = :n5 WHERE id = :n6;";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Asignamos valores a los parámetros
+      $stmt->bindParam(':n1', $evi, PDO::PARAM_STR);
+      $stmt->bindParam(':n2', $obser, PDO::PARAM_STR);
+      $stmt->bindParam(':n3', $idTema, PDO::PARAM_INT);
+      $stmt->bindParam(':n4', $idAmbito, PDO::PARAM_INT);
+      $stmt->bindParam(':n5', $idPuntaje, PDO::PARAM_INT);
+      $stmt->bindParam(':n6', $id, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $update = true;
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $update;
   }
 
   public function saveFile($arch, $id_eva)
