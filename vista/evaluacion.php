@@ -99,15 +99,14 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <div class="form-group col-md-12 mb-3">
               <div class="form-group">
                 <label>Area natural</label>
-                <select name="area" id="area" class="form-control">
-
+                <select class="form-control select2" name="area" id="area" class="form-control">
                 </select>
               </div>
             </div>
             <div class="form-group col-md-12 mb-3">
               <div class="form-group">
                 <label>Area de conservacion</label>
-                <select name="conservacion" id="conservacion" class="form-control">
+                <select class="form-control select2" name="conservacion" id="conservacion" class="form-control">
 
                 </select>
               </div>
@@ -159,7 +158,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <div class="form-group col-md-12 mb-3">
               <div class="form-group">
                 <label>Selecciona el evaluador</label>
-                <select name="evaluador" id="evaluador" class="form-control">
+                <select class="form-control select2" name="evaluador" id="evaluador" class="form-control">
 
                 </select>
               </div>
@@ -246,7 +245,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <div class="col-md-12 mb-3">
               <h5><b>Área Natural:</b> <span id="spa_area"></span></h5>
             </div>
-            <div class="form-group col-md-4 mb-3">
+            <div class="form-group col-md-6 mb-3">
               <div class="form-group">
                 <label>Selecciona el ámbito</label>
                 <select name="id_ambito" id="id_ambito" class="form-control">
@@ -254,7 +253,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 </select>
               </div>
             </div>
-            <div class="form-group col-md-4 mb-3" id="div_tema">
+            <div class="form-group col-md-6 mb-3" id="div_tema">
               <div class="form-group">
                 <label>Selecciona el tema</label>
                 <select name="id_tema" id="id_tema" class="form-control">
@@ -262,7 +261,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
                 </select>
               </div>
             </div>
-            <div class="form-group col-md-4 mb-3" id="div_puntaje">
+            <div class="form-group col-md-12 mb-3" id="div_puntaje">
               <div class="form-group">
                 <label>Selecciona el puntaje</label>
                 <select name="id_puntaje" id="id_puntaje" class="form-control">

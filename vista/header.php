@@ -59,6 +59,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
+      .main-header{
+        position: sticky;
+        top: 0;
+      }
+      .sidebar{
+        position: sticky;
+        top: 0;
+      }
       .swal2-container {
         zoom: 1.5;
       }
@@ -101,10 +109,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   |---------------------------------------------------------|
   -->
   <body class="hold-transition skin-green sidebar-mini">
-    <div class="wrapper">
+    <div class="wrapper" style="overflow:visible visible;">
 
       <!-- Main Header -->
-      <header class="main-header" >
+      <header class="main-header">
 
         <a href="#" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->

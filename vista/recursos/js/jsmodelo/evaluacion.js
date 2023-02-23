@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   fillArea();
   fillAreaCon();
   fillEvaluador();
+  $('.select2').select2();
   $("#div_reporte").hide();
   $("#form_detalle").hide();
   $("#div_tema").hide();
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#div_evidencias").hide();
   $("#div_imagen").hide();
   $("#btnValidar").hide();
+
 });
 
 function alert(encabezado, mensaje, tipo) {
