@@ -169,6 +169,46 @@ class rHeader
     return $rHeader;
   }
 
+  public function validateCalc($id_en){
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $details = [];
+    // Consulta<
+    $sql = "SELECT dr.id_ambito ambito,
+    (SELECT a.nombre FROM ambito a WHERE a.id=dr.id_ambito) nombreAmbito,
+    (SELECT a.peso FROM ambito a WHERE a.id=dr.id_ambito) pesoAmbito,
+    @sumaPesoFactor := (SELECT SUM(t.peso) FROM tema t WHERE t.id_factor=(SELECT f.id FROM tema t INNER JOIN factor f ON t.id_factor=f.id WHERE t.id=dr.id_tema)) sumaPesoFactor,
+    @puntaje:= (SELECT p.puntaje FROM puntaje p WHERE p.id=dr.id_puntaje) puntaje,
+    @pesoFactor:= (SELECT f.peso FROM tema t INNER JOIN factor f ON t.id_factor=f.id WHERE t.id=dr.id_tema) pesoFactor,
+    @puntajeUCG:= (((SELECT a.peso FROM ambito a WHERE a.id=dr.id_ambito)/(SELECT SUM(peso) FROM ambito))*1000) puntajeUCG,
+    @totalPesoFactor:= (SELECT SUM(f.peso) from factor f WHERE f.id IN (SELECT id_factor FROM tema WHERE id_ambito=dr.id_ambito)) totalPesoFactor,
+    @puntajeFactor := ((@pesoFactor*@puntajeUCG)/@totalPesoFactor) puntajeFactor,
+    @pesoIndicador := (SELECT t.peso FROM tema t WHERE t.id=dr.id_tema) pesoIndicador,
+    @puntajeIndicador := (@pesoIndicador*@puntajeFactor)/@sumaPesoFactor puntajeIndicador,
+    @pesoAnp:= ((@puntaje-1)*0.25)*@pesoIndicador pesoAnp,
+    @puntajeAnp:= (@pesoAnp*@puntajeIndicador)/@pesoIndicador puntajeAnp
+    FROM detalle_reporte dr
+    WHERE dr.id_encabezado=:n1";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $details["data"] = $stmt->fetchAll();
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $details;
+  }
+
   public function updaterHeaderStatus($est, $id)
   {
     // Obtenemos la conexion

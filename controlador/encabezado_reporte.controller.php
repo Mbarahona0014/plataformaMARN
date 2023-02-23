@@ -156,6 +156,19 @@ if (isset($_POST) || isset($_GET)) {
                     }
                 }
                 break;
+                case 'resume':
+                    $details = $hm->validateCalc($id_get);
+                    if ($details) {
+                      print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                    } else {
+                      print_r(json_encode([
+                        "sEcho" => 1,
+                        "iTotalRecords" => 0,
+                        "iTotalDisplayRecords" => 0,
+                        "aaData" => []
+                      ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                    }
+                break;
             default:
                 print_r(json_encode([
                     "success" => false,

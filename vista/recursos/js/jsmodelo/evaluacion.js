@@ -25,6 +25,7 @@ const url = "../controlador/encabezado_reporte.controller.php";
 const urlAreas = "../controlador/area.controller.php";
 const urlEvaluadores = "../controlador/evaluador.controller.php";
 const urlEvEn = "../controlador/evaluador_encabezado.controller.php";
+const urlHis = "../controlador/historico.controller.php";
 const urlReport = "../controlador/detalle_reporte.controller.php";
 const urlDescargar = "../controlador/descargar.controller.php";
 
@@ -87,6 +88,29 @@ function fillArea() {
         $("#area").append(
           "<option value='" + id_select + "'>" + name_select + "</option>"
         );
+      });
+    },
+  });
+}
+
+//FUNCION PARA LLENAR SELECTOR DE AREAS
+function getH(idEn) {
+  $.ajax({
+    method: "GET",
+    url: `${url}?accion=resume&id=${idEn}`,
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function (response) {
+      $.each(response["data"], function (id, valor) {
+        const accion = `${urlHis}?accion=create&id=${idEn}&id_am=${valor["ambito"]}&n_am=${valor["nombreAmbito"]}&p_am=${valor["pesoAmbito"]}&pt=${valor["puntaje"]}&spf=${valor["sumaPesoFactor"]}&ptucg=${valor["puntajeUCG"]}&pfa=${valor["pesoFactor"]}&ptfac=${valor["puntajeFactor"]}&totpf=${valor["totalPesoFactor"]}&pi=${valor["pesoIndicador"]}&pti=${valor["puntajeIndicador"]}&pANP=${valor["pesoAnp"]}&ptANP=${valor["puntajeANP"]}`;
+        const { success, mensaje } = fetch(accion, {
+          method: "GET",
+        });
+        /* var id_select = valor["id"];
+        var name_select = valor["nombre"];
+        $("#area").append(
+          "<option value='" + id_select + "'>" + name_select + "</option>"
+        ); */
       });
     },
   });
@@ -676,6 +700,7 @@ const listarArchivos = async (id) => {
 $("#btnValidar").click(function (e) {
   e.preventDefault();
   console.log("Voy a Validar");
+  getH($("#id_encabezado_detalle").val());
 });
 
 const getEvaluation = async (idEvaluacion) => {
