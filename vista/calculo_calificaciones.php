@@ -50,6 +50,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
     } */
   }
 </style>
+
 <link rel="stylesheet" href="recursos/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css">
 <!--CSS-->
 
@@ -65,14 +66,19 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 <link rel="stylesheet" href="recursos/css/select2.css">
 <script type="text/javascript" src="recursos/js/select2.js"></script>
 <script type="text/javascript" src="recursos/plugins/sweetalert2/sweetalert2.js"></script>
+<!-- links para exportar a excel -->
+<script src="./recursos/js/toExcel/xlsx.full.min.js"></script>
+<script src="./recursos/js/toExcel/FileSaver.min.js"></script>
+<script src="./recursos/js/toExcel/tableexport.min.js"></script>
 
 <script src="recursos/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="recursos/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="recursos/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
 
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
-  
+
   <h1>
     <h1><b>Ingreso de datos de evaluación</b></h1>
   </h1>
@@ -95,7 +101,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       </div>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="col-md-12">
       <!-- Default box -->
@@ -137,19 +143,19 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
     <div class="col-md-12" id="box_encabezado">
       <!-- Default box -->
       <!-- <button class="btn btn-primary m-2" onclick="Export2Doc();">Exportar a Word</button><br><br> -->
-      <div class="box" >
+      <div class="box">
         <button class="btn bg-maroon" onclick="Export2PDF('reporteANP.pdf');"><i class="fa fa-file-pdf-o"></i></button>
         <div class="box-header with-border" id="box_encabezado_header">
-      </div>
+        </div>
         <!-- /.box-body -->
-    </div>
+      </div>
       <!-- /.box -->
     </div>
     <div class="col-md-12">
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <button class="btn btn-success" onclick="exportTable('#tabla_resumen');"><i class="fa fa-file-excel-o"></i></button>
+          <button class="btn btn-success" onclick="exportToExcel('tabla_resumen');"><i class="fa fa-file-excel-o"></i></button>
           <h3 class="box-title"><b>Resumen de puntaje por ambito</b></h3>
         </div>
         <div class="box-body">
@@ -179,7 +185,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <button class="btn btn-success" onclick="exportTable('#tabla_indicadores');"><i class="fa fa-file-excel-o"></i></button>
+          <button class="btn btn-success" onclick="exportToExcel('tabla_indicadores');"><i class="fa fa-file-excel-o"></i></button>
           <h3 class="box-title"><b>Escala de satisfaccion</b></h3>
         </div>
         <div class="box-body">
@@ -220,7 +226,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <button class="btn btn-success" onclick="exportTable('#tabla_comparacion');"><i class="fa fa-file-excel-o"></i></button>
+          <button class="btn btn-success" onclick="exportToExcel('tabla_comparacion');"><i class="fa fa-file-excel-o"></i></button>
           <h3 class="box-title"><b>Comparacion Sobre la Calidad de Gestión de Manejo Año Anterior y Actual</b></h3>
         </div>
         <div class="box-body">
@@ -248,7 +254,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <button class="btn btn-success" onclick="exportTable('#tabla_comparacion2');"><i class="fa fa-file-excel-o"></i></button>
+          <button class="btn btn-success" onclick="exportToExcel('tabla_comparacion2');"><i class="fa fa-file-excel-o"></i></button>
           <h3 class="box-title"><b>Comparacion temporal sobre la Calidad de Gestión de Manejo Período Cinco Años</b></h3>
         </div>
         <div class="box-body">
@@ -301,8 +307,8 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 <!-- JSPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
 <script src="https://js.arcgis.com/4.23/"></script>
+<!-- <script src="./recursos/js/table2CSV.js"></script> -->
 <script src="./recursos/js/jsmodelo/calculo.js"></script>
-<script src="./recursos/js/table2CSV.js"></script>
 <script src="./dist/js/app.min.js"></script>
 </body>
 
