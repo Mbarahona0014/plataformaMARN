@@ -18,7 +18,6 @@ const urlEvEn = "../controlador/evaluador_encabezado.controller.php";
 const urlReport = "../controlador/detalle_reporte.controller.php";
 
 document.addEventListener("DOMContentLoaded", async () => {
-
   await getAreas();
   await getHeader(0);
   await resumeTable(0);
@@ -31,8 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 function Export2PDF(filename = "test.pdf") {
-  var preHtml =
-    `<html><head><meta charset='utf-8'><title>Export HTML To PDF</title>
+  var preHtml = `<html><head><meta charset='utf-8'><title>Export HTML To PDF</title>
     <style>
     *{
       padding: 0;
@@ -69,22 +67,22 @@ function Export2PDF(filename = "test.pdf") {
   var style = ``;
   var postHtml = "</body>" + style + "</html>";
   var html = preHtml;
-  
+
   var gra1 = document.getElementById("imgChartBar");
   var gra2 = document.getElementById("imgChartLine");
   var logo = document.getElementById("imgLogo");
   gra1.setAttribute("src", document.querySelector("#chartBar").toDataURL());
   gra2.setAttribute("src", document.querySelector("#chartLine").toDataURL());
-  html += '<div class="box-tittle">'+logo.outerHTML;
-  html += '<p>REPORTE DE EVALUACION DE EFECTIVIDAD DE MANEJO</p>';
-  html += '</br></br></br></div>';
+  html += '<div class="box-tittle">' + logo.outerHTML;
+  html += "<p>REPORTE DE EVALUACION DE EFECTIVIDAD DE MANEJO</p>";
+  html += "</br></br></br></div>";
   html += document.getElementById("box_encabezado_header").outerHTML;
-  html += '<div class="banner">Resumen de puntaje por ambito</div></br></br></br>';
+  html +=
+    '<div class="banner">Resumen de puntaje por ambito</div></br></br></br>';
   html += document.getElementById("tabla_resumen").outerHTML;
   html += '<div class="banner">Escala de satisfaccion</div></br>';
   html += document.getElementById("tabla_indicadores").outerHTML;
-  html +=
-    '<div class="banner">Grafico de escala de satisfaccion</div></br>';
+  html += '<div class="banner">Grafico de escala de satisfaccion</div></br>';
   html += gra1.outerHTML;
   html +=
     '<div class="banner">Comparacion sobre la calidad de gestion respecto año anterior</div></br>';
@@ -92,40 +90,43 @@ function Export2PDF(filename = "test.pdf") {
   html +=
     '<div class="banner">Comparacion temporal de calidad de gestion 5 años</div></br>';
   html += document.getElementById("tabla_comparacion2").outerHTML;
-  html +=
-    '<div class="banner">Grafico estadistico temporal</h3></div></br>';
+  html += '<div class="banner">Grafico estadistico temporal</h3></div></br>';
   html += gra2.outerHTML;
   html += postHtml;
-  var pdf = new jsPDF('p', 'pt', 'letter');
+  var pdf = new jsPDF("p", "pt", "letter");
   margins = {
-      top: 20,
-      bottom: 20,
-      left: 20,
-      width: 625
+    top: 20,
+    bottom: 20,
+    left: 20,
+    width: 625,
   };
   // all coords and widths are in jsPDF instance's declared units
   // 'inches' in this case
   pdf.fromHTML(
-      html, // HTML string or DOM elem ref.
-      margins.left, // x coord
-      margins.top, { // y coord
-          'width': margins.width, // max width of content on PDF
-      },
-      function (dispose) {
-          // dispose: object with X, Y of the last line add to the PDF 
-          //          this allow the insertion of new lines after html
-          pdf.save(filename);
-      }, margins
+    html, // HTML string or DOM elem ref.
+    margins.left, // x coord
+    margins.top,
+    {
+      // y coord
+      width: margins.width, // max width of content on PDF
+    },
+    function (dispose) {
+      // dispose: object with X, Y of the last line add to the PDF
+      //          this allow the insertion of new lines after html
+      pdf.save(filename);
+    },
+    margins
   );
 }
 
-function exportTable(table){
+function exportTable(table) {
   $(table).each(function () {
     var $table_v = $(this);
     var csv = $table_v.table2CSV({
-      delivery: 'value'
+      delivery: "value",
     });
-    window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
+    window.location.href =
+      "data:text/csv;charset=UTF-8," + encodeURIComponent(csv);
   });
 }
 /* function Export2Doc(filename = "") {
@@ -645,3 +646,33 @@ async function goCalc(id) {
   await reportComp2(id);
   await graficarChartLine(id);
 }
+
+const exportToExcel = (idTabla) => {
+  const tabla = document.getElementById(`${idTabla}`);
+  let prop = null;
+  const tableExport = new TableExport(tabla, {
+    exportButtons: false, // No queremos botones
+    filename: "Reporte", //Nombre del archivo de Excel
+    sheetname: "Reporte", //Título de la hoja
+  });
+  const datos = tableExport.getExportData();
+  if (idTabla === "tabla_resumen") {
+    prop = datos.tabla_resumen.xlsx;
+  } else if (idTabla === "tabla_indicadores") {
+    prop = datos.tabla_indicadores.xlsx;
+  } else if (idTabla === "tabla_comparacion") {
+    prop = datos.tabla_comparacion.xlsx;
+  } else if (idTabla === "tabla_comparacion2") {
+    prop = datos.tabla_comparacion2.xlsx;
+  }
+  const preferenciasDocumento = prop;
+  tableExport.export2file(
+    preferenciasDocumento.data,
+    preferenciasDocumento.mimeType,
+    preferenciasDocumento.filename,
+    preferenciasDocumento.fileExtension,
+    preferenciasDocumento.merges,
+    preferenciasDocumento.RTL,
+    preferenciasDocumento.sheetname
+  );
+};

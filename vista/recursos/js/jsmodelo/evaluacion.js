@@ -34,7 +34,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   fillArea();
   fillAreaCon();
   fillEvaluador();
-  $(".select2").select2();
+  $(".select2").select2({
+    theme: "classic",
+    width: 'resolve',
+  });
   $("#div_reporte").hide();
   $("#form_detalle").hide();
   $("#div_tema").hide();

@@ -99,14 +99,14 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <div class="form-group col-md-12 mb-3">
               <div class="form-group">
                 <label>Area natural</label>
-                <select class="form-control select2" name="area" id="area" class="form-control">
+                <select class="form-control select2" name="area" id="area" style="width: 100%;">
                 </select>
               </div>
             </div>
             <div class="form-group col-md-12 mb-3">
               <div class="form-group">
                 <label>Area de conservacion</label>
-                <select class="form-control select2" name="conservacion" id="conservacion" class="form-control">
+                <select class="form-control select2" name="conservacion" id="conservacion" style="width: 100%;">
 
                 </select>
               </div>
@@ -157,7 +157,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             <div class="form-group col-md-12 mb-3">
               <div class="form-group">
                 <label>Selecciona el evaluador</label>
-                <select class="form-control select2" name="evaluador" id="evaluador" class="form-control">
+                <select class="form-control select2" name="evaluador" id="evaluador" style="width: 100%;">
 
                 </select>
               </div>
