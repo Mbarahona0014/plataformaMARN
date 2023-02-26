@@ -357,14 +357,20 @@ async function updaterHeaderStatus(est, idEn) {
 
 async function getRemainingTopics(idEn) {
   const url = `../controlador/tema.controller.php`;
+  const estado = $("#id_estado").val();
   const { success, temas } = await fetch(
     `${url}?accion=getRemainingTopic&idEn=${idEn}`
   ).then((res) => res.json());
   if (success) {
     if (temas[0]["pendientes"] == 0) {
-      $("#btnValidar").show(400);
-      updaterHeaderStatus("1", idEn);
-      $("#temasPendientes").text("Esta evaluacion ya está finalizada");
+      if(estado == '3'){
+        $("#temasPendientes").text("EVALUACION VALIDADA");
+        $("#btnValidar").hide(400);
+      }else{
+        $("#btnValidar").show(400);
+        updaterHeaderStatus("1", idEn);
+        $("#temasPendientes").text("EVALUACION FINALIZADA PENDIENTE DE VALIDAR");
+      }
     } else {
       $("#btnValidar").hide(400);
       updaterHeaderStatus("0", idEn);
@@ -385,6 +391,7 @@ const goReport = async (id) => {
   $("#span_eva").text(encabezado[0].id);
   $("#span_fecha").text(encabezado[0].fecha_evaluacion);
   $("#spa_area").text(encabezado[0].nombre);
+  $("#id_estado").val(encabezado[0].estado);
   getRemainingTopics(encabezado[0].id);
   await getReport(id);
   await getScopes();
@@ -701,9 +708,13 @@ const listarArchivos = async (id) => {
 };
 
 $("#btnValidar").click(function (e) {
+  var idEn = $("#id_encabezado_detalle").val();
   e.preventDefault();
-  console.log("Voy a Validar");
-  getH($("#id_encabezado_detalle").val());
+  //console.log("Voy a Validar");
+  getH(idEn);
+  updaterHeaderStatus("3", idEn);
+  $("#btnValidar").hide(400);
+  $("#temasPendientes").text("EVALUACION VALIDADA");
 });
 
 const getEvaluation = async (idEvaluacion) => {

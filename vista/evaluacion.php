@@ -217,15 +217,17 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
         <div class="box-header with-border">
           <h3 class="card-title"><b>Reporte de monitoreo de áreas naturales protegidas</b></h3>
           <!-- Estado de temas -->
-          <div class="col-md-6 col-sm-12 col-xs-12">
+          <div class="col-md-9 col-sm-9 col-xs-9">
             <div class="info-box">
               <span class="info-box-icon bg-navy"><i class="fa fa-pencil"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Temas pendientes de evaluar</span>
                 <span class="info-box-number" name="temasPendientes" id="temasPendientes"></span>
-                <button id="btnValidar" class="btn btn-warning">Validar</button>
               </div>
             </div>
+          </div>
+          <div class="col-md-3 col-sm-3 col-xs-3">
+              <a id="btnValidar" class="btn btn-app"><i class="fa fa-check-circle"></i>Validar</a>
           </div>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -234,6 +236,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
         </div>
         <div class="box-body">
           <form id="form_detalle" class="row" enctype="multipart/form-data">
+            <input type="hidden" name="id_estado" id="id_estado">
             <input type="hidden" name="id_encabezado_detalle" id="id_encabezado_detalle">
             <div class="col-md-12">
               <h5><b>Evaluación:</b> <span id="span_eva"></span></h5>

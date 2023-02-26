@@ -112,7 +112,7 @@ class rHeader
     // Variable para almacenar el resultado de la consulta
     $rHeader = [];
     // Consulta
-    $sql = "SELECT a.id, a.id_area_natural, a.id_area_conservacion , b.nombre, a.fecha_evaluacion
+    $sql = "SELECT a.id, a.id_area_natural, a.id_area_conservacion , b.nombre, a.fecha_evaluacion, a.estado
     FROM encabezado_reporte a
     INNER JOIN area_natural b ON a.id_area_natural = b.id
     WHERE a.id = :n1";
