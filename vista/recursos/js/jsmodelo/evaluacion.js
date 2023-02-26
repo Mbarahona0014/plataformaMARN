@@ -102,7 +102,7 @@ function getH(idEn) {
     contentType: "application/json; charset=utf-8",
     success: function (response) {
       $.each(response["data"], function (id, valor) {
-        const accion = `${urlHis}?accion=create&id=${idEn}&id_am=${valor["ambito"]}&n_am=${valor["nombreAmbito"]}&p_am=${valor["pesoAmbito"]}&pt=${valor["puntaje"]}&spf=${valor["sumaPesoFactor"]}&ptucg=${valor["puntajeUCG"]}&pfa=${valor["pesoFactor"]}&ptfac=${valor["puntajeFactor"]}&totpf=${valor["totalPesoFactor"]}&pi=${valor["pesoIndicador"]}&pti=${valor["puntajeIndicador"]}&pANP=${valor["pesoAnp"]}&ptANP=${valor["puntajeANP"]}`;
+        const accion = `${urlHis}?accion=create&id=${idEn}&id_am=${valor["ambito"]}&n_am=${valor["nombreAmbito"]}&p_am=${valor["pesoAmbito"]}&pt=${valor["puntaje"]}&spf=${valor["sumaPesoFactor"]}&ptucg=${valor["puntajeUCG"]}&pfa=${valor["pesoFactor"]}&ptfac=${valor["puntajeFactor"]}&totpf=${valor["totalPesoFactor"]}&pi=${valor["pesoIndicador"]}&pti=${valor["puntajeIndicador"]}&pANP=${valor["pesoAnp"]}&ptANP=${valor["puntajeAnp"]}`;
         const { success, mensaje } = fetch(accion, {
           method: "GET",
         });
