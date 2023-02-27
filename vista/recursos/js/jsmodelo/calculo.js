@@ -31,6 +31,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   await reportComp2(0);
   await graficarChartLine(0);
   $("#box_encabezado").hide();
+  $(".hide").hide();
+  //$("#evaluacionRef").hide();
 });
 
 function Export2PDF(filename = "test.pdf") {
@@ -665,6 +667,62 @@ const graficarChartLine = async (id) => {
     },
   });
 };
+
+$("#area").change(async () => {
+  //Modificar selector para que los temas mostrados solo sean los pendientes de evaluar
+  const id_area = $("#area").val();
+  const url = `../controlador/encabezado_reporte.controller.php`;
+  if (id_area > 0) {
+    const eva = await fetch(
+      `${url}?accion=listByArea&id=${id_area}`
+    ).then((res) => res.json());
+    let html = "";
+    html += '<option value="0">Seleccione una evaluacion</option>';
+    eva["data"].forEach((evaluacion) => {
+      html += `<option value="${evaluacion.id}">${evaluacion.fecha_evaluacion}</option>`;
+    });
+    if (eva["data"].length > 0) {
+      //$("#evaluacionRef").show(400);
+      $("#evaluacionRef").html(html);
+      //$("#evaluacionRef").trigger("change");
+    }else{
+      html = '<option value="0">Sin evaluaciones para ANP</option>';
+      alert("Sin evaluaciones", "No hay evaluaciones validadas para ANP", "info");
+      $("#evaluacionRef").html(html);
+      //$("#evaluacionRef").hide(400);
+      //$("#evaluacionRef").val("").trigger("change");
+    }
+  }
+});
+
+$("#evaluacionRef").change(async () => {
+  //Modificar selector para que los temas mostrados solo sean los pendientes de evaluar
+  const id_area = $("#area").val();
+  const id_ev = $("#evaluacionRef").val();
+  const url = `../controlador/encabezado_reporte.controller.php`;
+  if (id_area > 0) {
+    const eva = await fetch(
+      `${url}?accion=listPreviousByArea&id=${id_area}&id_ev=${id_ev}`
+    ).then((res) => res.json());
+    let html = "";
+    html += '<option value="0">Seleccione una evaluacion</option>';
+    eva["data"].forEach((evaluacion) => {
+      html += `<option value="${evaluacion.id}">${evaluacion.fecha_evaluacion}</option>`;
+    });
+    if (eva["data"].length > 0) {
+      //$("#evaluacionRef").show(400);
+      $("#evaluacionComp").html(html);
+      //$("#evaluacionRef").trigger("change");
+    }else{
+      html = '<option value="0">Sin evaluaciones previas para ANP</option>';
+      alert("Sin evaluaciones", "No hay evaluaciones previas para ANP", "info");
+      $("#evaluacionComp").html(html);
+      //$("#evaluacionRef").hide(400);
+      //$("#evaluacionRef").val("").trigger("change");
+    }
+  }
+});
+
 
 async function goCalc(id) {
   await fillHead(id);

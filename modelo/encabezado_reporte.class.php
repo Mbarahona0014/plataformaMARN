@@ -72,6 +72,43 @@ class rHeader
     // Retornamos el resultado de la consulta
     return $headers;
   }
+  public function getPreviousHeadersByArea($idArea,$idEv)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $headers = [];
+    // Consulta
+    $sql = "SELECT
+    er.id,
+    (SELECT nombre FROM area_natural an WHERE an.id=er.id_area_natural) AREA,
+    (SELECT nombre FROM paisaje p WHERE p.id=er.id_area_conservacion) paisaje,
+    er.fecha_evaluacion
+    FROM encabezado_reporte er
+    WHERE er.id_area_natural = :n1 
+    AND er.estado = 3 
+    AND er.fecha_evaluacion<(SELECT fecha_evaluacion FROM encabezado_reporte WHERE id=:n2);";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      // Asignamos valores a los parámetros
+      $stmt->bindParam(':n1', $idArea, PDO::PARAM_INT);
+      $stmt->bindParam(':n2', $idEv, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $headers["data"] = $stmt->fetchAll();
+      // Cerrar la conexion
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $headers;
+  }
   // Método para crear un ámbito
   public function createrHeader($fec, $idArea, $idACon)
   {

@@ -90,20 +90,32 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 <!-- Main content -->
 <section id="content" class="content">
   <div class="row">
-    <div class="col-md-12">
-      <!-- Default box -->
-      <div class="form-group col-md-12 mb-3">
-        <div class="form-group">
-          <label>Area natural</label>
-          <select name="area" id="area" class="form-control select2">
-          </select>
-        </div>
+  <div class="col-md-12">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">Ingreso de datos de evaluación</h3>
+    </div>
+    <div class="box-body">
+      <div class="form-group col-md-12">
+        <label>Area natural</label>
+        <select name="area" id="area" class="form-control select2"></select>
       </div>
+    <div class="form-group col-md-6">
+      <label>Evaluacion de referencia</label>
+      <select name="evaluacionRef" id="evaluacionRef" class="form-control select2"></select>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Evaluacion de comparacion</label>
+      <select name="evaluacionComp" id="evaluacionComp" class="form-control select2"></select>
     </div>
   </div>
-
+  <div class="box-footer">
+    <button class="btn btn-primary pull-right">Ir a evaluacion</button>
+  </div>
+</div>
+</div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 hide">
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">

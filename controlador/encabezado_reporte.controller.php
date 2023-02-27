@@ -11,6 +11,7 @@ if (isset($_POST) || isset($_GET)) {
 
     $id_post = isset($_POST['id_encabezado']) ? (int)$hlp->clear($_POST['id_encabezado']) : false;
     $id_get = isset($_GET['id']) ? (int)$hlp->clear($_GET['id']) : false;
+    $id_ev = isset($_GET['id_ev']) ? (int)$hlp->clear($_GET['id_ev']) : false;
     $status = isset($_GET['estado']) ? (int)$hlp->clear($_GET['estado']) : false;
 
     $fecha = isset($_POST['fecha']) ? $hlp->clear($_POST['fecha']) : false;
@@ -34,6 +35,19 @@ if (isset($_POST) || isset($_GET)) {
                 break;
             case 'listByArea':
                 $headers = $hm->getHeadersByArea($id_get);
+                if ($headers) {
+                    print_r(json_encode($headers, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                } else {
+                    print_r(json_encode([
+                        "sEcho" => 1,
+                        "iTotalRecords" => 0,
+                        "iTotalDisplayRecords" => 0,
+                        "aaData" => []
+                    ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+                }
+                break;
+            case 'listPreviousByArea':
+                $headers = $hm->getPreviousHeadersByArea($id_get,$id_ev);
                 if ($headers) {
                     print_r(json_encode($headers, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
                 } else {
