@@ -10,6 +10,7 @@ if (isset($_POST) || isset($_GET)) {
   $accion = isset($_GET["accion"]) ? (string)$_GET["accion"] : false;
 
   $id_get = isset($_GET['id']) ? (int)$hlp->clear($_GET['id']) : false;
+  $id_ante = isset($_GET['id_ante']) ? (int)$hlp->clear($_GET['id_ante']) : false;
   $id_post = isset($_POST['id_detalle']) ? (int)$hlp->clear($_POST['id_detalle']) : false;
 
   $idEncabezado = isset($_POST['id_encabezado_detalle']) ? (int)$hlp->clear($_POST['id_encabezado_detalle']) : false;

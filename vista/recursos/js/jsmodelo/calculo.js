@@ -475,15 +475,92 @@ const graficarChartBar = async (id) => {
   });
 };
 
-async function reportComp(id) {
+const mulGraficarChartBar = async (id_ref,id_ant) => {
   const area = $("#area").val();
+  const { data } = await fetch(
+    `${urlReport}?accion=comparetionByHeaders&id=${id_ref}&id_ante=${id_ant}&id_ap=${area}`
+  ).then((res) => res.json());
+  if (chartBar) {
+    chartBar.destroy();
+  }
+  chartBar = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: data.map((x) => x.ambito),
+      datasets: [
+        {
+          label: "PUNTAJE UCG",
+          data: data.map((x) => x.ucg),
+          backgroundColor: [
+            "rgb(102, 0, 204,0.2)",
+            "rgb(102, 0, 204,0.2)",
+            "rgb(102, 0, 204,0.2)",
+            "rgb(102, 0, 204,0.2)",
+          ],
+          borderColor: [
+            "rgb(102, 0, 204)",
+            "rgb(102, 0, 204)",
+            "rgb(102, 0, 204)",
+            "rgb(102, 0, 204)",
+          ],
+          borderWidth: 1,
+        },
+        {
+          label: "EVALUACION ANTERIOR",
+          data: data.map((x) => x.gas1),
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 99, 132, 0.2)",
+          ],
+          borderColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 99, 132)",
+            "rgb(255, 99, 132)",
+            "rgb(255, 99, 132)",
+          ],
+          borderWidth: 1,
+        },
+        {
+          label: "EVALUACION ACTUAL",
+          data: data.map((x) => x.gas2),
+          backgroundColor: [
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+          ],
+          borderColor: [
+            "rgb(255, 205, 86)",
+            "rgb(255, 205, 86)",
+            "rgb(255, 205, 86)",
+            "rgb(255, 205, 86)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+};
+
+async function reportComp(id,id_ant) {
+  const area = $("#area").val();
+  
   tabla_comparacion = await $("#tabla_comparacion").DataTable({
     destroy: true,
     autoWidth: false,
     responsive: true,
     ajax: {
       method: "GET",
-      url: `${urlReport}?accion=comparetionByHeaders&id=${id}&id_ap=${area}`,
+      url: `${urlReport}?accion=comparetionByHeaders&id=${id}&id_ante=${id_ant}&id_ap=${area}`,
       dataType: "json",
       contentType: "application/json; charset=utf-8",
       dataSrc: "data",
@@ -576,7 +653,7 @@ const graficarChartLine = async (id) => {
       borderColor: "rgb(102, 0, 204)",
       tension: 0.1,
       fill: false,
-      hidden: true,
+      hidden: false,
     };
 
     const g1Dataset = {
@@ -586,7 +663,7 @@ const graficarChartLine = async (id) => {
       borderColor: "rgb(255, 99, 132)",
       tension: 0.1,
       fill: false,
-      hidden: true,
+      hidden: false,
     };
 
     const g2Dataset = {
@@ -596,7 +673,7 @@ const graficarChartLine = async (id) => {
       borderColor: "rgb(255, 159, 64)",
       tension: 0.1,
       fill: false,
-      hidden: true,
+      hidden: false,
     };
 
     const g3Dataset = {
@@ -606,7 +683,7 @@ const graficarChartLine = async (id) => {
       borderColor: "rgb(255, 205, 86)",
       tension: 0.1,
       fill: false,
-      hidden: true,
+      hidden: false,
     };
 
     const g4Dataset = {
@@ -616,7 +693,7 @@ const graficarChartLine = async (id) => {
       borderColor: "rgb(75, 192, 192)",
       tension: 0.1,
       fill: false,
-      hidden: true,
+      hidden: false,
     };
 
     const g5Dataset = {
@@ -626,7 +703,7 @@ const graficarChartLine = async (id) => {
       borderColor: "rgba(150, 59, 158)",
       tension: 0.1,
       fill: false,
-      hidden: true,
+      hidden: false,
     };
 
     const g6Dataset = {
@@ -636,7 +713,7 @@ const graficarChartLine = async (id) => {
       borderColor: "rgb(139, 240, 193)",
       tension: 0.1,
       fill: false,
-      hidden: true,
+      hidden: false,
     };
 
     datasets.push(ucgDataset);
@@ -694,6 +771,7 @@ $("#area").change(async () => {
         "info"
       );
       $("#evaluacionRef").html(html);
+      $("#evaluacionComp").html(html);
       //$("#evaluacionRef").hide(400);
       //$("#evaluacionRef").val("").trigger("change");
     }
@@ -728,14 +806,20 @@ $("#evaluacionRef").change(async () => {
   }
 });
 
-async function goCalc(id) {
-  await fillHead(id);
-  await resumeTable(id);
-  await indicatorsTable(id);
-  await graficarChartBar(id);
-  await reportComp(id);
-  await reportComp2(id);
-  await graficarChartLine(id);
+$("#btnCalc").click(()=> {
+  const id_ref = $("#evaluacionRef").val();
+  const id_ant = $("#evaluacionComp").val();
+  goCalc(id_ref,id_ant);
+})
+
+async function goCalc(id_ref,id_ant) {
+  await fillHead(id_ref);
+  await resumeTable(id_ref);
+  await indicatorsTable(id_ref);
+  await mulGraficarChartBar(id_ref,id_ant);
+  await reportComp(id_ref,id_ant);
+  await reportComp2(id_ref);
+  await graficarChartLine(id_ref);
 }
 
 const exportToExcel = (idTabla) => {
