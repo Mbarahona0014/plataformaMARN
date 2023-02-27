@@ -282,7 +282,7 @@ if (isset($_POST) || isset($_GET)) {
         $anio = $id_get ? $dm->getYear($idEn) : 0;
         $ids = $dm->getAnteriores($idAp, $anio);
         $detailsAnte1 = !empty($ids[0]["id"]) ? $dm->getCalcHistory($ids[0]["id"]) : ["data" => []];
-        $detailsAnte2 = !empty($ids[1]["id"]) ? $dm->getgetCalcHistoryCalc($ids[1]["id"]) : ["data" => []];
+        $detailsAnte2 = !empty($ids[1]["id"]) ? $dm->getCalcHistory($ids[1]["id"]) : ["data" => []];
         $detailsAnte3 = !empty($ids[2]["id"]) ? $dm->getCalcHistory($ids[2]["id"]) : ["data" => []];
         $detailsAnte4 = !empty($ids[3]["id"]) ? $dm->getCalcHistory($ids[3]["id"]) : ["data" => []];
         $detailsAnte5 = !empty($ids[4]["id"]) ? $dm->getCalcHistory($ids[4]["id"]) : ["data" => []];

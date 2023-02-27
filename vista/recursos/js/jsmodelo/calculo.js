@@ -20,7 +20,7 @@ const urlReport = "../controlador/detalle_reporte.controller.php";
 document.addEventListener("DOMContentLoaded", async () => {
   $(".select2").select2({
     theme: "classic",
-    width: 'resolve',
+    width: "resolve",
   });
   await getAreas();
   await getHeader(0);
@@ -302,13 +302,14 @@ $("#area").change(async () => {
     await reportComp(0);
     await reportComp2(0);
     await graficarChartLine(0);
+    $("#box_encabezado").hide(200);
   }
 });
 
-async function generalScale(id){
-  const resumen = await fetch(
-    `${urlReport}?accion=generalScale&id=${id}`
-  ).then((res) => res.json());
+async function generalScale(id) {
+  const resumen = await fetch(`${urlReport}?accion=generalScale&id=${id}`).then(
+    (res) => res.json()
+  );
   return resumen;
 }
 
@@ -321,17 +322,17 @@ async function fillHead(id) {
     var general = await generalScale(id);
     //alert(general);
     var data = parseFloat(general);
-    var satisfaccion="";
+    var satisfaccion = "";
     if (data < 200) {
-      satisfaccion="No aceptable";
+      satisfaccion = "No aceptable";
     } else if (data >= 200 && data < 400) {
-      satisfaccion="Poco aceptable";
+      satisfaccion = "Poco aceptable";
     } else if (data >= 400 && data < 600) {
-      satisfaccion="Regular";
+      satisfaccion = "Regular";
     } else if (data >= 600 && data < 800) {
-      satisfaccion="Aceptable";
+      satisfaccion = "Aceptable";
     } else if (data > 800) {
-      satisfaccion="Satisfactorio";
+      satisfaccion = "Satisfactorio";
     }
     $("#box_encabezado_header").html(
       "<h3><b>Area natural protegida: </b>" +
@@ -343,7 +344,7 @@ async function fillHead(id) {
         "</h4><h4><b>Escala de satisfaccion: </b>" +
         satisfaccion +
         "</h4>"
-    ); 
+    );
   }
 }
 
@@ -673,9 +674,9 @@ $("#area").change(async () => {
   const id_area = $("#area").val();
   const url = `../controlador/encabezado_reporte.controller.php`;
   if (id_area > 0) {
-    const eva = await fetch(
-      `${url}?accion=listByArea&id=${id_area}`
-    ).then((res) => res.json());
+    const eva = await fetch(`${url}?accion=listByArea&id=${id_area}`).then(
+      (res) => res.json()
+    );
     let html = "";
     html += '<option value="0">Seleccione una evaluacion</option>';
     eva["data"].forEach((evaluacion) => {
@@ -685,9 +686,13 @@ $("#area").change(async () => {
       //$("#evaluacionRef").show(400);
       $("#evaluacionRef").html(html);
       //$("#evaluacionRef").trigger("change");
-    }else{
+    } else {
       html = '<option value="0">Sin evaluaciones para ANP</option>';
-      alert("Sin evaluaciones", "No hay evaluaciones validadas para ANP", "info");
+      alert(
+        "Sin evaluaciones",
+        "No hay evaluaciones validadas para ANP",
+        "info"
+      );
       $("#evaluacionRef").html(html);
       //$("#evaluacionRef").hide(400);
       //$("#evaluacionRef").val("").trigger("change");
@@ -713,7 +718,7 @@ $("#evaluacionRef").change(async () => {
       //$("#evaluacionRef").show(400);
       $("#evaluacionComp").html(html);
       //$("#evaluacionRef").trigger("change");
-    }else{
+    } else {
       html = '<option value="0">Sin evaluaciones previas para ANP</option>';
       alert("Sin evaluaciones", "No hay evaluaciones previas para ANP", "info");
       $("#evaluacionComp").html(html);
@@ -722,7 +727,6 @@ $("#evaluacionRef").change(async () => {
     }
   }
 });
-
 
 async function goCalc(id) {
   await fillHead(id);

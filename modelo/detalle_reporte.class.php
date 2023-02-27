@@ -307,8 +307,8 @@ class dReport
     ROUND(SUM(evaluacion.puntaje_anp),2) puntajeanp,
     ROUND((evaluacion.puntaje_ucg-(SUM(evaluacion.puntaje_anp))),2) diferencia,
     ROUND((SUM(evaluacion.puntaje_anp)/evaluacion.puntaje_ucg)*100,2) porcentaje
-    FROM ((SELECT * FROM historico_anp WHERE id_encabezado=:n1) AS evaluacion)
-    GROUP BY evaluacion.nombre_ambito";
+    FROM (SELECT * FROM historico_anp WHERE id_encabezado=:n1) AS evaluacion
+    GROUP BY evaluacion.nombre_ambito, evaluacion.peso_ambito, evaluacion.puntaje_ucg";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
@@ -338,8 +338,8 @@ class dReport
     $sql = "SELECT
     evaluacion.nombre_ambito ambito,
     ROUND((SUM(evaluacion.puntaje_anp)/evaluacion.puntaje_ucg)*1000,2) indicador
-    FROM ((SELECT * FROM historico_anp WHERE id_encabezado=:n1) AS evaluacion)
-    GROUP BY evaluacion.nombre_ambito";
+    FROM (SELECT * FROM historico_anp WHERE id_encabezado=:n1) AS evaluacion
+    GROUP BY evaluacion.nombre_ambito, evaluacion.puntaje_ucg";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
@@ -364,7 +364,7 @@ class dReport
     global $con;
     // Consulta<
     $sql = "SELECT ROUND(SUM(evaluacion.puntaje_anp),2) puntajeanp
-    FROM ((SELECT * FROM historico_anp WHERE id_encabezado=:n1) AS evaluacion)";
+    FROM (SELECT * FROM historico_anp WHERE id_encabezado=:n1) AS evaluacion";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);
