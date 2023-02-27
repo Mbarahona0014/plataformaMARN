@@ -115,7 +115,8 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
 </div>
 </div>
   <div class="row">
-    <div class="col-md-12 hide">
+    <!-- <div class="col-md-12 hide"> -->
+    <div class="col-md-12">
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
