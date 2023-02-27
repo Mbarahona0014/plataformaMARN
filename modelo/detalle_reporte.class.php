@@ -293,6 +293,188 @@ class dReport
     return $detail;
   }
 
+  public function getCalcHistory($id_en)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $details = [];
+    // Consulta<
+    $sql = "SELECT
+    evaluacion.nombre_ambito ambito,
+		ROUND(evaluacion.peso_ambito,2) peso,
+		ROUND(evaluacion.puntaje_ucg,2) puntajeucg ,
+    ROUND(SUM(evaluacion.puntaje_anp),2) puntajeanp,
+    ROUND((evaluacion.puntaje_ucg-(SUM(evaluacion.puntaje_anp))),2) diferencia,
+    ROUND((SUM(evaluacion.puntaje_anp)/evaluacion.puntaje_ucg)*100,2) porcentaje
+    FROM ((SELECT * FROM historico_anp WHERE id_encabezado=:n1) AS evaluacion)
+    GROUP BY evaluacion.nombre_ambito";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $details["data"] = $stmt->fetchAll();
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $details;
+  }
+
+  public function getScaleHistory($id_en)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $details = [];
+    // Consulta
+    $sql = "SELECT
+    evaluacion.nombre_ambito ambito,
+    ROUND((SUM(evaluacion.puntaje_anp)/evaluacion.puntaje_ucg)*1000,2) indicador
+    FROM ((SELECT * FROM historico_anp WHERE id_encabezado=:n1) AS evaluacion)
+    GROUP BY evaluacion.nombre_ambito";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $details["data"] = $stmt->fetchAll();
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $details;
+  }
+
+  public function getGeneralScale($id_en){
+    // Obtenemos la conexion
+    global $con;
+    // Consulta<
+    $sql = "SELECT ROUND(SUM(evaluacion.puntaje_anp),2) puntajeanp
+    FROM ((SELECT * FROM historico_anp WHERE id_encabezado=:n1) AS evaluacion)";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $general = $stmt->fetch();
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $general["puntajeanp"];
+  }
+
+  public function getAnterior($id_en, $id_ap)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $id = "";
+    // Consulta
+    $sql = "SELECT MAX(a.id) id FROM encabezado_reporte a WHERE a.id < :n1 AND a.id_area_natural = :n2 AND a.estado = 3;";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
+      $stmt->bindParam(':n2', $id_ap, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $id = $stmt->fetch();
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $id["id"];
+  }
+
+  public function getYear($id_en)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $anio = "";
+    // Consulta
+    $sql = "SELECT YEAR(a.fecha_evaluacion) anio FROM encabezado_reporte a WHERE a.id = :n1;";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $anio = $stmt->fetch();
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $anio["anio"];
+  }
+
+  public function getAnteriores($id_ap, $anio)
+  {
+    // Obtenemos la conexion
+    global $con;
+    // Variable para almacenar el resultado de la consulta
+    $ids = [];
+    // Valores
+    $anioExacto = (int)$anio - 1;
+    $anioAtras = (int)$anio - 5;
+    // Consulta
+    $sql = "SELECT a.id FROM encabezado_reporte a
+    WHERE (YEAR(a.fecha_evaluacion) BETWEEN :n1 AND :n2)
+    AND a.id_area_natural = :n3 AND a.estado = 3 ORDER BY a.id ASC LIMIT 5;";
+    try {
+      // Preparamos la consulta
+      $stmt = $con->connect()->prepare($sql);
+      $stmt->bindParam(':n1', $anioAtras, PDO::PARAM_INT);
+      $stmt->bindParam(':n2', $anioExacto, PDO::PARAM_INT);
+      $stmt->bindParam(':n3', $id_ap, PDO::PARAM_INT);
+      // Ejecutamos la consulta
+      $stmt->execute();
+      // Capturamos el resultado de la consulta
+      $ids = $stmt->fetchAll();
+      $con->disconnect();
+    } catch (PDOException $e) {
+      // Cerrar la conexion
+      $con->disconnect();
+      // Si ocurre un error lo mostramos
+      die("Error: " . $e->getMessage());
+    }
+    // Retornamos el resultado de la consulta
+    return $ids;
+  }
+
+  //METODOS DE LEGADO PARA CALCULO DE CALIFACIONES, PODRIAN SERVIR PARA VISTA PREVIA
+
   public function getCalc($id_en)
   {
     // Obtenemos la conexion
@@ -389,92 +571,4 @@ class dReport
     return $details;
   }
 
-  public function getAnterior($id_en, $id_ap)
-  {
-    // Obtenemos la conexion
-    global $con;
-    // Variable para almacenar el resultado de la consulta
-    $id = "";
-    // Consulta
-    $sql = "SELECT MAX(a.id) id FROM encabezado_reporte a WHERE a.id < :n1 AND a.id_area_natural = :n2 AND a.estado = 1;";
-    try {
-      // Preparamos la consulta
-      $stmt = $con->connect()->prepare($sql);
-      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
-      $stmt->bindParam(':n2', $id_ap, PDO::PARAM_INT);
-      // Ejecutamos la consulta
-      $stmt->execute();
-      // Capturamos el resultado de la consulta
-      $id = $stmt->fetch();
-      $con->disconnect();
-    } catch (PDOException $e) {
-      // Cerrar la conexion
-      $con->disconnect();
-      // Si ocurre un error lo mostramos
-      die("Error: " . $e->getMessage());
-    }
-    // Retornamos el resultado de la consulta
-    return $id["id"];
-  }
-
-  public function getYear($id_en)
-  {
-    // Obtenemos la conexion
-    global $con;
-    // Variable para almacenar el resultado de la consulta
-    $anio = "";
-    // Consulta
-    $sql = "SELECT YEAR(a.fecha_evaluacion) anio FROM encabezado_reporte a WHERE a.id = :n1;";
-    try {
-      // Preparamos la consulta
-      $stmt = $con->connect()->prepare($sql);
-      $stmt->bindParam(':n1', $id_en, PDO::PARAM_INT);
-      // Ejecutamos la consulta
-      $stmt->execute();
-      // Capturamos el resultado de la consulta
-      $anio = $stmt->fetch();
-      $con->disconnect();
-    } catch (PDOException $e) {
-      // Cerrar la conexion
-      $con->disconnect();
-      // Si ocurre un error lo mostramos
-      die("Error: " . $e->getMessage());
-    }
-    // Retornamos el resultado de la consulta
-    return $anio["anio"];
-  }
-
-  public function getAnteriores($id_ap, $anio)
-  {
-    // Obtenemos la conexion
-    global $con;
-    // Variable para almacenar el resultado de la consulta
-    $ids = [];
-    // Valores
-    $anioExacto = (int)$anio - 1;
-    $anioAtras = (int)$anio - 5;
-    // Consulta
-    $sql = "SELECT a.id FROM encabezado_reporte a
-    WHERE (YEAR(a.fecha_evaluacion) BETWEEN :n1 AND :n2)
-    AND a.id_area_natural = :n3 AND a.estado = 1 ORDER BY a.id ASC LIMIT 5;";
-    try {
-      // Preparamos la consulta
-      $stmt = $con->connect()->prepare($sql);
-      $stmt->bindParam(':n1', $anioAtras, PDO::PARAM_INT);
-      $stmt->bindParam(':n2', $anioExacto, PDO::PARAM_INT);
-      $stmt->bindParam(':n3', $id_ap, PDO::PARAM_INT);
-      // Ejecutamos la consulta
-      $stmt->execute();
-      // Capturamos el resultado de la consulta
-      $ids = $stmt->fetchAll();
-      $con->disconnect();
-    } catch (PDOException $e) {
-      // Cerrar la conexion
-      $con->disconnect();
-      // Si ocurre un error lo mostramos
-      die("Error: " . $e->getMessage());
-    }
-    // Retornamos el resultado de la consulta
-    return $ids;
-  }
 }

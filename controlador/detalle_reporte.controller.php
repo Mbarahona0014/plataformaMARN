@@ -195,7 +195,7 @@ if (isset($_POST) || isset($_GET)) {
         }
         break;
       case 'resumeByHeader':
-        $details = $dm->getCalc($id_get);
+        $details = $dm->getCalcHistory($id_get);
         if ($details) {
           print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
         } else {
@@ -207,8 +207,21 @@ if (isset($_POST) || isset($_GET)) {
           ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
         }
         break;
+        case 'generalScale':
+          $general = $dm->getGeneralScale($id_get);
+          if ($general) {
+            print_r(json_encode($general, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          } else {
+            print_r(json_encode([
+              "sEcho" => 1,
+              "iTotalRecords" => 0,
+              "iTotalDisplayRecords" => 0,
+              "aaData" => []
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          }
+        break;
       case 'resumeByIndicator':
-        $details = $dm->getScale($id_get);
+        $details = $dm->getScaleHistory($id_get);
         if ($details) {
           print_r(json_encode($details, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
         } else {
@@ -222,8 +235,8 @@ if (isset($_POST) || isset($_GET)) {
         break;
       case 'comparetionByHeaders':
         $idAnte = $dm->getAnterior($id_get, $idAp);
-        $detailsAnte = $dm->getCalc($idAnte);
-        $detailsActu = $dm->getCalc($id_get);
+        $detailsAnte = $dm->getCalcHistory($idAnte);
+        $detailsActu = $dm->getCalcHistory($id_get);
 
         $det = [];
         $arrAux = [];
@@ -268,12 +281,12 @@ if (isset($_POST) || isset($_GET)) {
         $idEn = $id_get ? $id_get : 0;
         $anio = $id_get ? $dm->getYear($idEn) : 0;
         $ids = $dm->getAnteriores($idAp, $anio);
-        $detailsAnte1 = !empty($ids[0]["id"]) ? $dm->getCalc($ids[0]["id"]) : ["data" => []];
-        $detailsAnte2 = !empty($ids[1]["id"]) ? $dm->getCalc($ids[1]["id"]) : ["data" => []];
-        $detailsAnte3 = !empty($ids[2]["id"]) ? $dm->getCalc($ids[2]["id"]) : ["data" => []];
-        $detailsAnte4 = !empty($ids[3]["id"]) ? $dm->getCalc($ids[3]["id"]) : ["data" => []];
-        $detailsAnte5 = !empty($ids[4]["id"]) ? $dm->getCalc($ids[4]["id"]) : ["data" => []];
-        $detailsActu = $dm->getCalc($id_get);
+        $detailsAnte1 = !empty($ids[0]["id"]) ? $dm->getCalcHistory($ids[0]["id"]) : ["data" => []];
+        $detailsAnte2 = !empty($ids[1]["id"]) ? $dm->getgetCalcHistoryCalc($ids[1]["id"]) : ["data" => []];
+        $detailsAnte3 = !empty($ids[2]["id"]) ? $dm->getCalcHistory($ids[2]["id"]) : ["data" => []];
+        $detailsAnte4 = !empty($ids[3]["id"]) ? $dm->getCalcHistory($ids[3]["id"]) : ["data" => []];
+        $detailsAnte5 = !empty($ids[4]["id"]) ? $dm->getCalcHistory($ids[4]["id"]) : ["data" => []];
+        $detailsActu = $dm->getCalcHistory($id_get);
 
         $det = [];
         $arrAux = [];

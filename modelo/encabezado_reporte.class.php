@@ -51,7 +51,7 @@ class rHeader
     (SELECT nombre FROM paisaje p WHERE p.id=er.id_area_conservacion) paisaje,
     er.fecha_evaluacion
     FROM encabezado_reporte er
-    WHERE er.id_area_natural = :n1 AND er.estado = 1;";
+    WHERE er.id_area_natural = :n1 AND er.estado = 3;";
     try {
       // Preparamos la consulta
       $stmt = $con->connect()->prepare($sql);

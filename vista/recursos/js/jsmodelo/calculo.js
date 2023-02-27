@@ -18,6 +18,10 @@ const urlEvEn = "../controlador/evaluador_encabezado.controller.php";
 const urlReport = "../controlador/detalle_reporte.controller.php";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  $(".select2").select2({
+    theme: "classic",
+    width: 'resolve',
+  });
   await getAreas();
   await getHeader(0);
   await resumeTable(0);
@@ -299,19 +303,45 @@ $("#area").change(async () => {
   }
 });
 
+async function generalScale(id){
+  const resumen = await fetch(
+    `${urlReport}?accion=generalScale&id=${id}`
+  ).then((res) => res.json());
+  return resumen;
+}
+
 async function fillHead(id) {
   $("#box_encabezado").show(200);
   const { success, encabezado } = await fetch(
     `${url}?accion=get&id=${id}`
   ).then((res) => res.json());
   if (success) {
+    var general = await generalScale(id);
+    //alert(general);
+    var data = parseFloat(general);
+    var satisfaccion="";
+    if (data < 200) {
+      satisfaccion="No aceptable";
+    } else if (data >= 200 && data < 400) {
+      satisfaccion="Poco aceptable";
+    } else if (data >= 400 && data < 600) {
+      satisfaccion="Regular";
+    } else if (data >= 600 && data < 800) {
+      satisfaccion="Aceptable";
+    } else if (data > 800) {
+      satisfaccion="Satisfactorio";
+    }
     $("#box_encabezado_header").html(
       "<h3><b>Area natural protegida: </b>" +
         encabezado[0].nombre +
         "</h3><h4><b>Fecha de evaluacion: </b>" +
         encabezado[0].fecha_evaluacion +
+        "</h4><h4><b>Puntaje general: </b>" +
+        general +
+        "</h4><h4><b>Escala de satisfaccion: </b>" +
+        satisfaccion +
         "</h4>"
-    );
+    ); 
   }
 }
 
@@ -510,7 +540,6 @@ const graficarChartLine = async (id) => {
   const { data } = await fetch(
     `${urlReport}?accion=comparetionByHeaders2&id=${id}&id_ap=3`
   ).then((res) => res.json());
-
   if (chartLine) {
     chartLine.destroy();
   }

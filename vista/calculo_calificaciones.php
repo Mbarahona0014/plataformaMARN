@@ -95,7 +95,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <div class="form-group col-md-12 mb-3">
         <div class="form-group">
           <label>Area natural</label>
-          <select name="area" id="area" class="form-control">
+          <select name="area" id="area" class="form-control select2">
           </select>
         </div>
       </div>
