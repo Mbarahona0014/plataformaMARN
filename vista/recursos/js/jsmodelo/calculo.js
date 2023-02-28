@@ -84,14 +84,14 @@ function Export2PDF(filename = "test.pdf") {
   html += "</br></br></br></div>";
   html += document.getElementById("box_encabezado_header").outerHTML;
   html +=
-    '<div class="banner">Resumen de puntaje por ambito</div></br></br></br>';
+    '<div class="banner">Resumen de puntaje por ambito</div></br>';
   html += document.getElementById("tabla_resumen").outerHTML;
-  html += '<div class="banner">Escala de satisfaccion</div></br>';
+  html += '<div class="banner">Resumen de indicadores</div></br>';
   html += document.getElementById("tabla_indicadores").outerHTML;
-  html += '<div class="banner">Grafico de escala de satisfaccion</div></br>';
+  html += '<div class="banner">Resumen de indicadores</div></br>';
   html += gra1.outerHTML;
   html +=
-    '<div class="banner">Comparacion sobre la calidad de gestion respecto año anterior</div></br>';
+    '<div class="banner">Comparacion sobre la calidad de gestion</div></br>';
   html += document.getElementById("tabla_comparacion").outerHTML;
   html +=
     '<div class="banner">Comparacion temporal de calidad de gestion 5 años</div></br>';

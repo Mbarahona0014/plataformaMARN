@@ -7,13 +7,10 @@ include_once "../conexion/conexion.php";
  */
  class daorestauracionpuntos
  {
-
-
  	function __construct()
  	{
 
  	}
- 	
 
  	public function consultarsumahectareas(){
  		$c=conectar();
@@ -43,7 +40,6 @@ include_once "../conexion/conexion.php";
 		left join tecnica t on r.idtecnicas= t.IdTecnica and t.estado=1 where r.estado=0 or r.estado=1 order by r.id_restauracion desc;";
  		$c->set_charset('utf8');
  		$res= $c->query($sql);
-
  		return $res;
  	}
 

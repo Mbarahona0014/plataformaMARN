@@ -200,7 +200,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <div class="box">
         <div class="box-header with-border">
           <button class="btn btn-success" onclick="exportToExcel('tabla_indicadores');"><i class="fa fa-file-excel-o"></i></button>
-          <h3 class="box-title"><b>Escala de satisfaccion</b></h3>
+          <h3 class="box-title"><b>Resultados de indicadores</b></h3>
         </div>
         <div class="box-body">
           <table id="tabla_indicadores" class="table table-bordered display nowrap" cellspacing="0" width="100%">
@@ -241,7 +241,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       <div class="box">
         <div class="box-header with-border">
           <button class="btn btn-success" onclick="exportToExcel('tabla_comparacion');"><i class="fa fa-file-excel-o"></i></button>
-          <h3 class="box-title"><b>Comparacion Sobre la Calidad de Gestión de Manejo Año Anterior y Actual</b></h3>
+          <h3 class="box-title"><b>Comparacion Sobre la Calidad de Gestión de Manejo Anterior y Actual</b></h3>
         </div>
         <div class="box-body">
           <table id="tabla_comparacion" class="table table-bordered display nowrap" cellspacing="0" width="100%">
@@ -286,7 +286,6 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               </tr>
             </thead>
             <tbody>
-
             </tbody>
           </table>
         </div>

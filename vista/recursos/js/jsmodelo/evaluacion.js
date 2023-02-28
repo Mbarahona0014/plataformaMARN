@@ -64,7 +64,8 @@ btnEnviarEvaluador.addEventListener("click", (e) => {
 
 function clearForm() {
   formEncabezado.id_encabezado.value = "";
-  formEncabezado.area.value = "";
+  $('#area').val("");
+  $('#area').trigger('change');
   formEncabezado.fecha.value = "";
 }
 
@@ -250,8 +251,12 @@ async function getHeaderById(id) {
     formEncabezado.scrollIntoView({ block: "end", behavior: "smooth" });
     formEncabezado.id_encabezado.value = encabezado[0].id;
     formEvaluador.id_encabezado.value = encabezado[0].id;
-    formEncabezado.area.value = encabezado[0].id_area_natural;
-    formEncabezado.conservacion.value = encabezado[0].id_area_conservacion;
+    $('#area').val(encabezado[0].id_area_natural);
+    $('#area').trigger('change');
+    /* formEncabezado.area.value = encabezado[0].id_area_natural; */
+    $('#conservacion').val(encabezado[0].id_area_conservacion);
+    $('#conservacion').trigger('change');
+    /* formEncabezado.conservacion.value = encabezado[0].id_area_conservacion; */
     formEncabezado.fecha.value = encabezado[0].fecha_evaluacion;
     fillEnEv(encabezado[0].id);
     $("#calloutText").text("Evaluacion numero: " + id);

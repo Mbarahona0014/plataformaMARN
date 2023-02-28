@@ -86,7 +86,6 @@ function consultarpointscoordenadas()
             url: "../controlador/controllerrestauracionpuntos.php?btnconsultar=consultarpointscoordenadas",//hasta para consultar tenemos un boton imaginario en el controlador  => ($page = isset($_GET['btnConsultar'])?$_GET['btnConsultar']:'';)
             data: 'btnconsultar=consultarpointscoordenadas'
             }).done(function(resp) {
-              
 
             });
 
@@ -117,7 +116,7 @@ function vmapa(){
           // {cluster_count} is an aggregate field containing
           // the number of features comprised by the cluster
           popupTemplate: {
-            title: "Restauraciones",
+            title: "Efectividad de manejo",
             content: "Una cantidad de {cluster_count} restauraciones en este punto.",
             fieldInfos: [
               {
@@ -198,7 +197,6 @@ function vmapa(){
           title: "Puntos",
           url:"../controlador/controllerrestauracionpuntos.php?btnconsultar=consultarpoints",
           //url:"points.php",
-
           featureReduction: clusterConfig,
           renderer : renderer, 
         });
@@ -373,7 +371,6 @@ function vmapa(){
 }
 
 var DATOS = (i)=>{
-
         //alert(i);
         require([
         "esri/Map",

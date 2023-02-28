@@ -626,7 +626,7 @@ if ($page == 'consultarpoints') {
         # Pass Longitude and Latitude Columns here
         'coordinates' => [$c['longitud'], $c['latitud']],
         'id' => $c['codigo']
-      )
+      ) 
     );
     # Add feature arrays to feature collection array
     array_push($geojson['features'], $feature);
