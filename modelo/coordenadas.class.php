@@ -35,7 +35,7 @@ class Cord
     return $cord;
   }
   // Método para crear un ámbito
-  public function createCord($id_a,$lat,$lon)
+  public function createCord($id_a, $lat, $lon)
   {
     // Obtenemos la conexion
     global $con;
@@ -96,7 +96,7 @@ class Cord
     return $cord;
   }
   // Método para actualizar un ámbito
-  public function updateCord($id_a,$lat,$lon,$id)
+  public function updateCord($id_a, $lat, $lon, $id)
   {
     // Obtenemos la conexion
     global $con;
@@ -158,31 +158,33 @@ class Cord
     return $cord;
   }
 
-  public function getLastEvaluations(){
+  public function getLastEvaluations()
+  {
     global $con;
-    $sql="SELECT 
-    hanp.id_encabezado id, 
-    c.lat lat, 
-    c.lon lon, 
+    $sql = "SELECT
+    hanp.id_encabezado id,
+    c.lat lat,
+    c.lon lon,
     max(er.fecha_evaluacion) fecha,
     (SELECT nombre FROM area_natural WHERE id = er.id_area_natural) area
-    FROM historico_anp hanp 
+    FROM historico_anp hanp
     INNER JOIN encabezado_reporte er ON hanp.id_encabezado=er.id
-    INNER JOIN coordenadas c ON er.id_area_natural=c.id_anp 
-    GROUP BY er.id_area_natural";
+    INNER JOIN coordenadas c ON er.id_area_natural=c.id_anp
+    GROUP BY er.id_area_natural, hanp.id_encabezado,c.lat,c.lon";
     $stmt = $con->connect()->prepare($sql);
     $stmt->execute();
-    $res=$stmt->fetchAll();
+    $res = $stmt->fetchAll();
     $con->disconnect();
     return $res;
   }
 
-  public function consultarPoints(){
+  public function consultarPoints()
+  {
     $dr = new dReport();
-    $evas=$this->getLastEvaluations();
-    foreach($evas as $index => $datos){
-      $id=$datos["id"];
-      $datosEv=$dr->getGeneralScale($id);
+    $evas = $this->getLastEvaluations();
+    foreach ($evas as $index => $datos) {
+      $id = $datos["id"];
+      $datosEv = $dr->getGeneralScale($id);
       if ($datosEv < 200) {
         $satisfaccion = "No aceptable";
       } else if ($datosEv >= 200 && $datosEv < 400) {
