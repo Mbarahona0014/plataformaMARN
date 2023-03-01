@@ -307,12 +307,12 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
       </div>
       <!-- /.box -->
     </div>
-    <img style="display:none;" id="imgLogo" width="200" height="55" src="recursos/images/logomarn.png">
+    <img style="display:none;" id="imgLogo" width="165" height="45" src="recursos/images/logomarn.png">
     <div>
-      <img style="background-color:white; display:none;" id="imgChartLine" width="525" height="250" src="">
+      <img style="background-color:white; display:none;" id="imgChartLine" width="525" height="245" src="">
     </div>
     <div>
-      <img style="background-color:white; display:none;" id="imgChartBar" width="525" height="250" src="">
+      <img style="background-color:white; display:none;" id="imgChartBar" width="525" height="245" src="">
     </div>
   </div>
 </section>

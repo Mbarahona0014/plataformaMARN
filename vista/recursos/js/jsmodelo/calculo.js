@@ -39,12 +39,12 @@ function Export2PDF(filename = "test.pdf") {
   var preHtml = `<html><head><meta charset='utf-8'><title>Export HTML To PDF</title>
     <style>
     *{
-      padding: 0;
+      padding: 2px;
       margin: 0;
       border: 0;
     }
     .banner {
-      margin-top:20px;
+      padding-top:10px;
       font-size:14px;
       font-family: Verdana, sans-serif;
     }
@@ -55,6 +55,10 @@ function Export2PDF(filename = "test.pdf") {
       text-align: right;
       white-space: nowrap;
       font-size:18px;
+      padding-bottom:20px;
+    }
+    .nv{
+      margin-bottom=10px;
     }
     #box_encabezado_header {
       font-family: Verdana, sans-serif;
@@ -81,23 +85,23 @@ function Export2PDF(filename = "test.pdf") {
   gra2.setAttribute("src", document.querySelector("#chartLine").toDataURL());
   html += '<div class="box-tittle">' + logo.outerHTML;
   html += "<p>REPORTE DE EVALUACION DE EFECTIVIDAD DE MANEJO</p>";
-  html += "</br></br></br></div>";
+  html += "</div>";
   html += document.getElementById("box_encabezado_header").outerHTML;
   html +=
-    '<div class="banner">Resumen de puntaje por ambito</div></br>';
+    '<div class="banner">Resumen de puntaje por ambito</div>';
   html += document.getElementById("tabla_resumen").outerHTML;
-  html += '<div class="banner">Resumen de indicadores</div></br>';
+  html += '<div class="banner">Resumen de indicadores</div>';
   html += document.getElementById("tabla_indicadores").outerHTML;
-  html += '<div class="banner">Resumen de indicadores</div></br>';
-  html += gra1.outerHTML;
+  html += '<div class="banner">Grafico resumen de indicadores</div>';
+  html += '<div class="banner">'+gra1.outerHTML+'</div>';
   html +=
-    '<div class="banner">Comparacion sobre la calidad de gestion</div></br>';
+    '<div class="banner">Comparacion sobre la calidad de gestion</div>';
   html += document.getElementById("tabla_comparacion").outerHTML;
   html +=
-    '<div class="banner">Comparacion temporal de calidad de gestion 5 años</div></br>';
+    '<div class="banner">Comparacion temporal de calidad de gestion 5 años</div>';
   html += document.getElementById("tabla_comparacion2").outerHTML;
-  html += '<div class="banner">Grafico estadistico temporal</h3></div></br>';
-  html += gra2.outerHTML;
+  html += '<div class="banner">Grafico estadistico temporal</h3></div>';
+  html += '<div class="banner">'+gra2.outerHTML+'</div>';
   html += postHtml;
   var pdf = new jsPDF("p", "pt", "letter");
   margins = {
