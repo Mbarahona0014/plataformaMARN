@@ -160,11 +160,11 @@ class Cord
 
   public function getLastEvaluations(){
     global $con;
-
-    $sql="SELECT max(hanp.id_encabezado) id, 
+    $sql="SELECT 
+    hanp.id_encabezado id, 
     c.lat lat, 
     c.lon lon, 
-    er.fecha_evaluacion fecha,
+    max(er.fecha_evaluacion) fecha,
     (SELECT nombre FROM area_natural WHERE id = er.id_area_natural) area
     FROM historico_anp hanp 
     INNER JOIN encabezado_reporte er ON hanp.id_encabezado=er.id
@@ -181,14 +181,27 @@ class Cord
     $dr = new dReport();
     $evas=$this->getLastEvaluations();
     foreach($evas as $index => $datos){
-      $datosEv=$dr->getGeneralScale([$datos["id"]]);
-      var_dump($datosEv);
-      $puntos[$datos["id"]] = array(
+      $id=$datos["id"];
+      $datosEv=$dr->getGeneralScale($id);
+      if ($datosEv < 200) {
+        $satisfaccion = "No aceptable";
+      } else if ($datosEv >= 200 && $datosEv < 400) {
+        $satisfaccion = "Poco aceptable";
+      } else if ($datosEv >= 400 && $datosEv < 600) {
+        $satisfaccion = "Regular";
+      } else if ($datosEv >= 600 && $datosEv < 800) {
+        $satisfaccion = "Aceptable";
+      } else if ($datosEv > 800) {
+        $satisfaccion = "Satisfactorio";
+      }
+      //var_dump($dr->getGeneralScale([$datos["id"]]));
+      $puntos[$id] = array(
         'area' => $datos['area'],
         'fecha' => $datos['fecha'],
         'escala' => $datosEv,
         'lat' => $datos['lat'],
-        'lon' => $datos['lon']
+        'lon' => $datos['lon'],
+        'satisfaccion' => $satisfaccion
       );
     }
     return $puntos;

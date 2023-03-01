@@ -112,7 +112,6 @@ if (isset($_POST) || isset($_GET)) {
                     'features'  => array()
                     );
                     foreach ($cords as $key => $data) {
-                        var_dump($data);
                     $feature = array(
                         'type' => 'Feature',
                         # Pass other attribute columns here
@@ -121,7 +120,8 @@ if (isset($_POST) || isset($_GET)) {
                         'fecha' => $data['fecha'],
                         'escala' => $data['escala'],
                         'longitud' => $data['lon'],
-                        'latitud' => $data['lat']
+                        'latitud' => $data['lat'],
+                        'satisfaccion' => $data['satisfaccion']
                         ),
                         'geometry' => array(
                         'type' => 'Point',

@@ -128,8 +128,8 @@ function vmapa(){
               }
             ]
           },
-          clusterMinSize: "24px",
-          clusterMaxSize: "60px",
+          clusterMinSize: "10px",
+          clusterMaxSize: "40px",
           labelingInfo: [
             {
               deconflictionStrategy: "none",
@@ -177,7 +177,7 @@ function vmapa(){
               color: "black",
               width: 0
             },
-            size: 6.5
+            size: 12
           }
         });
 
@@ -195,8 +195,8 @@ function vmapa(){
 
         const layer = new GeoJSONLayer({
           title: "Puntos",
-          //url:"../controlador/coordenadas.controller.php?action=points",
-          url:"../controlador/controllerrestauracionpuntos.php?btnconsultar=consultarpointsalt",
+          url:"../controlador/coordenadas.controller.php?accion=points",
+          //url:"../controlador/controllerrestauracionpuntos.php?btnconsultar=consultarpointsalt",
           //url:"points.php",
           featureReduction: clusterConfig,
           renderer : renderer, 
