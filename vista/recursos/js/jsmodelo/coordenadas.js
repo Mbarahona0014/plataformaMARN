@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   await getAreas();
   await getCords();
+  await getPoints();
 });
 
 function alert(encabezado,mensaje,tipo){
@@ -27,6 +28,20 @@ function alert(encabezado,mensaje,tipo){
     tipo
   )
 }
+
+
+const getPoints = async () => {
+  const { data } = await fetch(`${url}?accion=points`).then((res) =>
+    res.json()
+  );
+  let html = "";
+  if (data.length > 0) {
+    alert(data["area"]);
+  } else {
+    alert("nada");
+  }
+  $("#area").html(html);
+};
 
 const getAreas = async () => {
   const { data } = await fetch(`${urlAreas}?accion=list`).then((res) =>

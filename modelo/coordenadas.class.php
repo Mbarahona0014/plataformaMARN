@@ -1,6 +1,7 @@
 <?php
 // Importamos los archivos necesarios
 require_once '../conexion/connection.class.php';
+require_once '../modelo/detalle_reporte.class.php';
 // Instanciamos las clases
 $con = new Connection();
 
@@ -155,5 +156,41 @@ class Cord
     }
     // Retornamos el resultado de la consulta
     return $cord;
+  }
+
+  public function getLastEvaluations(){
+    global $con;
+
+    $sql="SELECT max(hanp.id_encabezado) id, 
+    c.lat lat, 
+    c.lon lon, 
+    er.fecha_evaluacion fecha,
+    (SELECT nombre FROM area_natural WHERE id = er.id_area_natural) area
+    FROM historico_anp hanp 
+    INNER JOIN encabezado_reporte er ON hanp.id_encabezado=er.id
+    INNER JOIN coordenadas c ON er.id_area_natural=c.id_anp 
+    GROUP BY er.id_area_natural";
+    $stmt = $con->connect()->prepare($sql);
+    $stmt->execute();
+    $res=$stmt->fetchAll();
+    $con->disconnect();
+    return $res;
+  }
+
+  public function consultarPoints(){
+    $dr = new dReport();
+    $evas=$this->getLastEvaluations();
+    foreach($evas as $index => $datos){
+      $datosEv=$dr->getGeneralScale([$datos["id"]]);
+      var_dump($datosEv);
+      $puntos[$datos["id"]] = array(
+        'area' => $datos['area'],
+        'fecha' => $datos['fecha'],
+        'escala' => $datosEv,
+        'lat' => $datos['lat'],
+        'lon' => $datos['lon']
+      );
+    }
+    return $puntos;
   }
 }

@@ -102,31 +102,13 @@ foreach($r as $c){
       <div id="accordion" >
         <div class="card">
     <!-- <h1>XDD</h1> -->
-    <div class="card-header bg-dark" id="headingOne">
-        <h5 class="mb-0">
-          <button class="btn" style="color:whitesmoke;" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Gráfico de avance hectáreas restauradas
-          </button>
-        </h5>
-      </div>
-
-    <div id="collapseOne" class="collapse bg-secondary show" aria-labelledby="headingOne" data-parent="#accordion">
-      <div class="card-body">
-        <div style="background-image: url('recursos/images/avance.png'); background-repeat: no-repeat; display: block;margin-left: 5%;margin-right: 5%;width: 90%; height: auto;">
-        <p style='color:white; font-weight: bolder; font-size: xx-large;padding-top: 200px;text-align: center;'>
-            <?php echo number_format($cantidad,2); ?>&nbsp;ha
-            <!-- <br>
-            Restauradas -->
-        </p>
-      </div>
-    </div>
-  </div>
+    
     <div class="card ">
   
       <div class="card-header bg-dark" id="headingTwo">
         <h5 class="mb-0">
           <button class="btn collapsed" style="color:whitesmoke;" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Información
+            INFORMACION
           </button>
         </h5>
       </div>
@@ -135,7 +117,7 @@ foreach($r as $c){
         <div class="card-body">
 
           <p style='color:white; font-weight: bolder; font-size: xx-large;text-align: center;'>
-              RESTAURACIÓN Y REFORESTACIÓN
+              EVALUACION DE EFECTIVIDAD DE MANEJO
           </p>
         </div>
       </div>
@@ -144,7 +126,7 @@ foreach($r as $c){
       <div class="card-header bg-dark" id="headingThree">
         <h5 class="mb-0">
           <button class="btn collapsed" style="color:whitesmoke;" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            Capas
+            CAPAS
           </button>
         </h5>
       </div>

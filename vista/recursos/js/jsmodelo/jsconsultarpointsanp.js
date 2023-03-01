@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 
-$('#tpperiodo3').select2({
+/* $('#tpperiodo3').select2({
     language: {
 
     noResults: function() {
@@ -28,7 +28,7 @@ $('#tpmostrar').select2({
       return "Buscando..";
     }
   }
-});
+}); */
 
 $( "#bajar" ).click(function(event) {
   event.preventDefault();
@@ -41,14 +41,14 @@ $( "#bajar" ).click(function(event) {
 
 
 
-consultarcombo3();
-consultarpoints();
-consultarpointscoordenadas();
+/* consultarcombo3(); */
+/* consultarpoints(); */
+/* consultarpointscoordenadas(); */
 vmapa();
 
 });
 
-function consultarcombo3() {
+/* function consultarcombo3() {
     $.ajax({
         type: "POST",
             url: "../controlador/controllerrestauracionpuntos.php?btnconsultar=consultarcb3",//hasta para consultar tenemos un boton imaginario en el controlador  => ($page = isset($_GET['btnConsultar'])?$_GET['btnConsultar']:'';)
@@ -62,9 +62,9 @@ function consultarcombo3() {
                $("#tpperiodo3").html(html);//colocamos todo nuestro codigo HTML en nuestra pagina con esta linea, aunque si se fijan concatenamos un par de variables
 
             });
-}
+} */
 
-function consultarpoints()
+/* function consultarpoints()
 {
 
   $.ajax({
@@ -77,8 +77,8 @@ function consultarpoints()
             });
 
 }
-
-function consultarpointscoordenadas()
+ */
+/* function consultarpointscoordenadas()
 {
 
   $.ajax({
@@ -89,7 +89,7 @@ function consultarpointscoordenadas()
 
             });
 
-}
+} */
 var kml=[];
 
 function vmapa(){
@@ -172,7 +172,7 @@ function vmapa(){
         const renderer = new SimpleRenderer({
           symbol: {
             type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-            color: "#827717",
+            color: "#5028c9",
             outline: {
               color: "black",
               width: 0
@@ -181,28 +181,29 @@ function vmapa(){
           }
         });
 
-      const renderer2 = {
+      /* const renderer2 = {
         type : "simple",
         symbol : {
             type : "simple-fill",
-            color: [129, 86, 131], // gray, opacity 80%
+            color: [80, 40, 201], // gray, opacity 80%
             //color: [129, 86, 131, 0.9],
             outline: {
-              color: "#1a237e",
+              color: "#5028c9",
               width: 4
             }
-        }};
+        }}; */
 
         const layer = new GeoJSONLayer({
           title: "Puntos",
-          url:"../controlador/controllerrestauracionpuntos.php?btnconsultar=consultarpoints",
+          //url:"../controlador/coordenadas.controller.php?action=points",
+          url:"../controlador/controllerrestauracionpuntos.php?btnconsultar=consultarpointsalt",
           //url:"points.php",
           featureReduction: clusterConfig,
           renderer : renderer, 
         });
         //
 
-        const layer2 = new GeoJSONLayer({
+        /* const layer2 = new GeoJSONLayer({
           title: "Poligono",
           url:"../controlador/controllerrestauracionpuntos.php?btnconsultar=consultarpointscoordenadas",
 
@@ -212,10 +213,10 @@ function vmapa(){
             opacity : 0.70,
             geometryType : "polygon"
 
-        });
+        }); */
 
         //layer2.minScale = 3000000;
-        layer2.maxScale = 100;
+        /* layer2.maxScale = 100; */
 
         
 
@@ -232,10 +233,10 @@ function vmapa(){
           if(!($( "#tpperiodo3" ).val()=='all')){
             var fecha="'%"+$( "#tpperiodo3" ).val()+"%'";
             layer.definitionExpression = "periodo like "+fecha;
-            layer2.definitionExpression = "periodo like "+fecha;
+            /* layer2.definitionExpression = "periodo like "+fecha; */
           }else{
             layer.definitionExpression = null;
-            layer2.definitionExpression = null;
+            /* layer2.definitionExpression = null; */
           }
         });
 
@@ -246,18 +247,18 @@ function vmapa(){
             if(cod = document.getElementById("tpmostrar").value=="poligonos")
             {
               map.remove(layer);
-              map.add(layer2);
+              /* map.add(layer2); */
             }
             else if(cod = document.getElementById("tpmostrar").value=="puntos")
             {
-              map.remove(layer2);
+              /* map.remove(layer2); */
               map.add(layer);
             }else if(cod = document.getElementById("tpmostrar").value=="todos")
             {
               map.remove(layer);
-              map.remove(layer2);
+              /* map.remove(layer2); */
               map.add(layer);
-              map.add(layer2);
+              /* map.add(layer2); */
             }
               //map.removeAll();
             /*alert("xd")
@@ -275,14 +276,14 @@ function vmapa(){
         
 
         layer.popupTemplate = {
-            title: "<b>{nombre}</b>",
-            content: "<p>Dentro del período {periodo}, se gestionó la restauración de un área comprendida por {descripcion} hectáreas, con base al siguiente detalle:</p><li><b>Beneficiarios: </b>{beneficiarios}</li><li><b>Instituciones: </b>{instituciones}</li><li><b>Departamento/Municipio: </b>{municipio}</li><li><b>Canton: </b>{canton}</li><li><b>Georeferencia: </b>{longitud},{latitud}</li><ul>"
+            title: "<b>{area}</b>",
+            content: "<p>Estos son los datos para la evaluacion de efectividad de manejo para el ANP {area} :</p><li><b>Fecha: </b>{fecha}</li><li><b>Escala de manejo: </b>{escala}</li><li><b>Satisfaccion: </b>{satisfaccion}</li><ul>"
             };
 
-        layer2.popupTemplate = {
+        /* layer2.popupTemplate = {
             title: "<b>{nombre}</b>",
             content: "<p>Dentro del período {periodo}, se gestionó la restauración de un área comprendida por {descripcion} hectáreas, con base al siguiente detalle:</p><li><b>Beneficiarios: </b>{beneficiarios}</li><li><b>Instituciones: </b>{instituciones}</li><li><b>Departamento/Municipio: </b>{municipio}</li><li><b>Canton: </b>{canton}</li><ul>"
-            };
+            }; */
 
         /*var layer1 = new KMLLayer({
           url:
@@ -293,7 +294,7 @@ function vmapa(){
 
         const map = new Map({
           basemap: "osm",
-          layers: [layer, layer2],
+          layers: [layer],
         });
 
 

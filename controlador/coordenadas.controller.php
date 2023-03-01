@@ -105,6 +105,36 @@ if (isset($_POST) || isset($_GET)) {
                     }
                 }
                 break;
+            case 'points':
+                $cords = $cm->consultarPoints();
+                $geojson = array(
+                    'type'      => 'FeatureCollection',
+                    'features'  => array()
+                    );
+                    foreach ($cords as $key => $data) {
+                        var_dump($data);
+                    $feature = array(
+                        'type' => 'Feature',
+                        # Pass other attribute columns here
+                        'properties' => array(
+                        'area' => $data['area'],
+                        'fecha' => $data['fecha'],
+                        'escala' => $data['escala'],
+                        'longitud' => $data['lon'],
+                        'latitud' => $data['lat']
+                        ),
+                        'geometry' => array(
+                        'type' => 'Point',
+                        # Pass Longitude and Latitude Columns here
+                        'coordinates' => [$data['lon'], $data['lat']],
+                        'id' => $key
+                        ) 
+                    );
+                    # Add feature arrays to feature collection array
+                    array_push($geojson['features'], $feature);
+                    }
+                    echo json_encode($geojson);
+            break;
             default:
             print_r(json_encode([
                 "success" => false,
