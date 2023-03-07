@@ -114,7 +114,8 @@ if (isset($_POST) || isset($_GET)) {
             ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
           }
         }
-        case 'getRemainingByScope2':
+        break;
+        case 'editRemainingByScope':
           if ($id_get) {
             // Verificamos que todo esté correcto
             $topics = $tm->getRemainingTopicByScope2($id_get);

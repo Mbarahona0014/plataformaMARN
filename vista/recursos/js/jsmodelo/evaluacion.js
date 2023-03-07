@@ -763,7 +763,7 @@ $("#id_ambito_edi").change(async () => {
   const url = `../controlador/tema.controller.php`;
   if (id_ambito.length > 0) {
     const { success, temas } = await fetch(
-      `${url}?accion=getRemainingByScope2&id=${id_ambito}`
+      `${url}?accion=editRemainingByScope&id=${id_ambito}`
     ).then((res) => res.json());
     let html = "";
     if (success) {

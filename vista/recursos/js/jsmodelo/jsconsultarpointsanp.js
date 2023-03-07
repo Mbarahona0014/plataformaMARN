@@ -114,7 +114,7 @@ function vmapa() {
 
     const clusterConfig = {
       type: "cluster",
-      clusterRadius: "200px",
+      clusterRadius: "35px",
       // {cluster_count} is an aggregate field containing
       // the number of features comprised by the cluster
       popupTemplate: {
@@ -132,7 +132,7 @@ function vmapa() {
         ],
       },
       clusterMinSize: "25px",
-      clusterMaxSize: "200px",
+      clusterMaxSize: "35px",
       labelingInfo: [
         {
           deconflictionStrategy: "none",
