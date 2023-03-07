@@ -227,7 +227,7 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
             </div>
           </div>
           <div class="col-md-3 col-sm-3 col-xs-3">
-              <a id="btnValidar" class="btn btn-app"><i class="fa fa-check-circle"></i>Validar</a>
+            <a id="btnValidar" class="btn btn-app"><i class="fa fa-check-circle"></i>Validar</a>
           </div>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar">
@@ -336,14 +336,23 @@ if ($_SESSION['idtipousuario'] == 2 || $_SESSION['idtipousuario'] == 3 || $_SESS
               Listado de Archivos
             </h5>
           </div>
-          <div class="modal-body text-center">
+          <div class="modal-body">
+            <form class="row" id="form_archi_det">
+              <div class="col-md-6">
+                <input type="hidden" name="id_detalle_archi" id="id_detalle_archi">
+                <label for="file_nuevo">Ingrese un Archivo:</label>
+                <input type="file" name="file_nuevo" id="file_nuevo" accept="image/*,.doc,.docx,.pdf,.xls,.xlsx" class="form-control">
+                <button class="btn btn-primary" id="btn_agregar_file" style="margin-top: 10px;">Agregar Archivo</button>
+              </div>
+            </form>
+            <br>
             <table id="tabla_archivos" class="table display nowrap dataTable dtr-inline table-bordered table-striped" style="width:100%">
               <thead>
                 <tr>
                   <th>#</th>
                   <th>Nombre Archivo</th>
                   <th>Detalle</th>
-                  <th>Acciones</th>
+                  <th colspan="2" style="text-align: center;">Acciones</th>
                 </tr>
               </thead>
               <tbody>

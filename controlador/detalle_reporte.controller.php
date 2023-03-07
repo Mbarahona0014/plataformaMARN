@@ -21,6 +21,7 @@ if (isset($_POST) || isset($_GET)) {
   $eviDeta = isset($_POST['evi_deta']) ? $hlp->clear($_POST['evi_deta']) : false;
   /* $imgs = isset($_FILES['files']) ? $_FILES['files'] : false; */
   $idAp = isset($_GET['id_ap']) ? $hlp->clear($_GET['id_ap']) : false;
+  $id_detalle_archi = isset($_POST['id_detalle_archi']) ? $hlp->clear($_POST['id_detalle_archi']) : false;
 
   if ($accion) {
     switch ($accion) {
@@ -190,9 +191,71 @@ if (isset($_POST) || isset($_GET)) {
           } else {
             print_r(json_encode([
               "success" => false,
-              "mensaje" => "¡Hubo un problhma al eiliminar el detalle!",
+              "mensaje" => "¡Hubo un problema al eliminar el detalle!",
             ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
           }
+        }
+        break;
+      case 'deleteFile':
+        if ($id_get) {
+          $file = $dm->getFileById($id_get);
+          $nameFile = $file[0]["archivo"];
+          $fileDeleted = $dm->deleteFile($nameFile);
+          if (file_exists("../vista/recursos/documents_evaluaciones/" . $nameFile)) {
+            unlink("../vista/recursos/documents_evaluaciones/" . $nameFile);
+          }
+          if ($fileDeleted) {
+            print_r(json_encode([
+              "success" => true,
+              "mensaje" => "¡Archivo eliminado correctamente!",
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          } else {
+            print_r(json_encode([
+              "success" => false,
+              "mensaje" => "¡Hubo un problema al eliminar el archivo!",
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          }
+        } else {
+          print_r(json_encode([
+            "success" => false,
+            "mensaje" => "¡Hubo un problema al eliminar el archivo!",
+          ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        }
+        break;
+
+      case 'createFile':
+        $insert = false;
+        if (!empty($_FILES["file_nuevo"])) {
+          $extension = array("jpeg", "jpg", "png", "gif", "doc", "docx", "pdf", "xls", "xlsx");
+          $file_name = $_FILES["file_nuevo"]["name"];
+          $file_tmp = $_FILES["file_nuevo"]["tmp_name"];
+          $ext = pathinfo($file_name, PATHINFO_EXTENSION);
+          if (in_array($ext, $extension)) {
+            if (!file_exists("../vista/recursos/documents_evaluaciones/" . $file_name)) {
+              $newFileName = time() . $file_name;
+              $fileSave = $dm->saveFile($newFileName, $id_detalle_archi);
+              if ($fileSave) {
+                move_uploaded_file($file_tmp = $_FILES["file_nuevo"]["tmp_name"], "../vista/recursos/documents_evaluaciones/" . $newFileName);
+                $insert = true;
+              }
+            }
+          }
+          if ($insert) {
+            print_r(json_encode([
+              "success" => true,
+              "mensaje" => "¡Archivo agregado correctamente!",
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          } else {
+            print_r(json_encode([
+              "success" => false,
+              "mensaje" => "¡Ocurrio un error al subir archivo!",
+            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+          }
+        } else {
+          print_r(json_encode([
+            "success" => false,
+            "mensaje" => "¡Debe ingresar un archivo!"
+          ]));
         }
         break;
       case 'resumeByHeader':
@@ -208,18 +271,18 @@ if (isset($_POST) || isset($_GET)) {
           ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
         }
         break;
-        case 'generalScale':
-          $general = $dm->getGeneralScale($id_get);
-          if ($general) {
-            print_r(json_encode($general, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-          } else {
-            print_r(json_encode([
-              "sEcho" => 1,
-              "iTotalRecords" => 0,
-              "iTotalDisplayRecords" => 0,
-              "aaData" => []
-            ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
-          }
+      case 'generalScale':
+        $general = $dm->getGeneralScale($id_get);
+        if ($general) {
+          print_r(json_encode($general, JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        } else {
+          print_r(json_encode([
+            "sEcho" => 1,
+            "iTotalRecords" => 0,
+            "iTotalDisplayRecords" => 0,
+            "aaData" => []
+          ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
+        }
         break;
       case 'resumeByIndicator':
         $details = $dm->getScaleHistory($id_get);

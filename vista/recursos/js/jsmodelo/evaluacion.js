@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   fillEvaluador();
   $(".select2").select2({
     theme: "classic",
-    width: 'resolve',
+    width: "resolve",
   });
   $("#div_reporte").hide();
   $("#form_detalle").hide();
@@ -64,8 +64,8 @@ btnEnviarEvaluador.addEventListener("click", (e) => {
 
 function clearForm() {
   formEncabezado.id_encabezado.value = "";
-  $('#area').val("");
-  $('#area').trigger('change');
+  $("#area").val("");
+  $("#area").trigger("change");
   formEncabezado.fecha.value = "";
 }
 
@@ -251,11 +251,11 @@ async function getHeaderById(id) {
     formEncabezado.scrollIntoView({ block: "end", behavior: "smooth" });
     formEncabezado.id_encabezado.value = encabezado[0].id;
     formEvaluador.id_encabezado.value = encabezado[0].id;
-    $('#area').val(encabezado[0].id_area_natural);
-    $('#area').trigger('change');
+    $("#area").val(encabezado[0].id_area_natural);
+    $("#area").trigger("change");
     /* formEncabezado.area.value = encabezado[0].id_area_natural; */
-    $('#conservacion').val(encabezado[0].id_area_conservacion);
-    $('#conservacion').trigger('change');
+    $("#conservacion").val(encabezado[0].id_area_conservacion);
+    $("#conservacion").trigger("change");
     /* formEncabezado.conservacion.value = encabezado[0].id_area_conservacion; */
     formEncabezado.fecha.value = encabezado[0].fecha_evaluacion;
     fillEnEv(encabezado[0].id);
@@ -368,13 +368,15 @@ async function getRemainingTopics(idEn) {
   ).then((res) => res.json());
   if (success) {
     if (temas[0]["pendientes"] == 0) {
-      if(estado == '3'){
+      if (estado == "3") {
         $("#temasPendientes").text("EVALUACION VALIDADA");
         $("#btnValidar").hide(400);
-      }else{
+      } else {
         $("#btnValidar").show(400);
         updaterHeaderStatus("1", idEn);
-        $("#temasPendientes").text("EVALUACION FINALIZADA PENDIENTE DE VALIDAR");
+        $("#temasPendientes").text(
+          "EVALUACION FINALIZADA PENDIENTE DE VALIDAR"
+        );
       }
     } else {
       $("#btnValidar").hide(400);
@@ -453,6 +455,7 @@ const abrirModal = (id) => {
     backdrop: "static",
   });
   $("#modal_archivos").modal("show");
+  $("#id_detalle_archi").val(id);
   listarArchivos(id);
 };
 
@@ -663,6 +666,55 @@ $("#btn_agregar_detalle").click(async (e) => {
   await saveDetail();
 });
 
+async function deleteFile(id) {
+  const urlPet = `${urlReport}?accion=deleteFile&id=${id}`;
+  const { isConfirmed } = await Swal.fire({
+    title: "¿Seguro desea eliminar el archivo?",
+    text: "¡No podrá revertir la eliminación!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Eliminar",
+    cancelButtonText: "Cancelar",
+    allowOutsideClick: false,
+    heightAuto: false,
+  });
+  if (isConfirmed) {
+    const { success, mensaje } = await fetch(`${urlPet}`).then((res) =>
+      res.json()
+    );
+
+    if (success) {
+      tabla_archivos.ajax.reload();
+      return alert("¡Exito!", mensaje, "success");
+    } else {
+      return alert("¡Error!", mensaje, "error");
+    }
+  }
+}
+
+async function saveFile() {
+  const accion = `${urlReport}?accion=createFile`;
+  const { success, mensaje } = await fetch(accion, {
+    method: "POST",
+    body: new FormData($("#form_archi_det")[0]),
+  }).then((res) => res.json());
+
+  if (success) {
+    $("#file_nuevo").val("").trigger("change");
+    tabla_archivos.ajax.reload();
+    return alert("¡Exito!", mensaje, "success");
+  } else {
+    return alert("¡Error!", mensaje, "error");
+  }
+}
+
+$("#btn_agregar_file").click(async (e) => {
+  e.preventDefault();
+  await saveFile();
+});
+
 const listarArchivos = async (id) => {
   tabla_archivos = await $("#tabla_archivos").DataTable({
     destroy: true,
@@ -683,7 +735,17 @@ const listarArchivos = async (id) => {
       {
         data: "archivo",
         render: function (data) {
-          return `<a href="${urlDescargar}?file=${data}" class="btn btn-info btn-sm"><i class="fa fa-download"></i></a>`;
+          return `
+            <a href="${urlDescargar}?file=${data}" class="btn btn-info btn-sm"><i class="fa fa-download"></i></a>
+          `;
+        },
+      },
+      {
+        data: "id",
+        render: function (data) {
+          return `
+            <button title="Eliminar" class="btn btn-danger btn-sm" onclick="deleteFile('${data}')"><i class="fa fa-trash"></i></button>
+          `;
         },
       },
     ],
@@ -691,6 +753,8 @@ const listarArchivos = async (id) => {
       $($(nRow).find("td")[0]).css("text-align", "left");
       $($(nRow).find("td")[1]).css("text-align", "left");
       $($(nRow).find("td")[2]).css("text-align", "center");
+      $($(nRow).find("td")[3]).css("text-align", "center");
+      $($(nRow).find("td")[4]).css("text-align", "center");
     },
     lengthMenu: [
       [10, 15, 20, -1],
