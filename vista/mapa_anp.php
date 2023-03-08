@@ -1,5 +1,9 @@
 <?php 
-
+if ($_SESSION['idtipousuario'] != 1 || $_SESSION['idtipousuario'] != 7) {
+  //session_destroy();
+  echo "<script>window.location.href='vinicio.php'</script>";
+  //header("location:index.php");
+}
   //require_once "header.php"; 
 require_once "../modelo/daorestauracionpuntos.php";
 
@@ -9,7 +13,6 @@ $r=$dat->consultarsumahectareas();
 foreach($r as $c){
   $cantidad=$c["contador"];
   }
-
   ?>
 <meta charset="utf-8" />
     <meta
