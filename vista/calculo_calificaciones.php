@@ -1,7 +1,7 @@
 <?php
 require_once "header.php";
 //SOLO ADMIN PUEDE VER ESTA VISTA
-if ($_SESSION['idtipousuario'] !=1 || $_SESSION['idtipousuario'] != 7) {
+if ($_SESSION['idtipousuario'] ==2 || $_SESSION['idtipousuario'] == 3 || $_SESSION['idtipousuario'] == 4 || $_SESSION['idtipousuario'] == 5 || $_SESSION['idtipousuario'] == 6) {
   //session_destroy();
   echo "<script>window.location.href='vinicio.php'</script>";
   //header("location:index.php");
@@ -78,10 +78,7 @@ if ($_SESSION['idtipousuario'] !=1 || $_SESSION['idtipousuario'] != 7) {
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-
-  <h1>
     <h1><b>Ingreso de datos de evaluación</b></h1>
-  </h1>
   <ol class="breadcrumb">
     <li><span><i class="fa fa-home"></i> Inicio</a></span></li>
     <li class="active"><span>Evaluaciones</span></li>
@@ -89,6 +86,19 @@ if ($_SESSION['idtipousuario'] !=1 || $_SESSION['idtipousuario'] != 7) {
 </section>
 <!-- Main content -->
 <section id="content" class="content">
+  <div class="row">
+    <ol class="breadcrumb">
+      <li class="active">
+        <span>Recursos</span>
+      </li>
+      <li>
+        <i class="fa fa-file-excel-o"></i><a href="recursos/biblioteca/HerramientaEV.xlsx">Herramienta Excel</a>
+      </li>
+      <li>
+        <i class="fa fa-file-word-o"></i><a href="recursos/biblioteca/RevisionMonitoreo.docx">Revision de monitoreo</a>
+      </li>
+    </ol>
+  </div>
   <div class="row">
     <div class="col-md-12">
       <div class="box box-primary">
@@ -159,7 +169,9 @@ if ($_SESSION['idtipousuario'] !=1 || $_SESSION['idtipousuario'] != 7) {
       <!-- <button class="btn btn-primary m-2" onclick="Export2Doc();">Exportar a Word</button><br><br> -->
       <div class="box">
         <button class="btn bg-maroon" onclick="Export2PDF('reporteANP.pdf');"><i class="fa fa-file-pdf-o"></i></button>
+        
         <div class="box-header with-border" id="box_encabezado_header">
+        
         </div>
         <!-- /.box-body -->
       </div>
@@ -249,8 +261,8 @@ if ($_SESSION['idtipousuario'] !=1 || $_SESSION['idtipousuario'] != 7) {
               <tr>
                 <th style="width: 20%;">AMBITO</th>
                 <th style="width: 20%;">UCG</th>
-                <th style="width: 20%;">ANTERIOR</th>
-                <th style="width: 20%;">ACTUAL</th>
+                <th id="th_ant" style="width: 20%;">ANTERIOR</th>
+                <th id="th_actual" style="width: 20%;">ACTUAL</th>
                 <th style="width: 20%;">%CG</th>
               </tr>
             </thead>

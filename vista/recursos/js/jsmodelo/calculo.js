@@ -339,16 +339,31 @@ async function fillHead(id) {
       satisfaccion = "Satisfactorio";
     }
     $("#box_encabezado_header").html(
-      "<h3><b>Area natural protegida: </b>" +
-        encabezado[0].nombre +
-        "</h3><h4><b>Fecha de evaluacion: </b>" +
-        encabezado[0].fecha_evaluacion +
-        "</h4><h4><b>Puntaje general: </b>" +
-        general +
-        "</h4><h4><b>Escala de satisfaccion: </b>" +
-        satisfaccion +
-        "</h4>"
+      "<h3><b>Area natural protegida: </b>" + encabezado[0].nombre +
+      "</h3><h4><b>Fecha de evaluacion: </b>" +
+      encabezado[0].fecha_evaluacion +
+      "</h4><h4><b>Puntaje general: </b>" + general +
+      "</h4><h4><b>Porcentaje general: </b>" +
+      Math.round(general/10) + '%' +
+      "</h4><h4><b>Escala de satisfaccion: </b>" +
+      satisfaccion +
+      "</h4>"
     );
+    $.ajax({
+      method: "GET",
+      url: `${urlEvEn}?accion=listNom&idEn=${id}`,
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      success: function (response) {
+        var html = '';
+        $.each(response["data"], function (id, valor) {
+          var id_select = valor["id"];
+          var name_select = valor["nombre_completo"];
+          html += '<i class="fa fa-child"></i>&nbsp&nbsp'+name_select+'&nbsp&nbsp';
+        });
+        $("#box_encabezado_header").append('<h4><b>Evaluadores: </b>' + html + '</h4>');
+      },
+    });
   }
 }
 
@@ -478,6 +493,11 @@ const graficarChartBar = async (id) => {
     },
   });
 };
+
+async function getTHDates() {
+  $('#th_actual').html($('#evaluacionRef').find(":selected").text());
+  $('#th_ant').html($('#evaluacionComp').find(":selected").text());
+}
 
 const mulGraficarChartBar = async (id_ref,id_ant) => {
   const area = $("#area").val();
@@ -817,6 +837,9 @@ $("#btnCalc").click(()=> {
 })
 
 async function goCalc(id_ref,id_ant) {
+
+  //await fillEnEv(id_ref);
+  await getTHDates();
   await fillHead(id_ref);
   await resumeTable(id_ref);
   await indicatorsTable(id_ref);

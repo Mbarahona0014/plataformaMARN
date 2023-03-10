@@ -312,9 +312,9 @@ if (isset($_POST) || isset($_GET)) {
             $arrAux = [
               'ambito' => $value["ambito"],
               'ucg' => $value["puntajeucg"],
-              'gas1' => 0,
+              'gas1' => 'S/D',
               'gas2' => $value["puntajeanp"],
-              'cg' => round($cg, 2),
+              'cg' => round($cg*100, 2),
             ];
             array_push($det, $arrAux);
           }
@@ -360,11 +360,11 @@ if (isset($_POST) || isset($_GET)) {
             $arrAux = [
               'ambito' => $value["ambito"],
               'ucg' => $value["puntajeucg"],
-              'ga1' => (sizeof($detailsAnte1["data"])) > 0 ? ($detailsAnte1["data"][$key]["puntajeanp"] ? $detailsAnte1["data"][$key]["puntajeanp"] : 0) : 0,
-              'ga2' => (sizeof($detailsAnte2["data"])) > 0 ? ($detailsAnte2["data"][$key]["puntajeanp"] ? $detailsAnte2["data"][$key]["puntajeanp"] : 0) : 0,
-              'ga3' => (sizeof($detailsAnte3["data"])) > 0 ? ($detailsAnte3["data"][$key]["puntajeanp"] ? $detailsAnte3["data"][$key]["puntajeanp"] : 0) : 0,
-              'ga4' => (sizeof($detailsAnte4["data"])) > 0 ? ($detailsAnte4["data"][$key]["puntajeanp"] ? $detailsAnte4["data"][$key]["puntajeanp"] : 0) : 0,
-              'ga5' => (sizeof($detailsAnte5["data"])) > 0 ? ($detailsAnte5["data"][$key]["puntajeanp"] ? $detailsAnte5["data"][$key]["puntajeanp"] : 0) : 0,
+              'ga1' => (sizeof($detailsAnte1["data"])) > 0 ? ($detailsAnte1["data"][$key]["puntajeanp"] ? $detailsAnte1["data"][$key]["puntajeanp"] : 'S/D') : 'S/D',
+              'ga2' => (sizeof($detailsAnte2["data"])) > 0 ? ($detailsAnte2["data"][$key]["puntajeanp"] ? $detailsAnte2["data"][$key]["puntajeanp"] : 'S/D') : 'S/D',
+              'ga3' => (sizeof($detailsAnte3["data"])) > 0 ? ($detailsAnte3["data"][$key]["puntajeanp"] ? $detailsAnte3["data"][$key]["puntajeanp"] : 'S/D') : 'S/D',
+              'ga4' => (sizeof($detailsAnte4["data"])) > 0 ? ($detailsAnte4["data"][$key]["puntajeanp"] ? $detailsAnte4["data"][$key]["puntajeanp"] : 'S/D') : 'S/D',
+              'ga5' => (sizeof($detailsAnte5["data"])) > 0 ? ($detailsAnte5["data"][$key]["puntajeanp"] ? $detailsAnte5["data"][$key]["puntajeanp"] : 'S/D') : 'S/D',
               'ga6' => $value["puntajeanp"]
             ];
             array_push($det, $arrAux);

@@ -1,7 +1,7 @@
 <?php
 require_once "header.php";
 //SOLO ADMIN PUEDE VER ESTA VISTA
-if ($_SESSION['idtipousuario'] != 1 || $_SESSION['idtipousuario'] != 7) {
+if ($_SESSION['idtipousuario'] != 1) {
   //session_destroy();
   echo "<script>window.location.href='vinicio.php'</script>";
   //header("location:index.php");

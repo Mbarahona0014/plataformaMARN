@@ -73,7 +73,7 @@ if (isset($_POST) || isset($_GET)) {
                     if($headerEvaluators[0]["resultado"] == 1){
                         print_r(json_encode([
                             "success" => true,
-                            "mensaje" => "¡Evaluadocion agregada correctamente!",
+                            "mensaje" => "¡Evaluador agregada correctamente!",
                         ], JSON_PRETTY_PRINT, JSON_UNESCAPED_UNICODE));
                     }else{
                         print_r(json_encode([
