@@ -274,7 +274,7 @@ function vmapa() {
     layer.popupTemplate = {
       title: "<b>{area} - {fecha}</b>",
       content:
-        "<p>Estos son los datos para la evaluacion de efectividad de manejo para el ANP {area} :</p><li><b>Fecha: </b>{fecha}</li><li><b>Escala de manejo: </b>{escala}</li><li><b>Satisfaccion: </b>{satisfaccion}</li><ul>",
+        "<p>Estos son los datos para la evaluacion de efectividad de manejo para el ANP {area} :</p><li><b>Fecha: </b>{fecha}</li><li><b>Escala de manejo: </b>{escala}</li><li><b>Procentaje de avance: </b>{porcentaje} %</li><li><b>Satisfaccion: </b>{satisfaccion}</li><ul>",
     };
 
     /* layer2.popupTemplate = {

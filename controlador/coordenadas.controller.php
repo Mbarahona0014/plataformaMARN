@@ -119,6 +119,7 @@ if (isset($_POST) || isset($_GET)) {
                             'area' => $data['area'],
                             'fecha' => $data['fecha'],
                             'escala' => $data['escala'],
+                            'porcentaje' => round($data['escala']/10),
                             'longitud' => $data['lon'],
                             'latitud' => $data['lat'],
                             'satisfaccion' => $data['satisfaccion']
